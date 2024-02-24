@@ -1,7 +1,12 @@
+
+.displayFlex{
+    display: flex;
+}
 .menuVarOuter{
     background-color: black;
-    width: 100%;
+    width: 99%;
     display: flex;
+    position: fixed;
 }
 .menuVarInnerLeft{
     background-color: black;
@@ -12,7 +17,7 @@
 .menuVarInnerRight{
     background-color: black;
     width: 20%;
-    padding: 2% 0%;
+    padding: 2% 2%;
     text-align: right;
 }
 .menuVarLinkTitle{
@@ -25,4 +30,13 @@
     color: white;
     margin: 1%;
     text-decoration: none;
+}
+.bodySide{
+    width: 15%;
+    height: 200vh;
+    border: solid black 1px;
+}
+.bodyCenter{
+    width: 70%;
+    border: solid black 1px;
 }
