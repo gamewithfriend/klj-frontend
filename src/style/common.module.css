@@ -1,0 +1,28 @@
+.menuVarOuter{
+    background-color: black;
+    width: 100%;
+    display: flex;
+}
+.menuVarInnerLeft{
+    background-color: black;
+    width: 80%;
+    padding: 2% 0%;
+    text-align: left;
+}
+.menuVarInnerRight{
+    background-color: black;
+    width: 20%;
+    padding: 2% 0%;
+    text-align: right;
+}
+.menuVarLinkTitle{
+    color: green;
+    margin: 1%;
+    font-size: medium;
+    text-decoration: none;
+}
+.menuVarLink{
+    color: white;
+    margin: 1%;
+    text-decoration: none;
+}
