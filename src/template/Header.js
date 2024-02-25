@@ -5,7 +5,7 @@ function Header() {
     return (
       <div className={moduleStyle.menuVarOuter} >
         <div className={moduleStyle.menuVarInnerLeft}>
-            <NavLink className={moduleStyle.menuVarLinkTitle} >pitMat</NavLink>
+            <NavLink to="/" className={moduleStyle.menuVarLinkTitle} >pitMat</NavLink>
             <NavLink className={moduleStyle.menuVarLink} >트레이너 탐색</NavLink>   
         </div>
         <div className={moduleStyle.menuVarInnerRight}>
