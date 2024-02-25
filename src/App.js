@@ -1,18 +1,24 @@
 
 import React from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link,
+  createBrowserRouter,
+  createRoutesFromElements,
+  RouterProvider, 
+} from "react-router-dom";
 import Header from "./template/Header";
-import Body from "./template/Body";
+import Login from "./login/LoginScreen";
+import Main from "./Main";
 
 
-
-function App() {
+function App () {
   return (
-    <div className="App">
-        <Header/>
-        <Body/>
+    <div className="app">
+      <Routes> 
+        <Route path="/" element={<Main />} />
+        <Route path="/login" element={<Login/>} />
+      </Routes>
     </div>
   );
-}
+};
 
 export default App;

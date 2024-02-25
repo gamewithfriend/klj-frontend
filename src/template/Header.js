@@ -9,7 +9,7 @@ function Header() {
             <Link className={moduleStyle.menuVarLink} >트레이너 탐색</Link>   
         </div>
         <div className={moduleStyle.menuVarInnerRight}>
-            <Link className={moduleStyle.menuVarLink}>로그인</Link>
+            <Link to="/login" className={moduleStyle.menuVarLink}>로그인</Link>
         </div>
       </div>
     );
