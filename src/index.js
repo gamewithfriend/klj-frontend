@@ -6,19 +6,22 @@ import { Routes, Route, Link,
   RouterProvider,
   BrowserRouter 
 } from "react-router-dom";
+import { Provider } from 'react-redux'; 
 import App from './App';
 import Login from "./login/LoginScreen";
 import reportWebVitals from './reportWebVitals';
+import OAuth2RedirectHandler from './login/OAuth2RedirectHandler';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={ <App /> }></Route>
-        <Route path="/login" element={<Login/>} />
-      </Routes>
-    </BrowserRouter>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={ <App /> }></Route>
+          <Route path="/login" element={<Login/>} />
+          <Route path="/login/callback/naver" element={<OAuth2RedirectHandler/>} />
+        </Routes>
+      </BrowserRouter>
   </React.StrictMode>
 );
 

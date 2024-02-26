@@ -6,7 +6,7 @@ import logo from '../assets/logo/HDUO.png';
 import naver from '../assets/logo/naver.png';
 const LoginScreen = () => {
     const NAVER_CLIENT_ID = process.env.REACT_APP_NAVER_CLIENT_ID;
-    const REDIRECT_URI = "http://localhost:8080/login/naver/callback";
+    const REDIRECT_URI = "http://localhost:8080/login/callback/naver";
     const STATE = "false";
     const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_CLIENT_ID}&state=${STATE}&redirect_uri=${REDIRECT_URI}`;
 
@@ -26,13 +26,16 @@ const LoginScreen = () => {
                                 <img src={logo} style={{objectFit:"contain", width:"20vh" }} ></img>
                             </div>
                             <div style={{border:"solid black 1px",height:"40vh"}}>
-                              <div style={{border:"solid black 1px",height:"10vh",margin:"2vh",justifyContent:"center",display:"flex"}}>
-                                <div onClick={naverLoginClick}>
-                                    <img  src={naver} style={{width:"40vh" }} ></img>
+                                <div style={{border:"solid black 1px",height:"10vh",margin:"2vh",justifyContent:"center",display:"flex"}}>
+                                    <div onClick={naverLoginClick}>
+                                        <img  src={naver} style={{width:"40vh" }} ></img>
+                                    </div>
                                 </div>
-                              </div>
-                              <div style={{border:"solid black 1px",height:"10vh"}}></div>
-                              <div style={{border:"solid black 1px",height:"10vh"}}></div>  
+                                <div style={{border:"solid black 1px",height:"10vh"}}>
+
+                                </div>
+                                <div style={{border:"solid black 1px",height:"10vh"}}>
+                                </div>  
                             </div>
                         </div>
                     </div>
