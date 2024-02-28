@@ -3,10 +3,13 @@ import React from "react";
 import axios from 'axios';
 
 export const NaverLogin = (code) => {
-    return function(dispatch,getState,{history}){
+    
+    return function(code){
+
+        console.log(code)
         axios({
-            method: "GET",
-            url : `http://localhost:8080/login/callback/naver?${code}`,
+            method: "POST",
+            url : `http://localhost:8080/login/callback/naver?code=${code}`,
         })
             .then((res) => {
                 console.log(res)
@@ -14,11 +17,14 @@ export const NaverLogin = (code) => {
                 const ACCESS_TOKEN = res.data.accessToken;
 
                 localStorage.setItem("token", ACCESS_TOKEN);
-
-                history.replace("/")
+                
+                
 
                 }
             )
+            .catch((error) => {
+                console.error('Naver login error:', error);
+            });
     }
     
 };

@@ -1,22 +1,18 @@
-import React from "react";
-import {useDispatch} from "react-redux";
+
+import { useEffect,React } from "react";
 import {NaverLogin} from "./NaverLogin.js";
 
 
 const OAuth2RedirectHandler = () => {
-    const dispatch = useDispatch();
 
     let code = new URL(window.location.href).searchParams.get("code");
 
-    const handleNaverLogin = (code) => {
-        dispatch(NaverLogin(code));
-      };
+    const naverLoginFunciton =  NaverLogin();
 
-    React.useEffect(async () => {
-        handleNaverLogin(code);
+    useEffect(() => {
+        naverLoginFunciton(code);
     },[]);
 
-    return <button >네이버로그인</button>;
 };
 
 export default OAuth2RedirectHandler;

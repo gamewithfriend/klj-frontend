@@ -6,7 +6,7 @@ import logo from '../assets/logo/HDUO.png';
 import naver from '../assets/logo/naver.png';
 const LoginScreen = () => {
     const NAVER_CLIENT_ID = process.env.REACT_APP_NAVER_CLIENT_ID;
-    const REDIRECT_URI = "http://localhost:8080/login/callback/naver";
+    const REDIRECT_URI = "http://localhost:3000/login/callback/naver";
     const STATE = "false";
     const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_CLIENT_ID}&state=${STATE}&redirect_uri=${REDIRECT_URI}`;
 

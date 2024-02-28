@@ -5,18 +5,20 @@ import { Routes, Route, Link,
   createRoutesFromElements,
   RouterProvider, 
 } from "react-router-dom";
-import Header from "./template/Header";
-import Login from "./login/LoginScreen";
 import Main from "./Main";
 
 
+
+
 function App () {
+  
   return (
-    <div className="app">
-      <Routes> 
-        <Route path="/" element={<Main />} />
-      </Routes>
-    </div>
+      <div className="app">
+        <Routes> 
+          <Route path="/" element={<Main />} />
+        </Routes>
+      </div>
+    
   );
 };
 
