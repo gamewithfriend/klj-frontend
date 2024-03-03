@@ -1,4 +1,3 @@
-import { Alert } from 'react-native';
 import HduoError from './Error';
 
 /**
@@ -98,7 +97,7 @@ class Fetcher {
             console.log("error 발생", e, e.message);
 
             if (e instanceof HduoError) {
-                Alert.alert(e.message);
+                alert(e.message);
             }
             // 에러를 발생시켜 프로그램을 중단
             throw new Error(e);
@@ -127,7 +126,7 @@ class Fetcher {
         } catch (e) {
             console.log("error 발생", e, e.message);
             if (e instanceof HduoError) {
-                Alert.alert(e.message);
+                alert(e.message);
             }
             // 에러를 발생시켜 프로그램을 중단
             throw new Error(e);
