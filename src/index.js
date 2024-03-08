@@ -9,6 +9,7 @@ import { Routes, Route, Link,
 import { Provider } from 'react-redux'; 
 import App from './App';
 import Login from "./login/LoginScreen";
+import Matching from './PTMatching/MatchingScreen';
 import reportWebVitals from './reportWebVitals';
 import OAuth2RedirectHandler from './login/OAuth2RedirectHandler';
 
@@ -18,6 +19,7 @@ root.render(
         <Routes>
           <Route path="/" element={ <App /> }></Route>
           <Route path="/login" element={<Login/>} />
+          <Route path="/matching" element={<Matching/>}/>
           <Route path="/login/callback/naver" element={<OAuth2RedirectHandler/>} />
         </Routes>
       </BrowserRouter>
