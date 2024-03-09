@@ -13,13 +13,15 @@ export const NaverLogin = (code,state) => {
         const fetcher = new Fetcher("http://localhost:8080/login/callback/naver", "post", JSON.stringify(data));
         const result = await fetcher.jsonFetch();
 
-        console.log("result : ", result.data);
-
         try {
-            const ACCESS_TOKEN = result.data.accessToken;
-            console.log("hello");
+            let accessToken = result.data;
 
-            localStorage.setItem("token", ACCESS_TOKEN);
+            const expirationTime = new Date().getTime() + 3600 * 1000;
+            localStorage.setItem("token",JSON.stringify(accessToken));
+            localStorage.setItem('expirationTime', expirationTime);
+
+            window.close();
+
         } catch (error) {
             console.error('Naver login error:', error);
         }

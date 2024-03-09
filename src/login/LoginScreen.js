@@ -11,8 +11,9 @@ const LoginScreen = () => {
     const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_CLIENT_ID}&state=${STATE}&redirect_uri=${REDIRECT_URI}`;
 
     const naverLoginClick = () => {
-        window.open(NAVER_AUTH_URL, "_blank");     
+        window.open(NAVER_AUTH_URL,'_blank','width=700, height=600, top=50, left=50, scrollbars=yes');     
         console.log(NAVER_AUTH_URL)
+        window.location.href = '/';
     };
         
     return  <div>
@@ -32,7 +33,6 @@ const LoginScreen = () => {
                                     </div>
                                 </div>
                                 <div style={{border:"solid black 1px",height:"10vh"}}>
-
                                 </div>
                                 <div style={{border:"solid black 1px",height:"10vh"}}>
                                 </div>  
