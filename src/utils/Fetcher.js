@@ -10,18 +10,24 @@ class Fetcher {
      * @param (string) method - 서버 통신 방법(method)
      * @param (string) data - 서버에 보낼 데이터
      * @param (string) contentType - 서버 통신 헤더, 기본 application/json
+     * @param (string) accessToken
      */
     url;
     method;
     data;
     contentType = "application/json;";
-    constructor(url,method,data,contentType) {
+    accessToken;
+    headers;
+    constructor(url,method,data,contentType,accessToken) {
         this.url=url;
         this.method=method.toUpperCase();
         this.data=data;
         if(contentType!=null) {
             this.contentType = contentType;
         }
+        if (accessToken!=null) {
+            this.accessToken = accessToken;
+        } 
     }
 
     /**
@@ -84,7 +90,8 @@ class Fetcher {
             const response = await fetch(paramUrl, {
                 method: this.method,
                 headers: {
-                    'Content-type':this.contentType+'charset=utf-8'
+                    'Content-type':this.contentType+'charset=utf-8',
+                    'Authorization': `Bearer ${this.accessToken}` // 예시로 Bearer 토큰을 포함한 Authorization 헤더 추가
                 },
                 }).then(response => response.json());
 
@@ -113,7 +120,8 @@ class Fetcher {
             const response = await fetch(paramUrl, {
                 method: this.method,
                 headers: {
-                    'Content-type':this.contentType+'charset=utf-8'
+                    'Content-type':this.contentType+'charset=utf-8',
+
                 },
                 body: this.data
                 }).then(response => response.json());
