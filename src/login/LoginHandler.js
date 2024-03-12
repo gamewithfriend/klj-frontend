@@ -20,12 +20,12 @@ export const getUserInfo = () => {
     return async function(){
         const token= JSON.parse(localStorage.getItem("token"));
         if(token !=null){
-            
-            console.log(token)
+
+            console.log(token.accessToken)
             const data = {
             };
 
-            const fetcher = new Fetcher("http://localhost:8080/user/info", "GET", JSON.stringify(data),"application/json;");
+            const fetcher = new Fetcher("http://localhost:8080/user/info", "GET", JSON.stringify(data),"application/json;",token.accessToken);
             const result = await fetcher.jsonFetch();
 
             console.log("result : ", result.data);

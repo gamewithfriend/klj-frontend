@@ -19,7 +19,7 @@ export const NaverLogin = (code,state) => {
             const expirationTime = new Date().getTime() + 3600 * 1000;
             localStorage.setItem("token",JSON.stringify(accessToken));
             localStorage.setItem('expirationTime', expirationTime);
-
+            window.opener.location.href="/";
             window.close();
 
         } catch (error) {

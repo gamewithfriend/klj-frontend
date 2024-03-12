@@ -13,7 +13,6 @@ const LoginScreen = () => {
     const naverLoginClick = () => {
         window.open(NAVER_AUTH_URL,'_blank','width=700, height=600, top=50, left=50, scrollbars=yes');     
         console.log(NAVER_AUTH_URL)
-        window.location.href = '/';
     };
         
     return  <div>

@@ -4,8 +4,10 @@ import {Link,NavLink } from "react-router-dom";
 import {getLoginNickName,getUserInfo,isTokenExpired} from "../login/LoginHandler.js";
 
 function Header() {
+  const test = getUserInfo();
     useEffect(() => {
       isTokenExpired();
+      let result = test();
     },[]);
 
     return (
