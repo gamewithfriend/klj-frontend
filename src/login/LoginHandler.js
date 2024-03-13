@@ -25,10 +25,11 @@ export const getUserInfo = () => {
             const data = {
             };
 
-            const fetcher = new Fetcher("http://localhost:8080/user/info", "GET", JSON.stringify(data),"application/json;",token.accessToken);
+            // const fetcher = new Fetcher("http://localhost:8080/user/info", "GET", JSON.stringify(data),"application/json;",token.accessToken);
+            const fetcher = new Fetcher().setUrl("http://localhost:8080/user/info")
+                                         .setMethod("GET")
+                                         .setAccessToken(token.accessToken);
             const result = await fetcher.jsonFetch();
-
-            console.log("result : ", result.data);
 
             try {
                 console.log(result.data)
