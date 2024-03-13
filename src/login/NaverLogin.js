@@ -10,7 +10,12 @@ export const NaverLogin = (code,state) => {
             state: state
         };
 
-        const fetcher = new Fetcher("http://localhost:8080/login/callback/naver", "post", JSON.stringify(data));
+        // const fetcher = new Fetcher("http://localhost:8080/login/callback/naver", "post", JSON.stringify(data));
+        const fetcher = new Fetcher().setUrl("http://localhost:8080/login/callback/naver")
+                                     .setMethod("post")
+                                     .setData(JSON.stringify(data))
+                                     .build();
+        console.log("fetcher :", fetcher);
         const result = await fetcher.jsonFetch();
 
         try {

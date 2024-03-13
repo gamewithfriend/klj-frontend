@@ -1,33 +1,36 @@
-import HduoError from './Error';
+import HduoError from './Error.js';
+import Builder from './Builder.js';
 
 /**
  * 이 클래스는 비동기 통신을 용이하게 하기 위한 class 입니다.
  */
 
-class Fetcher {
+class Fetcher extends Builder{
     /**
      * @param (string) url - 서버 통신 url
      * @param (string) method - 서버 통신 방법(method)
-     * @param (string) data - 서버에 보낼 데이터
+     * @param (json) data - 서버에 보낼 데이터
      * @param (string) contentType - 서버 통신 헤더, 기본 application/json
-     * @param (string) accessToken
+     * @param (string) charset - 서버요청 encoding, 기본 utf-8
+     * @param (string) accessToken - oAuth 인증 후 서버 발급 토큰
      */
-    url;
-    method;
-    data;
-    contentType = "application/json;";
-    accessToken;
-    headers;
-    constructor(url,method,data,contentType,accessToken) {
-        this.url=url;
-        this.method=method.toUpperCase();
-        this.data=data;
-        if(contentType!=null) {
-            this.contentType = contentType;
-        }
-        if (accessToken!=null) {
-            this.accessToken = accessToken;
-        } 
+    constructor() {
+        super();
+
+        this.url = null;
+        this.method = null;
+        this.data = null;
+        this.contentType = "application/json;";
+        this.charset = "charset=utf-8";
+        this.accessToken = null;
+
+        super.init();
+    }
+
+    // override 된 함수 반환
+    setMethod(method) {
+        this.method = method.toUpperCase();
+        return this;
     }
 
     /**
@@ -46,8 +49,12 @@ class Fetcher {
         
         // 메소드 방식에 따라 
         if(this.method == "GET" || this.method == "DELETE") {
-            const queryParams = new URLSearchParams(JSON.parse(this.data));
-            paramUrl = this.url + "?" + queryParams;
+            if (this.data !=null && this.data != undefined) {
+                const queryParams = new URLSearchParams(JSON.parse(this.data));
+                paramUrl = this.url + "?" + queryParams;
+            } else {
+                paramUrl = this.url;
+            }
             response = await this._urlFecth(paramUrl);
         } else if (this.method == "POST" || this.method == "PUT") {
             paramUrl = this.url;
@@ -89,10 +96,7 @@ class Fetcher {
         try {
             const response = await fetch(paramUrl, {
                 method: this.method,
-                headers: {
-                    'Content-type':this.contentType+'charset=utf-8',
-                    'Authorization': `Bearer ${this.accessToken}` // 예시로 Bearer 토큰을 포함한 Authorization 헤더 추가
-                },
+                headers: this.headers,
                 }).then(response => response.json());
 
             // API 통신 규격에 따라 error메세지가 있을 경우 에러 throw
@@ -120,8 +124,8 @@ class Fetcher {
             const response = await fetch(paramUrl, {
                 method: this.method,
                 headers: {
-                    'Content-type':this.contentType+'charset=utf-8',
-
+                    'Content-type':`${this.contentType}${this.charset}`,
+                    'Authorization': `Bearer ${this.accessToken}`
                 },
                 body: this.data
                 }).then(response => response.json());
@@ -148,8 +152,13 @@ class Fetcher {
     isJsonString() {
         let isJsonData = false;
         try {
-            let convData = JSON.parse(this.data);
-            if (typeof convData === "object") {
+            // 데이터가 없이 전송될 수도 있기 때문에 예외 로직을 넣어준다.
+            if (this.data != null && this.data != undefined) {
+                let convData = JSON.parse(this.data);
+                if (typeof convData === "object") {
+                    isJsonData = true;
+                }
+            } else {
                 isJsonData = true;
             }
         } catch (e) {
