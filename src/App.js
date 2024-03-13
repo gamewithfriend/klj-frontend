@@ -6,12 +6,11 @@ import { Routes, Route, Link,
   RouterProvider, 
 } from "react-router-dom";
 import Main from "./Main";
-
+import { useSelector, useDispatch } from "react-redux";
 
 
 
 function App () {
-  
   return (
       <div className="app">
         <Routes> 

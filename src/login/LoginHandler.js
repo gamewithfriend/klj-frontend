@@ -1,8 +1,9 @@
 
 import { useEffect,React } from "react";
 import Fetcher from '../utils/Fetcher';
+import { useSelector, useDispatch } from "react-redux"; 
 
-function logout() {
+export function logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('expirationTime');
 }
@@ -14,31 +15,6 @@ export const isTokenExpired = () => {
         logout();    
     }
 };  
-
-export const getUserInfo = () => {
-    
-    return async function(){
-        const token= JSON.parse(localStorage.getItem("token"));
-        if(token !=null){
-
-            console.log(token.accessToken)
-            const data = {
-            };
-
-            const fetcher = new Fetcher("http://localhost:8080/user/info", "GET", JSON.stringify(data),"application/json;",token.accessToken);
-            const result = await fetcher.jsonFetch();
-
-            console.log("result : ", result.data);
-
-            try {
-                console.log(result.data)
-            } catch (error) {
-                console.error('Naver login error:', error);
-            }
-        }
-    };
-
-};
 
 export const getLoginNickName = () => {
     const token= JSON.parse(localStorage.getItem("token"));

@@ -50,4 +50,9 @@
     align-items: center;
     display: flex;
 }
+.flexJustifyRight{
+    justify-content: right;
+    display: flex;
+    height: 100%;
+}
 

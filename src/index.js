@@ -6,7 +6,8 @@ import { Routes, Route, Link,
   RouterProvider,
   BrowserRouter 
 } from "react-router-dom";
-import { Provider } from 'react-redux'; 
+import { Provider } from 'react-redux';
+import store from "./redux/config/configStore"; 
 import App from './App';
 import Login from "./login/LoginScreen";
 import Matching from './PTMatching/MatchingScreen';
@@ -15,6 +16,7 @@ import OAuth2RedirectHandler from './login/OAuth2RedirectHandler';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  <Provider store={store}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={ <App /> }></Route>
@@ -23,6 +25,7 @@ root.render(
           <Route path="/login/callback/naver" element={<OAuth2RedirectHandler/>} />
         </Routes>
       </BrowserRouter>
+  </Provider>    
 );
 
 // If you want to start measuring performance in your app, pass a function

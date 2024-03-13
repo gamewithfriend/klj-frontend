@@ -14,6 +14,7 @@ const LoginScreen = () => {
         window.open(NAVER_AUTH_URL,'_blank','width=700, height=600, top=50, left=50, scrollbars=yes');     
         console.log(NAVER_AUTH_URL)
     };
+
         
     return  <div>
                 <Header/>
