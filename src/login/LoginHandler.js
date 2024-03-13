@@ -16,31 +16,6 @@ export const isTokenExpired = () => {
     }
 };  
 
-export const getUserInfo = () => {
-    
-    return async function(){
-        const token= JSON.parse(localStorage.getItem("token"));
-        if(token !=null){
-
-            console.log(token.accessToken)
-            const data = {
-            };
-
-            // const fetcher = new Fetcher("http://localhost:8080/user/info", "GET", JSON.stringify(data),"application/json;",token.accessToken);
-            const fetcher = new Fetcher().setUrl("http://localhost:8080/user/info")
-                                         .setMethod("GET")
-                                         .setAccessToken(token.accessToken);
-            const result = await fetcher.jsonFetch();
-
-            try {
-                console.log(result.data)
-            } catch (error) {
-                console.error('Naver login error:', error);
-            }
-        }
-    };
-
-};
 
 export const getLoginNickName = () => {
     const token= JSON.parse(localStorage.getItem("token"));

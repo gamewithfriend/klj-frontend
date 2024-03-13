@@ -94,9 +94,14 @@ class Fetcher extends Builder{
      */
     async _urlFecth(paramUrl) {
         try {
+            console.log(this.headers)
             const response = await fetch(paramUrl, {
                 method: this.method,
-                headers: this.headers,
+                //headers: this.headers,
+                headers: {
+                    'Content-type':`${this.contentType}${this.charset}`,
+                    'Authorization': `Bearer ${this.accessToken}`
+                },
                 }).then(response => response.json());
 
             // API 통신 규격에 따라 error메세지가 있을 경우 에러 throw
