@@ -8,7 +8,7 @@ const initialState = {
     
     switch (action.type) {
       case "PLUS_ONE":
-        return {id: state.number, };
+        return {id: action.payload.id,nickName: action.payload.nickName, };
       default:
         return state;
     }

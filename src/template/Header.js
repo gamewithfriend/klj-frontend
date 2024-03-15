@@ -6,8 +6,11 @@ import Fetcher from '../utils/Fetcher';
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import profile from '../assets/image/profile.png';
+import { useSelector, useDispatch } from "react-redux";
 
 function Header() {
+  const dispatch = useDispatch();
+  const reduxUserInfo = useSelector((state) => state.login);
   const [userInfo, setUserInfo] = useState({});
   const handleLogout = () => {
     logout();
@@ -25,7 +28,7 @@ function Header() {
       const result = await fetcher.jsonFetch();
       console.log(result)
       console.log("result : ", result.data);
-
+      dispatch({type:"PLUS_ONE",payload: result.data})
       try {
         setUserInfo(result.data);
       } catch (error) {
@@ -37,6 +40,7 @@ function Header() {
   useEffect(() => {
       isTokenExpired();
       fetchUserInfo();
+      console.log(reduxUserInfo)
     },[]);
 
     return (
