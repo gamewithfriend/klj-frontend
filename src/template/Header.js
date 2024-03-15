@@ -1,17 +1,19 @@
 import { useEffect,React,useState } from "react";
 import moduleStyle from "../style/common.module.css";
-import {Link,NavLink } from "react-router-dom";
-import {getLoginNickName,isTokenExpired,logout} from "../login/LoginHandler.js";
+import {NavLink } from "react-router-dom";
+import {isTokenExpired,logout} from "../login/LoginHandler.js";
 import Fetcher from '../utils/Fetcher';
+import { faBell } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import profile from '../assets/image/profile.png';
 
 function Header() {
   const [userInfo, setUserInfo] = useState({});
   const handleLogout = () => {
     logout();
     setUserInfo({});
-  };
+};
   const fetchUserInfo = async () => {
-    console.log("ss")
     const token = JSON.parse(localStorage.getItem("token"));
 
     if (token != null) {
@@ -48,8 +50,11 @@ function Header() {
           <NavLink to="/login" className={moduleStyle.menuVarLink}>로그인</NavLink> 
           :
           <div className={moduleStyle.flexJustifyRight}>
-            <div>sss</div>  
-            <button onClick={handleLogout}> 로그아웃 </button>
+            <FontAwesomeIcon style={{color:"white", marginRight:"3%", padding:"3%"}} icon={faBell} />
+            <div style={{width:"12%",height:"90%",borderRadius:"70%", overflow:"hidden"}}>
+              <img onClick={handleLogout} src={profile} style={{width:"100%",height:"100%",objectFit:"cover" }} >
+              </img>
+            </div>
           </div> 
         }
         </div>
