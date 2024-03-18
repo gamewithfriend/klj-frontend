@@ -6,6 +6,8 @@ function Body() {
             <div className={moduleStyle.bodySide} >
             </div>
             <div className={moduleStyle.bodyCenter} >
+                
+
             </div>
             <div className={moduleStyle.bodySide} >
             </div>      
