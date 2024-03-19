@@ -17,7 +17,7 @@ class Fetcher extends Builder{
     constructor() {
         super();
 
-        this.url = null;
+        this.url = process.env.REACT_APP_TESTBED_URI;
         this.method = null;
         this.data = null;
         this.contentType = "application/json;";
@@ -30,6 +30,13 @@ class Fetcher extends Builder{
     // override 된 함수 반환
     setMethod(method) {
         this.method = method.toUpperCase();
+
+        return this;
+    }
+
+    setUrl(url) {
+        this.url += url;
+
         return this;
     }
 
@@ -106,7 +113,7 @@ class Fetcher extends Builder{
 
             // API 통신 규격에 따라 error메세지가 있을 경우 에러 throw
             if (response.error != null) {
-                throw new HduoError("오류가 발생했습니다?");
+                throw new HduoError("오류가 발생했습니다.");
             }
             return response;
         } catch (e) {
@@ -137,7 +144,7 @@ class Fetcher extends Builder{
 
             // API 통신 규격에 따라 error메세지가 있을 경우 에러 throw
             if (response.error != null) {
-                throw new HduoError("오류가 발생했습니다?");
+                throw new HduoError("오류가 발생했습니다.");
             }
             return response;
         } catch (e) {
