@@ -13,6 +13,7 @@ import Login from "./login/LoginScreen";
 import Matching from './PTMatching/MatchingScreen';
 import reportWebVitals from './reportWebVitals';
 import OAuth2RedirectHandler from './login/OAuth2RedirectHandler';
+import KakaoOAuth2RedirectHandler from './login/KakaoOAuth2RedirectHandler';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -23,6 +24,7 @@ root.render(
           <Route path="/login" element={<Login/>} />
           <Route path="/matching" element={<Matching/>}/>
           <Route path="/login/callback/naver" element={<OAuth2RedirectHandler/>} />
+          <Route path="/login/callback/kakao" element={<KakaoOAuth2RedirectHandler/>} />
         </Routes>
       </BrowserRouter>
   </Provider>    

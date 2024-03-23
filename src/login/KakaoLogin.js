@@ -2,15 +2,15 @@
 import React from "react";
 import Fetcher from '../utils/Fetcher';
 
-export const NaverLogin = (code,state) => {
+export const KakaoLogin = (code,state) => {
     
     return async function(code,state){
         const data = {
             code: code,
             state: state
         };
-
-        const fetcher = new Fetcher().setUrl("/login/callback/naver")
+        console.log("kakao")
+        const fetcher = new Fetcher().setUrl("/login/callback/kakao")
                                      .setMethod("post")
                                      .setData(JSON.stringify(data))
                                      .build();
@@ -28,7 +28,7 @@ export const NaverLogin = (code,state) => {
             window.close();
 
         } catch (error) {
-            console.error('Naver login error:', error);
+            console.error('Kakao login error:', error);
         }
     }
     

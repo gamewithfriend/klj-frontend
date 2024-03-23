@@ -14,10 +14,10 @@ class Fetcher extends Builder{
      * @param (string) charset - 서버요청 encoding, 기본 utf-8
      * @param (string) accessToken - oAuth 인증 후 서버 발급 토큰
      */
+   
     constructor() {
         super();
-
-        this.url = process.env.REACT_APP_TESTBED_URI;
+        this.url = process.env.REACT_APP_API_URI;
         this.method = null;
         this.data = null;
         this.contentType = "application/json;";
@@ -36,7 +36,8 @@ class Fetcher extends Builder{
 
     setUrl(url) {
         this.url += url;
-
+        console.log(url)
+        console.log(this.url)
         return this;
     }
 

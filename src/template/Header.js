@@ -22,7 +22,7 @@ function Header() {
     if (token != null) {
       console.log(token.accessToken);
 
-      const fetcher = new Fetcher().setUrl("http://localhost:8080/user/info")
+      const fetcher = new Fetcher().setUrl("/user/info")
                                          .setMethod("GET")
                                          .setAccessToken(token.accessToken);
       const result = await fetcher.jsonFetch();
