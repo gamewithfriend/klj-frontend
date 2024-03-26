@@ -1,0 +1,41 @@
+
+
+.sliderContainer {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%; /* 최대 너비 설정 */
+  height: auto; /* 높이를 자동으로 조절하여 이미지 비율 유지 */
+}
+
+.sliderWrapper {
+  position: relative;
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  z-index: -50;
+}
+
+.sliderImage {
+  max-width: 100%; /* 최대 너비 설정 */
+  height: auto; /* 이미지 비율 유지 */
+}
+
+.prevBtn,
+.nextBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.prevBtn {
+  left: 10px;
+}
+
+.nextBtn {
+  right: 10px;
+}

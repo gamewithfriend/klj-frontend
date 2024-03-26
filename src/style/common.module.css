@@ -7,6 +7,7 @@
     width: 99%;
     display: flex;
     position: fixed;
+    z-index: 50;
 }
 .menuVarInnerLeft{
     background-color: black;
