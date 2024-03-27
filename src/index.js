@@ -14,6 +14,7 @@ import Matching from './PTMatching/MatchingScreen';
 import reportWebVitals from './reportWebVitals';
 import OAuth2RedirectHandler from './login/OAuth2RedirectHandler';
 import KakaoOAuth2RedirectHandler from './login/KakaoOAuth2RedirectHandler';
+import UserProfile from "./template/UserProfileTemplate";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -22,9 +23,10 @@ root.render(
         <Routes>
           <Route path="/" element={ <App /> }></Route>
           <Route path="/login" element={<Login/>} />
-          <Route path="/matching" element={<Matching/>}/>
           <Route path="/login/callback/naver" element={<OAuth2RedirectHandler/>} />
           <Route path="/login/callback/kakao" element={<KakaoOAuth2RedirectHandler/>} />
+          <Route path="/matching" element={<Matching/>}/>
+          <Route path="/userProfile" element={<UserProfile/>}/>
         </Routes>
       </BrowserRouter>
   </Provider>    

@@ -5,6 +5,7 @@
 .menuVarOuter{
     background-color: black;
     width: 99%;
+    height: 10%;
     display: flex;
     position: fixed;
 }
@@ -16,8 +17,8 @@
 }
 .menuVarInnerRight{
     background-color: black;
-    width: 20%;
-    padding: 2% 2%;
+    width: 16%;
+    padding: 1% 2%;
     text-align: right;
 }
 .menuVarLinkTitle{
@@ -53,6 +54,5 @@
 .flexJustifyRight{
     justify-content: right;
     display: flex;
-    height: 100%;
 }
 

@@ -7,15 +7,23 @@ import { faBell } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import profile from '../assets/image/profile.png';
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 
 function Header() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const reduxUserInfo = useSelector((state) => state.login);
   const [userInfo, setUserInfo] = useState({});
   const handleLogout = () => {
     logout();
     setUserInfo({});
-};
+  };
+
+  const goUserProfile = () => {
+    navigate("/userProfile");
+  };
+
   const fetchUserInfo = async () => {
     const token = JSON.parse(localStorage.getItem("token"));
 
@@ -54,9 +62,9 @@ function Header() {
           <NavLink to="/login" className={moduleStyle.menuVarLink}>로그인</NavLink> 
           :
           <div className={moduleStyle.flexJustifyRight}>
-            <FontAwesomeIcon style={{color:"white", marginRight:"3%", padding:"3%"}} icon={faBell} />
-            <div style={{width:"12%",height:"90%",borderRadius:"70%", overflow:"hidden"}}>
-              <img onClick={handleLogout} src={profile} style={{width:"100%",height:"100%",objectFit:"cover" }} >
+            <FontAwesomeIcon onClick={handleLogout} style={{color:"white", marginRight:"8%", padding:"4%"}} icon={faBell} />
+            <div style={{width:"13%",borderRadius:"70%", overflow:"hidden"}}>
+              <img onClick={goUserProfile}  src={profile} style={{width:"100%",height:"100%",objectFit:"cover" }} >
               </img>
             </div>
           </div> 
