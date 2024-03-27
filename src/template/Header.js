@@ -1,24 +1,20 @@
-import { useEffect,React,useState } from "react";
-import moduleStyle from "../style/common.module.css";
-import {NavLink } from "react-router-dom";
-import {isTokenExpired,logout} from "../login/LoginHandler.js";
-import Fetcher from '../utils/Fetcher';
+import { useEffect, React, useState, useLayoutEffect } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import profile from '../assets/image/profile.png';
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+
+import moduleStyle from "../style/common.module.css";
+import profile from '../assets/image/profile.png';
+import Fetcher from '../utils/Fetcher';
+import { isTokenExpired} from "../login/LoginHandler.js";
 
 
 function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const reduxUserInfo = useSelector((state) => state.login);
-  const [userInfo, setUserInfo] = useState({});
-  const handleLogout = () => {
-    logout();
-    setUserInfo({});
-  };
+
 
   const goUserProfile = () => {
     navigate("/userProfile");
@@ -33,14 +29,14 @@ function Header() {
       const fetcher = new Fetcher().setUrl("/user/info")
                                          .setMethod("GET")
                                          .setAccessToken(token.accessToken);
-      const result = await fetcher.jsonFetch();
-      console.log(result)
-      console.log("result : ", result.data);
-      dispatch({type:"PLUS_ONE",payload: result.data})
       try {
-        setUserInfo(result.data);
+        const result = await fetcher.jsonFetch();
+        console.log(result)
+        console.log("result : ", result.data);
+        dispatch({type:"PLUS_ONE",payload: result.data})
+        console.log(reduxUserInfo)
       } catch (error) {
-        console.error('Naver login error:', error);
+        console.error('login error:', error);
       }
     }
   }
@@ -48,8 +44,8 @@ function Header() {
   useEffect(() => {
       isTokenExpired();
       fetchUserInfo();
-      console.log(reduxUserInfo)
-    },[]);
+  },[]);
+
 
     return (
       <div className={moduleStyle.menuVarOuter} >
@@ -58,11 +54,11 @@ function Header() {
             <NavLink to="/matching" className={moduleStyle.menuVarLink} >트레이너 탐색</NavLink>   
         </div>
         <div className={moduleStyle.menuVarInnerRight}>
-        {Object.keys(userInfo).length === 0 ? 
+        {localStorage.getItem("token") === null ? 
           <NavLink to="/login" className={moduleStyle.menuVarLink}>로그인</NavLink> 
           :
           <div className={moduleStyle.flexJustifyRight}>
-            <FontAwesomeIcon onClick={handleLogout} style={{color:"white", marginRight:"8%", padding:"4%"}} icon={faBell} />
+            <FontAwesomeIcon style={{color:"white", marginRight:"8%", padding:"4%"}} icon={faBell} />
             <div style={{width:"13%",borderRadius:"70%", overflow:"hidden"}}>
               <img onClick={goUserProfile}  src={profile} style={{width:"100%",height:"100%",objectFit:"cover" }} >
               </img>

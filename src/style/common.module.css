@@ -33,6 +33,11 @@
     margin: 1%;
     text-decoration: none;
 }
+.menuVarLinkBlack{
+    color: black;
+    margin: 1%;
+    text-decoration: none;
+}
 .bodySide{
     width: 15%;
     height: 200vh;
@@ -43,9 +48,16 @@
     height: 99vh;
     border: solid black 1px;
 }
+.bodySideHeight100NotBorder{
+    width: 15%;
+    height: 99vh;
+}
 .bodyCenter{
     width: 70%;
     border: solid black 1px;
+}
+.bodyCenterNotBorder{
+    width: 70%;
 }
 .verticalHorizontalCenter{
     justify-content: center;

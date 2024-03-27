@@ -18,7 +18,15 @@ import UserProfile from "./template/UserProfileTemplate";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <Provider store={store}>
+  <>
+    <style>
+      {`
+      #root {
+        margin: 0%;
+      }
+      `}
+    </style>
+    <Provider store={store}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={ <App /> }></Route>
@@ -29,7 +37,8 @@ root.render(
           <Route path="/userProfile" element={<UserProfile/>}/>
         </Routes>
       </BrowserRouter>
-  </Provider>    
+    </Provider>
+  </>    
 );
 
 // If you want to start measuring performance in your app, pass a function
