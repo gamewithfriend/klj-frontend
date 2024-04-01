@@ -3,7 +3,7 @@
 .sliderContainer {
   position: relative;
   overflow: hidden;
-  width: 100%;
+  width: 80%;
   max-width: 100%; /* 최대 너비 설정 */
   height: auto; /* 높이를 자동으로 조절하여 이미지 비율 유지 */
 }
