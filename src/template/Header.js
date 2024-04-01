@@ -17,7 +17,7 @@ function Header() {
 
 
   const goUserProfile = () => {
-    navigate("/userProfile");
+    navigate("/user/userProfile");
   };
 
   const fetchUserInfo = async () => {
@@ -31,7 +31,6 @@ function Header() {
                                          .setAccessToken(token.accessToken);
       try {
         const result = await fetcher.jsonFetch();
-        console.log(result)
         console.log("result : ", result.data);
         dispatch({type:"PLUS_ONE",payload: result.data})
         console.log(reduxUserInfo)

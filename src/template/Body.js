@@ -4,7 +4,7 @@ import MatchingScreeForMain from "../PTMatching/MatchingScreenForMain"
 
 function Body() {
     return (
-        <div className="body" style={{display:"flex", height:"100%",}}>        
+        <div className="body" style={{display:"flex", height:"97vh",}}>        
             <div className={moduleStyle.bodySide} >
             </div>
             <div className={moduleStyle.bodyCenter} >

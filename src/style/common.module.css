@@ -45,12 +45,12 @@
 }
 .bodySideHeight100{
     width: 15%;
-    height: 99vh;
+    height: 100%;
     border: solid black 1px;
 }
 .bodySideHeight100NotBorder{
     width: 15%;
-    height: 99vh;
+    height: 100%;
 }
 .bodyCenter{
     width: 70%;

@@ -29,7 +29,7 @@ const LoginScreen = () => {
         
     return  <div>
                 <Header/>
-                <div className="body" style={{display:"flex", height:"100%",}}>        
+                <div className="body" style={{display:"flex", height:"97vh",}}>        
                     <div className={moduleStyle.bodySideHeight100} >
                     </div>
                     <div className={`${moduleStyle.bodyCenter} ${moduleStyle.verticalHorizontalCenter}`}  >

@@ -8,13 +8,11 @@ import { logout} from "../login/LoginHandler.js";
 
 function UserProfileTemplate() {
 
-    const handleLogout = () => {
-        logout();
-    };    
+  
     return (
         <div>
             <Header/>
-            <div className="body" style={{display:"flex", height:"100vh",}}>        
+            <div className="body" style={{display:"flex", height:"97vh",}}>        
                 <div className={moduleStyle.bodySideHeight100NotBorder} >
                 </div>
                 <div className={moduleStyle.bodyCenterNotBorder} >
@@ -35,6 +33,7 @@ function UserProfileTemplate() {
                             </div>
                         </div>
                         <div style={{height:"100%", width:"80%"}}>
+
                         </div> 
                     </div>    
                 </div>
