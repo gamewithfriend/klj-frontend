@@ -134,6 +134,7 @@ class Fetcher extends Builder{
      */
     async _bodyFecth(paramUrl) {
         try {
+            console.log(this.contentType)
             const response = await fetch(paramUrl, {
                 method: this.method,
                 headers: {
