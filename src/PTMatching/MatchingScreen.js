@@ -1,33 +1,41 @@
 import {React, useState, useEffect} from 'react';
-import Fetcher from '../utils/Fetcher';
 import Modal from 'react-modal';
 import Header from "../template/Header";
 import moduleStyle from "../style/common.module.css";
 import matchingStyle from "../style/matching.module.css"
 import profile from '../assets/image/profile.png';
 import AreaModal from './AreaModal';
+import Fetcher from '../utils/Fetcher';
+import { useSelector, useDispatch } from "react-redux";
+
 
 const MatchingScreen = () => {
 
     const [modalOpen, setModalOpen] = useState(false);
+    const [areaData, setAreaData] = useState([]);
+    const dispatch = useDispatch();
+
 
     const toggleModal = () => {
       setModalOpen(!modalOpen);
     };
 
     const fetchCode = async () => {
-        
         const data = {
-            id: "region"
+            id: "region",
+            name : "test"
         };
-        
+    
         const fetcher = new Fetcher().setUrl("/search/area")
                                         .setMethod("POST")
                                         .setData(JSON.stringify(data));
         const result = await fetcher.jsonFetch();
-        console.log("result :", result);                             
+        console.log(result.data)
+        dispatch({type:"basicAreaSetting", payload: result})
+        setAreaData(result);
+        
     }
-
+    
     useEffect(() => {
         fetchCode();
     },[]);
@@ -50,20 +58,9 @@ const MatchingScreen = () => {
                         </div>
 
                         <div className={matchingStyle.area}>
-                            {/* <select>
-                                <option value="seoul">서울</option>
-                                <option value="incheon">인천, 경기</option>
-                                <option value="chungcheong">충청도</option>
-                                <option value="jeonla">전라도</option>
-                                <option value="gyeongsang">경상도</option>
-                                <option value="gangwon">강원도</option>
-                            </select> */}
                             <button onClick={toggleModal}>지역</button>
-                            {modalOpen && 
-                                <AreaModal/>
-                            }
+                            {modalOpen && <AreaModal/> }
                         </div>
-
 
                         <div class className={matchingStyle.trainerWrapper}>
                             <div className={matchingStyle.trainerContainer}>
