@@ -10,6 +10,7 @@ import Fetcher from '../utils/Fetcher';
 const UserTrainerProfile = () => {
     const [getEmploymentHistoryPeriod, setEmploymentHistoryPeriod] = useState('');
     const [getPhoneNumber, setPhoneNumber] = useState('');
+    const [getEmail, setEmail] = useState('');
     const [getTrainPlace, setTrainPlace] = useState('');
 
     const handleLogout = () => {
@@ -22,6 +23,10 @@ const UserTrainerProfile = () => {
 
     const savePhoneNumber = event => {
         setPhoneNumber(event.target.value);
+    };
+
+    const saveEmail = event => {
+        setEmail(event.target.value);
     };
 
     const saveTrainPlace = event => {
@@ -38,6 +43,7 @@ const UserTrainerProfile = () => {
             console.log(result.data.employmentHistoryPeriod)
             setEmploymentHistoryPeriod(result.data.employmentHistoryPeriod);
             setPhoneNumber(result.data.phoneNumber);
+            setEmail(result.data.email);
             setTrainPlace(result.data.trainPlace);
         }                                     
     }
@@ -47,6 +53,7 @@ const UserTrainerProfile = () => {
         const data = {
             employmentHistoryPeriod: getEmploymentHistoryPeriod,
             phoneNumber: getPhoneNumber,
+            email:getEmail,
             trainPlace: getTrainPlace
         };
         const fetcher = new Fetcher().setUrl("/user/trainer/apply")
@@ -117,6 +124,17 @@ const UserTrainerProfile = () => {
                                 </div>
                                 <div style={{height:"10%", width:"100%", marginLeft:"5%"}}>
                                     <div style={{height:"100%", width:"20%", alignContent:"center"}}>
+                                        이메일
+                                    </div>
+                                </div>
+                                <div style={{height:"10%", width:"100%", marginLeft:"5%"}}>
+                                    <input style={{height:"40%", width:"70%"}}
+                                    value={getEmail}
+                                    onChange={saveEmail}
+                                    ></input>
+                                </div>
+                                <div style={{height:"10%", width:"100%", marginLeft:"5%"}}>
+                                    <div style={{height:"100%", width:"20%", alignContent:"center"}}>
                                         트레이닝 장소
                                     </div>
                                 </div>
@@ -136,7 +154,7 @@ const UserTrainerProfile = () => {
                                 </div>
                             </div>
                             <div style={{height:"20%", width:"100%", alignContent:"center", textAlign:"center"}}>
-                                <button onClick={fetchUserTrainerApply}>
+                                <button style={{}} onClick={fetchUserTrainerApply}>
                                     신청
                                 </button>
                             </div>
