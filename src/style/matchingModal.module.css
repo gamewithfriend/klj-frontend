@@ -31,3 +31,15 @@
 .areaBtn:hover{
     cursor: pointer;
 }
+
+.selectAreaTitle{
+    display: flex;
+    justify-content: space-between;
+    margin: 0 10px;
+}
+
+.closeBtn{
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+}
