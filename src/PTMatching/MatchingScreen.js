@@ -1,4 +1,4 @@
-import {React, useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import Modal from 'react-modal';
 import Header from "../template/Header";
 import moduleStyle from "../style/common.module.css";
@@ -15,9 +15,8 @@ const MatchingScreen = () => {
     const [areaData, setAreaData] = useState([]);
     const dispatch = useDispatch();
 
-
-    const toggleModal = () => {
-      setModalOpen(!modalOpen);
+    const showModal = () => {
+        setModalOpen(true);
     };
 
     const fetchCode = async () => {
@@ -30,10 +29,8 @@ const MatchingScreen = () => {
                                         .setMethod("POST")
                                         .setData(JSON.stringify(data));
         const result = await fetcher.jsonFetch();
-        console.log(result.data)
         dispatch({type:"basicAreaSetting", payload: result})
         setAreaData(result);
-        
     }
     
     useEffect(() => {
@@ -58,8 +55,10 @@ const MatchingScreen = () => {
                         </div>
 
                         <div className={matchingStyle.area}>
-                            <button onClick={toggleModal}>지역</button>
-                            {modalOpen && <AreaModal/> }
+                            <button onClick={showModal}>지역 선택
+                            </button>
+                            {modalOpen && <AreaModal setModalOpen={setModalOpen}/> }
+                            <div> 선택한 지역 여기에</div>
                         </div>
 
                         <div class className={matchingStyle.trainerWrapper}>
