@@ -68,4 +68,9 @@
     justify-content: right;
     display: flex;
 }
+.inputBottomBorderStyle{
+    border-left: hidden;
+    border-top: hidden;
+    border-right: hidden;
+}
 

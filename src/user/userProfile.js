@@ -1,16 +1,44 @@
-import React from "react";
+import { useEffect, React, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 import moduleStyle from "../style/common.module.css";
 import Header from "../template/Header.js";
 import Body from "../template/Body.js";
 import { logout} from "../login/LoginHandler.js";
+import Fetcher from '../utils/Fetcher';
+
+import profile from '../assets/image/profile.png';
+
 
 const UserProfile = () => {
+    const dispatch = useDispatch();
+    let reduxUserInfo = useSelector((state) => state.login);
+    const [getNickName, setNickName] = useState(reduxUserInfo.nickName);
+
+    const saveNickName = event => {
+        setNickName(event.target.value);
+    };
 
     const handleLogout = () => {
         logout();
     };
+
+    const fetchUserTrainerApply = async () => {
+
+        const data = {
+            nickName:getNickName,
+            file:""
+        };
+        dispatch({type:"changeNickName",payload: data})
+        const fetcher = new Fetcher().setUrl("/user/info")
+                                        .setMethod("PUT")
+                                        .setAccessToken(JSON.parse(localStorage.getItem("token")).accessToken)
+                                        .setData(JSON.stringify(data));
+        const result = await fetcher.jsonFetch();               
+    }
+
+
 
     return (
         <div>
@@ -37,13 +65,36 @@ const UserProfile = () => {
                         </div>
                         <div style={{height:"100%", width:"80%"}}>
                             <div style={{height:"40%", width:"100%", display:"flex"}}>
-                                <div style={{height:"100%", width:"30%", border:"solid black 1px"}}>
-                                    <div>
-                                        
+                                <div style={{height:"100%", width:"30%", padding:"3%"}}>
+                                    <div style={{height:"100%"
+                                                , width:"100%"
+                                                , alignContent:"center"
+                                                , textAlign:"center"
+                                                , borderRadius:"70%"
+                                                , overflow:"hidden"}}>
+                                            <img  src={profile} style={{width:"100%",height:"100%",objectFit:"cover" }} >
+                                            </img>
                                     </div>
                                 </div>
-                                <div style={{height:"100%", width:"70%", border:"solid black 1px"}}>
-
+                                <div style={{height:"100%", width:"70%"}}>
+                                    <div style={{height:"10%", width:"100%"}}>
+                                    </div>
+                                    <div style={{height:"10%", width:"100%", marginLeft:"5%"}}>
+                                        <div style={{height:"100%", width:"20%", alignContent:"center"}}>
+                                            닉네임
+                                        </div>
+                                    </div>
+                                    <div style={{height:"20%", width:"100%", marginLeft:"5%"}}>
+                                        <input 
+                                        className={moduleStyle.inputBottomBorderStyle}
+                                        style={{height:"40%", width:"70%"}}
+                                        value={getNickName}
+                                        onChange={saveNickName}
+                                        ></input>
+                                        <button style={{marginLeft:"5%"}} onClick={fetchUserTrainerApply}>
+                                            변경
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                             <div style={{height:"60%", width:"100%"}}>

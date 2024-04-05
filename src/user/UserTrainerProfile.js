@@ -32,8 +32,16 @@ const UserTrainerProfile = () => {
     const saveTrainPlace = event => {
         setTrainPlace(event.target.value);
     };
+
+    const isValidEmail = (email) => {
+        // 이메일 주소 유효성을 검사하기 위한 정규식
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return emailRegex.test(email);
+    };
     
     const fetchUserTrainerApplyInfo = async () => {
+
+        
         const fetcher = new Fetcher().setUrl("/user/trainer/applyInfo")
                                         .setMethod("GET")
                                         .setAccessToken(JSON.parse(localStorage.getItem("token")).accessToken);
@@ -50,6 +58,11 @@ const UserTrainerProfile = () => {
 
 
     const fetchUserTrainerApply = async () => {
+
+        if (!isValidEmail(getEmail)){
+            alert("유효하지 않은 이메일 주소입니다.");
+            return false;
+        }
         const data = {
             employmentHistoryPeriod: getEmploymentHistoryPeriod,
             phoneNumber: getPhoneNumber,
@@ -61,7 +74,8 @@ const UserTrainerProfile = () => {
                                         .setAccessToken(JSON.parse(localStorage.getItem("token")).accessToken)
                                         .setData(JSON.stringify(data));
         const result = await fetcher.jsonFetch();
-        console.log("result :", result);                             
+        alert("신청완료");
+        window.location.reload();               
     }
 
 
@@ -105,7 +119,9 @@ const UserTrainerProfile = () => {
                                     </div>
                                 </div>
                                 <div style={{height:"10%", width:"100%", marginLeft:"5%"}}>
-                                    <input style={{height:"40%", width:"70%"}}
+                                    <input 
+                                    className={moduleStyle.inputBottomBorderStyle}
+                                    style={{height:"40%", width:"70%"}}
                                     value={getEmploymentHistoryPeriod}
                                     onChange={saveEmploymentHistoryPeriod}
                                     >   
@@ -117,7 +133,9 @@ const UserTrainerProfile = () => {
                                     </div>
                                 </div>
                                 <div style={{height:"10%", width:"100%", marginLeft:"5%"}}>
-                                    <input style={{height:"40%", width:"70%"}}
+                                    <input 
+                                    className={moduleStyle.inputBottomBorderStyle}
+                                    style={{height:"40%", width:"70%"}}
                                     value={getPhoneNumber}
                                     onChange={savePhoneNumber}
                                     ></input>
@@ -128,7 +146,9 @@ const UserTrainerProfile = () => {
                                     </div>
                                 </div>
                                 <div style={{height:"10%", width:"100%", marginLeft:"5%"}}>
-                                    <input style={{height:"40%", width:"70%"}}
+                                    <input 
+                                    className={moduleStyle.inputBottomBorderStyle}
+                                    style={{height:"40%", width:"70%"}}
                                     value={getEmail}
                                     onChange={saveEmail}
                                     ></input>
@@ -139,7 +159,9 @@ const UserTrainerProfile = () => {
                                     </div>
                                 </div>
                                 <div style={{height:"10%", width:"100%", marginLeft:"5%"}}>
-                                    <input style={{height:"40%", width:"70%"}}
+                                    <input 
+                                    className={moduleStyle.inputBottomBorderStyle}
+                                    style={{height:"40%", width:"70%"}}
                                     value={getTrainPlace}
                                     onChange={saveTrainPlace}
                                     ></input>

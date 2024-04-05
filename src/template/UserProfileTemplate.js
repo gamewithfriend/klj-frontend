@@ -8,7 +8,9 @@ import { logout} from "../login/LoginHandler.js";
 
 function UserProfileTemplate() {
 
-  
+    const handleLogout = () => {
+        logout();
+    };
     return (
         <div>
             <Header/>

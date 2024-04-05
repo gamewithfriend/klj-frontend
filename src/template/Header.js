@@ -13,7 +13,7 @@ import { isTokenExpired} from "../login/LoginHandler.js";
 function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const reduxUserInfo = useSelector((state) => state.login);
+  let reduxUserInfo = useSelector((state) => state.login);
 
 
   const goUserProfile = () => {

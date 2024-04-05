@@ -9,6 +9,8 @@ const login = (state = initialState, action) => {
   switch (action.type) {
     case "PLUS_ONE":
       return {id: action.payload.id, nickName: action.payload.nickName};
+    case "changeNickName":
+      return {nickName: action.payload.nickName};  
     default:
       return state;
   }
