@@ -11,6 +11,8 @@ function UserProfileTemplate() {
     const handleLogout = () => {
         logout();
     };
+
+    
     return (
         <div>
             <Header/>
