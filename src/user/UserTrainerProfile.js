@@ -11,6 +11,7 @@ const UserTrainerProfile = () => {
     const [getEmploymentHistoryPeriod, setEmploymentHistoryPeriod] = useState('');
     const [getPhoneNumber, setPhoneNumber] = useState('');
     const [getEmail, setEmail] = useState('');
+    const [getRegularExpressionEmail, setRegularExpressionEmail] = useState(false);
     const [getTrainPlace, setTrainPlace] = useState('');
 
     const handleLogout = () => {
@@ -26,7 +27,8 @@ const UserTrainerProfile = () => {
     };
 
     const saveEmail = event => {
-        setEmail(event.target.value);
+        setEmail(event.target.value);   
+        setRegularExpressionEmail(isValidEmail(event.target.value));
     };
 
     const saveTrainPlace = event => {
@@ -35,7 +37,7 @@ const UserTrainerProfile = () => {
 
     const isValidEmail = (email) => {
         // 이메일 주소 유효성을 검사하기 위한 정규식
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
         return emailRegex.test(email);
     };
     
@@ -52,6 +54,8 @@ const UserTrainerProfile = () => {
             setEmploymentHistoryPeriod(result.data.employmentHistoryPeriod);
             setPhoneNumber(result.data.phoneNumber);
             setEmail(result.data.email);
+            //이메일 정규식 체크용
+            setRegularExpressionEmail(isValidEmail(result.data.email));
             setTrainPlace(result.data.trainPlace);
         }                                     
     }
@@ -152,6 +156,11 @@ const UserTrainerProfile = () => {
                                     value={getEmail}
                                     onChange={saveEmail}
                                     ></input>
+                                    {getRegularExpressionEmail === true ?
+                                    <p style={{margin:"0"}}></p>
+                                    :
+                                    <p style={{margin:"0", color:"red", opacity:"0.4"}}>유효하지 않은 이메일입니다.</p>
+                                    }
                                 </div>
                                 <div style={{height:"10%", width:"100%", marginLeft:"5%"}}>
                                     <div style={{height:"100%", width:"20%", alignContent:"center"}}>
