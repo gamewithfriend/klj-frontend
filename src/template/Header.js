@@ -92,6 +92,7 @@ function Header() {
           <NavLink to="/login" className={moduleStyle.menuVarLink}>로그인</NavLink> 
           :
           <div className={moduleStyle.flexJustifyRight} onClick={showModal}>
+            {modalOpen && <NoticeModal  setModalOpen={setModalOpen}/> }
             <FontAwesomeIcon style={{color:"white", padding:"4%", paddingRight:"0%"}} icon={faBell} />
             {getUnReadNoticeCount === 0 ?
             <a style={{color:"red"}}></a>
@@ -100,7 +101,6 @@ function Header() {
               {getUnReadNoticeCount}
             </a> 
             }
-            {modalOpen && <NoticeModal  setModalOpen={setModalOpen}/> }
             <div style={{width:"13%",borderRadius:"70%", marginLeft:"7%", overflow:"hidden"}}>
               <img onClick={goUserProfile}  src={profile} style={{width:"100%",height:"100%",objectFit:"cover" }} >
               </img>

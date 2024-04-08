@@ -37,8 +37,18 @@
     height: 200px;
 }
 
-.category{
-    display: flex;
-    font-size: 2rem;
+
+.areaPickBtn, .categoryBtn{
+    font-size: 1.5rem;
+    border: none;
+    background-color: transparent;
 }
 
+.areaPickBtn:hover, .categoryBtn:hover{
+    background-color: #b9b7b7;
+    cursor: pointer;
+}
+
+.categoryArrow{
+    border: 1px solid #b9b7b7;
+}

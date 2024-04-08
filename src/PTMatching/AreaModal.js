@@ -8,10 +8,11 @@ const AreaModal = ({setModalOpen}) => {
     const reduxAreaInfo = useSelector((state) => state.getArea);
     const reduxRegionInfo = useSelector((state) => state.getRegion);
     const dispatch = useDispatch();
-    const [areaName, setAreaName] = useState("");
-    const [regionName, setRegionName] = useState("");
-
-
+    const [areaRegionData, setAreaRegionData] = useState({
+      area: "",
+      region: ""
+    });
+    
     const fetchRegionCode = async (regionCode) => {
       
       const data = {
@@ -31,45 +32,50 @@ const AreaModal = ({setModalOpen}) => {
     };
 
     const areaPick = (areaName) => {
-      console.log(areaName);
+      const updatedData = { ...areaRegionData, area: areaName };
+      setAreaRegionData(updatedData);
+      dispatch({ type: "setAreaUserWant", payload: updatedData });
+
+      if (areaName === "세종특별자치시") {
+        closeModal();
+      }
     }
 
     const regionPick = (regionName) => {
-      console.log(regionName);
-    }
+      const updatedData = { ...areaRegionData, region: regionName };
+      setAreaRegionData(updatedData);
+      dispatch({ type: "setAreaUserWant", payload: updatedData });
+  };
 
-    const areaData = {
-      Area : areaName,
-      region : regionName
-    }
-    
     return (
         <div className={matchingModalStyle.modalContainer}>
             <div className="modal-content">
 
               <div className={matchingModalStyle.selectAreaTitle}>
-                <p>지역 선택</p>
+                <p className={matchingModalStyle.selectAreaHeader}>지역 선택</p>
                 <button className={matchingModalStyle.closeBtn} onClick={closeModal}>X</button>
               </div>
               
                 <div className={matchingModalStyle.areaBtnArea}>
 
                   <div className={matchingModalStyle.areaBtnContainer}>
+                    <p className={matchingModalStyle.areaTitle}>지역</p>
                     {reduxAreaInfo.areaList.data.map((area) => (
-                      <button onClick={() => {fetchRegionCode(area.id); areaPick(area.name);}} className={matchingModalStyle.areaBtn} key={area.id}>{area.name}</button>
-                    ))}
+                      <button className={matchingModalStyle.areaBtn} onClick={() => {fetchRegionCode(area.id); areaPick(area.name);  }} className={matchingModalStyle.areaBtn} key={area.id}>{area.name}</button>
+                      ))}
                   </div>
 
-                  <div>
-                  {reduxRegionInfo && reduxRegionInfo.regionList && reduxRegionInfo.regionList.data ? (
-                      <div className={matchingModalStyle.areaBtnContainer}> 
-                          {reduxRegionInfo.regionList.data.map((region) => (
-                              <button onClick={() => {regionPick(region.name); closeModal()}} className={matchingModalStyle.areaBtn} key={region.id}>{region.name}</button>
-                          ))}
-                      </div>
-                  ) : (
-                      <div></div>
-                  )}
+                  <div className={matchingModalStyle.regionBtnContainer}>
+                    <p className={matchingModalStyle.regionTitle}>상세 지역</p>
+                    {reduxRegionInfo && reduxRegionInfo.regionList && reduxRegionInfo.regionList.data ? (
+                        <div className={matchingModalStyle.regionBtnContainer}> 
+                            {reduxRegionInfo.regionList.data.map((region) => (
+                                <button className={matchingModalStyle.regionBtn} onClick={() => {regionPick(region.name); closeModal() }} className={matchingModalStyle.areaBtn} key={region.id}>{region.name}</button>
+                            ))}
+                        </div>
+                    ) : (
+                        <div></div>
+                    )}
                   </div>
 
 
