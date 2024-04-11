@@ -7,13 +7,15 @@ import profile from '../assets/image/profile.png';
 import AreaModal from './AreaModal';
 import Fetcher from '../utils/Fetcher';
 import { useSelector, useDispatch } from "react-redux";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 
 const MatchingScreen = () => {
 
     const [modalOpen, setModalOpen] = useState(false);
     const [areaData, setAreaData] = useState([]);
     const dispatch = useDispatch();
+    const reduxAreaRegionInfo = useSelector((state) => state.getAreaUserWant);
 
     const showModal = () => {
         setModalOpen(true);
@@ -46,19 +48,28 @@ const MatchingScreen = () => {
                     <div className={`${moduleStyle.bodyCenter} ${moduleStyle.verticalHorizontalCenter}`} style={{display:'flex', flexDirection:'column'}} >
                         <div className={matchingStyle.blank}></div>
                         
-                        <div className={matchingStyle.category}>
-                            <select>
-                                <option value="">헬스</option>
-                                <option value="">필라테스</option>
-                                <option value="">크로스핏</option>
-                            </select>
+                        <div className={matchingStyle.area}>
+                            <div>
+                                <button className={matchingStyle.categoryBtn}> 
+                                    카테고리 
+                                    <FontAwesomeIcon className={matchingStyle.categoryArrow} icon={faAngleDown} />
+                                </button>
+                                
+                            </div>
+                            <p> 운동종류 여기 </p>
                         </div>
 
                         <div className={matchingStyle.area}>
-                            <button onClick={showModal}>지역 선택
+                            <button className={matchingStyle.areaPickBtn} onClick={showModal}>지역 선택
                             </button>
                             {modalOpen && <AreaModal setModalOpen={setModalOpen}/> }
-                            <div> 선택한 지역 여기에</div>
+                            <div> 
+                                {reduxAreaRegionInfo == null ? 
+                                    (<p> 선택한 지역이 없습니다 </p>) 
+                                    :
+                                    (<p>{reduxAreaRegionInfo.area} {reduxAreaRegionInfo.region}</p> )
+                                }
+                            </div>
                         </div>
 
                         <div class className={matchingStyle.trainerWrapper}>

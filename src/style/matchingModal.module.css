@@ -12,24 +12,33 @@
     justify-content: center;
     overflow: auto;
     backdrop-filter: blur(5px);
+
 }
 
 .areaBtnArea{
     display: flex;
 }
 
-.areaBtnContainer{
+.areaBtnContainer, .regionBtnContainer{
     display: flex;
     flex-direction: column;
+    flex-basis: 50%;
     
 }
 
-.areaBtn{
+.areaBtn, .regionBtn{
     background-color: transparent;
+    border: none;
+    height: 2rem;
+    display: flex;
+    padding-left: 1rem;
+    align-items: center;
 }
 
-.areaBtn:hover{
+.areaBtn:hover, .regionBtn:hover{
     cursor: pointer;
+    background-color: #b9b7b7;
+    font-weight: bold;
 }
 
 .selectAreaTitle{
@@ -37,9 +46,18 @@
     justify-content: space-between;
     margin: 0 10px;
 }
+.selectAreaHeader{
+    margin-left: 8rem;
+}
 
 .closeBtn{
     cursor: pointer;
     background-color: transparent;
     border: none;
+}
+
+.areaTitle, .regionTitle{
+    text-align: center;
+    border-bottom: 1px solid #b9b7b7;
+    padding-bottom: 0.5rem;
 }
