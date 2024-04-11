@@ -100,7 +100,7 @@ function Header() {
               {getUnReadNoticeCount}
             </a> 
             }
-            {modalOpen && <NoticeModal  setModalOpen={setModalOpen}/> }
+            {modalOpen && <NoticeModal setModalOpen={setModalOpen}/> }
             <div style={{width:"13%",borderRadius:"70%", marginLeft:"7%", overflow:"hidden"}}>
               <img onClick={goUserProfile}  src={profile} style={{width:"100%",height:"100%",objectFit:"cover" }} >
               </img>

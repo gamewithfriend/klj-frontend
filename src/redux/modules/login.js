@@ -1,7 +1,7 @@
 const initialState = {
     id: 0,
     nickName :""
-  };
+};
   
 // 리듀서
 const login = (state = initialState, action) => {

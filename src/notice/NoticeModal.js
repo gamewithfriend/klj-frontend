@@ -1,7 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import modalStyle from "../style/modal.module.css"
 import { useSelector, useDispatch } from "react-redux";
+import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import modalStyle from "../style/modal.module.css"
 import Fetcher from '../utils/Fetcher';
+import NoticeModalDetail from '../notice/NoticeModalDetail.js';
 
 const NoticeModal = ({setModalOpen}) => {
 
@@ -10,6 +14,13 @@ const NoticeModal = ({setModalOpen}) => {
     //알림 List state
     const [getNoticeList, setNoticeList] = useState();
 
+    //알림 Detail모달 state
+    const [modalDetailOpen, setModalDetailOpen] = useState(false);
+
+    const showModalDetail = (id) => {
+      setModalDetailOpen(true);
+      dispatch({type:"delete", payload: id})
+    };
 
     const closeModal = () => {
         setModalOpen(false);
@@ -40,7 +51,7 @@ const NoticeModal = ({setModalOpen}) => {
     },[]);
   
     return (
-        <div className={modalStyle.modalNoticeContainer}>
+        <div style={{overflow: modalDetailOpen ? "hidden" : "auto"}} className={modalStyle.modalNoticeContainer}>
             <div className="modal-content">
                 <button className={modalStyle.closeBtn} onClick={closeModal}>X</button>
                 <div >
@@ -54,8 +65,9 @@ const NoticeModal = ({setModalOpen}) => {
                                   , border:"solid 1px #efefef"
                                   }}>
                         <div style={{margin:"2%", display:"flex"}}>
-                          <div style={{whiteSpace:"pre-line"}}>{content.title}</div>
-                          <div style={{whiteSpace:"pre-line"}}>{content.createdDate}</div>  
+                          <div style={{whiteSpace:"pre-line", fontWeight:"bold"}}>{content.title}</div>
+                          <div style={{whiteSpace:"pre-line", marginLeft:"4%"}}>{content.createdDate}</div>
+                          <FontAwesomeIcon style={{marginTop:"1%", marginLeft:"10%"}} onClick={() =>{showModalDetail(content.id)}} icon={faEllipsisVertical} />
                         </div>
                         <div style={{margin:"3%", marginTop:"3%",textAlign:"left", whiteSpace:"pre-line"}}>{content.content}</div> 
                       </div>
@@ -67,6 +79,7 @@ const NoticeModal = ({setModalOpen}) => {
                   <div>알림이 없습니다.</div>
                   )  
                 }
+                {modalDetailOpen && <NoticeModalDetail  setModalDetailOpen={setModalDetailOpen}/> }
                 </div>
             </div>
         </div>
