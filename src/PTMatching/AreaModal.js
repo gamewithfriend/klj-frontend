@@ -34,10 +34,10 @@ const AreaModal = ({setModalOpen}) => {
     const areaPick = (areaName) => {
       const updatedData = { ...areaRegionData, area: areaName };
       setAreaRegionData(updatedData);
-      dispatch({ type: "setAreaUserWant", payload: updatedData });
-
+      
       if (areaName === "세종특별자치시") {
         closeModal();
+        dispatch({ type: "setAreaUserWant", payload: updatedData });
       }
     }
 
