@@ -5,6 +5,7 @@ import moduleStyle from "../style/common.module.css";
 import matchingStyle from "../style/matching.module.css"
 import profile from '../assets/image/profile.png';
 import AreaModal from './AreaModal';
+import GymMap from './GymMap';
 import Fetcher from '../utils/Fetcher';
 import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,6 +17,12 @@ const MatchingScreen = () => {
     const [areaData, setAreaData] = useState([]);
     const dispatch = useDispatch();
     const reduxAreaRegionInfo = useSelector((state) => state.getAreaUserWant);
+    const [selectedRegion, setSelectedRegion] = useState("");
+
+    const onClickRegion = (e) => {
+        setSelectedRegion(e.target.value);
+        console.log(selectedRegion);
+      };
 
     const showModal = () => {
         setModalOpen(true);
@@ -56,23 +63,29 @@ const MatchingScreen = () => {
                                 </button>
                                 
                             </div>
-                            <p> 운동종류 여기 </p>
+                            <p className={matchingStyle.areaInput}>운동종류 여기 </p>
                         </div>
 
-                        <div className={matchingStyle.area}>
-                            <button className={matchingStyle.areaPickBtn} onClick={showModal}>지역 선택
+                        <div className={matchingStyle.areaSection}>
+                            <button className={matchingStyle.areaPickBtn} onClick={showModal}>지역선택
                             </button>
                             {modalOpen && <AreaModal setModalOpen={setModalOpen}/> }
                             <div> 
                                 {reduxAreaRegionInfo == null ? 
                                     (<p> 선택한 지역이 없습니다 </p>) 
                                     :
-                                    (<p>{reduxAreaRegionInfo.area} {reduxAreaRegionInfo.region}</p> )
+                                    (<input className={matchingStyle.areaInput}
+                                            type="text" 
+                                            value={`${reduxAreaRegionInfo.area} ${reduxAreaRegionInfo.region}`} 
+                                            onChange={onClickRegion} 
+                                    /> )
                                 }
                             </div>
                         </div>
+                        
+                        <GymMap/>
 
-                        <div class className={matchingStyle.trainerWrapper}>
+                        <div className={matchingStyle.trainerWrapper}>
                             <div className={matchingStyle.trainerContainer}>
                                 <div className={matchingStyle.trainerPicWrapper}>
                                 <div className={matchingStyle.trainerPic}>
