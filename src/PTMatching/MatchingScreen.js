@@ -26,6 +26,7 @@ const MatchingScreen = () => {
 
     const showModal = () => {
         setModalOpen(true);
+        dispatch({type:"resetAreaSetting", payload: areaData})
     };
 
     const fetchCode = async () => {
