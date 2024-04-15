@@ -1,5 +1,6 @@
 import { useEffect, React, useState } from "react";
 import { NavLink } from "react-router-dom";
+import DaumPostcode from 'react-daum-postcode';
 
 import moduleStyle from "../style/common.module.css";
 import Header from "../template/Header.js";
@@ -110,49 +111,47 @@ const UserTrainerProfile = () => {
                             <div style={{height:"10%"}}>
                             </div>
                         </div>
-                        <div style={{height:"100%", width:"80%"}}>
-                            <div style={{height:"80%", width:"100%"}}>
-                                <div style={{height:"10%", width:"100%", alignContent:"center", textAlign:"center"}}>
+                        <div style={{width:"80%"}}>
+                            <div style={{width:"100%"}}>
+                                <div style={{height:"20vh", width:"100%", alignContent:"center", textAlign:"center"}}>
                                     트레이너 신청
                                 </div>
-                                <div style={{height:"10%", width:"100%"}}>
-                                </div>
-                                <div style={{height:"10%", width:"100%", marginLeft:"5%"}}>
+                                <div style={{height:"5vh", width:"100%", marginLeft:"5%"}}>
                                     <div style={{height:"100%", width:"20%", alignContent:"center"}}>
                                         경력기간
                                     </div>
                                 </div>
-                                <div style={{height:"10%", width:"100%", marginLeft:"5%"}}>
+                                <div style={{height:"10vh", width:"100%", marginLeft:"5%"}}>
                                     <input 
                                     className={moduleStyle.inputBottomBorderStyle}
-                                    style={{height:"40%", width:"70%"}}
+                                    style={{height:"40%", width:"40%"}}
                                     value={getEmploymentHistoryPeriod}
                                     onChange={saveEmploymentHistoryPeriod}
                                     >   
                                     </input>
                                 </div>
-                                <div style={{height:"10%", width:"100%", marginLeft:"5%"}}>
+                                <div style={{height:"5vh", width:"100%", marginLeft:"5%"}}>
                                     <div style={{height:"100%", width:"20%", alignContent:"center"}}>
                                         전화번호
                                     </div>
                                 </div>
-                                <div style={{height:"10%", width:"100%", marginLeft:"5%"}}>
+                                <div style={{height:"10vh", width:"100%", marginLeft:"5%"}}>
                                     <input 
                                     className={moduleStyle.inputBottomBorderStyle}
-                                    style={{height:"40%", width:"70%"}}
+                                    style={{height:"40%", width:"40%"}}
                                     value={getPhoneNumber}
                                     onChange={savePhoneNumber}
                                     ></input>
                                 </div>
-                                <div style={{height:"10%", width:"100%", marginLeft:"5%"}}>
+                                <div style={{height:"5vh", width:"100%", marginLeft:"5%"}}>
                                     <div style={{height:"100%", width:"20%", alignContent:"center"}}>
                                         이메일
                                     </div>
                                 </div>
-                                <div style={{height:"10%", width:"100%", marginLeft:"5%"}}>
+                                <div style={{height:"10vh", width:"100%", marginLeft:"5%"}}>
                                     <input 
                                     className={moduleStyle.inputBottomBorderStyle}
-                                    style={{height:"40%", width:"70%"}}
+                                    style={{height:"40%", width:"40%"}}
                                     value={getEmail}
                                     onChange={saveEmail}
                                     ></input>
@@ -162,30 +161,43 @@ const UserTrainerProfile = () => {
                                     <p style={{margin:"0", color:"red", opacity:"0.4"}}>유효하지 않은 이메일입니다.</p>
                                     }
                                 </div>
-                                <div style={{height:"10%", width:"100%", marginLeft:"5%"}}>
+                                <div style={{height:"5vh", width:"100%", marginLeft:"5%"}}>
                                     <div style={{height:"100%", width:"20%", alignContent:"center"}}>
                                         트레이닝 장소
                                     </div>
                                 </div>
-                                <div style={{height:"10%", width:"100%", marginLeft:"5%"}}>
+                                <div style={{height:"10vh", width:"100%", marginLeft:"5%"}}>
                                     <input 
                                     className={moduleStyle.inputBottomBorderStyle}
-                                    style={{height:"40%", width:"70%"}}
+                                    style={{height:"40%", width:"40%"}}
                                     value={getTrainPlace}
                                     onChange={saveTrainPlace}
                                     ></input>
                                 </div>
-                                <div style={{height:"10%", width:"100%", marginLeft:"5%"}}>
+                                <div style={{height:"5vh", width:"100%", marginLeft:"5%"}}>
+                                    <div style={{height:"100%", width:"20%", alignContent:"center"}}>
+                                        카테고리
+                                    </div>
+                                </div>
+                                <div style={{height:"10vh", width:"100%", marginLeft:"5%"}}>
+                                    <input 
+                                    className={moduleStyle.inputBottomBorderStyle}
+                                    style={{height:"40%", width:"40%"}}
+                                    value={getTrainPlace}
+                                    onChange={saveTrainPlace}
+                                    ></input>
+                                </div>
+                                <div style={{height:"5vh", width:"100%", marginLeft:"5%"}}>
                                     <div style={{height:"100%", width:"20%", alignContent:"center"}}>
                                         참고자료
                                     </div>
                                 </div>
-                                <div style={{height:"10%", width:"100%", marginLeft:"5%"}}>
+                                <div style={{height:"10vh", width:"100%", marginLeft:"5%"}}>
                                     <input type="file"></input>
                                 </div>
                             </div>
-                            <div style={{height:"20%", width:"100%", alignContent:"center", textAlign:"center"}}>
-                                <button style={{}} onClick={fetchUserTrainerApply}>
+                            <div style={{height:"20vh", width:"100%", alignContent:"center", textAlign:"center"}}>
+                                <button style={{marginTop:"5vh"}} onClick={fetchUserTrainerApply}>
                                     신청
                                 </button>
                             </div>

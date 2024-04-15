@@ -5,6 +5,7 @@ import getArea from "../modules/getArea";
 import getRegion from "../modules/getRegion";
 import getAreaUserWant from "../modules/getAreaUserWant";
 import notice from "../modules/notice";
+import noticeList from "../modules/noticeList";
 
 const rootReducer = combineReducers({
     login: login,
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
     getRegion : getRegion,
     getAreaUserWant : getAreaUserWant,
     notice:notice,
+    noticeList:noticeList,
 }); 
 const store = createStore(rootReducer); 
 

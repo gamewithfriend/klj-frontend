@@ -60,6 +60,7 @@ class Fetcher extends Builder{
             if (this.data !=null && this.data != undefined) {
                 const queryParams = new URLSearchParams(JSON.parse(this.data));
                 paramUrl = this.url + "?" + queryParams;
+                console.log(paramUrl)
             } else {
                 paramUrl = this.url;
             }

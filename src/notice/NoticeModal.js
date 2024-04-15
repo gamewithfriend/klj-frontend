@@ -23,31 +23,32 @@ const NoticeModal = ({setModalOpen}) => {
     };
 
     const closeModal = () => {
-        setModalOpen(false);
+      setModalOpen(false);
     };
 
-    // 로그인 유저 알림 List 함수
-  const fetchUserNoticeList = async () => {
-    const token = JSON.parse(localStorage.getItem("token"));
+      // 로그인 유저 알림 List 함수
+    const getUserNoticeList = async () => {
+      const token = JSON.parse(localStorage.getItem("token"));
 
-    if (token != null) {
-      //console.log(token.accessToken);
+      if (token != null) {
+        //console.log(token.accessToken);
 
-      const fetcher = new Fetcher().setUrl("/notice/user")
-                                         .setMethod("GET")
-                                         .setAccessToken(token.accessToken);
-      try {
-        const result = await fetcher.jsonFetch();
-        setNoticeList(result.data);
-        console.log("result : ", result.data);
-      } catch (error) {
-        console.error('login error:', error);
+        const fetcher = new Fetcher().setUrl("/notice/user")
+                                          .setMethod("GET")
+                                          .setAccessToken(token.accessToken);
+        try {
+          const result = await fetcher.jsonFetch();
+          setNoticeList(result.data);
+          dispatch({type:"get", payload: result.data});
+          console.log("result : ", result.data);
+        } catch (error) {
+          console.error('login error:', error);
+        }
       }
     }
-  }
 
     useEffect(() => {
-        fetchUserNoticeList();
+      getUserNoticeList();
     },[]);
   
     return (
@@ -67,7 +68,7 @@ const NoticeModal = ({setModalOpen}) => {
                         <div style={{margin:"2%", display:"flex"}}>
                           <div style={{whiteSpace:"pre-line", fontWeight:"bold"}}>{content.title}</div>
                           <div style={{whiteSpace:"pre-line", marginLeft:"4%"}}>{content.createdDate}</div>
-                          <FontAwesomeIcon style={{marginTop:"1%", marginLeft:"10%"}} onClick={() =>{showModalDetail(content.id)}} icon={faEllipsisVertical} />
+                          <FontAwesomeIcon style={{marginTop:"1%", marginLeft:"10%", cursor:"pointer"}} onClick={() =>{showModalDetail(content.id)}} icon={faEllipsisVertical} />
                         </div>
                         <div style={{margin:"3%", marginTop:"3%",textAlign:"left", whiteSpace:"pre-line"}}>{content.content}</div> 
                       </div>
@@ -79,8 +80,8 @@ const NoticeModal = ({setModalOpen}) => {
                   <div>알림이 없습니다.</div>
                   )  
                 }
-                {modalDetailOpen && <NoticeModalDetail  setModalDetailOpen={setModalDetailOpen}/> }
                 </div>
+                {modalDetailOpen && <NoticeModalDetail  setModalDetailOpen={setModalDetailOpen}/> }
             </div>
         </div>
     );
