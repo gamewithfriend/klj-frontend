@@ -6,6 +6,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import modalStyle from "../style/modal.module.css"
 import HorizonLine from "../template/HorizonLine";
 import Fetcher from '../utils/Fetcher';
+import * as noticeService from "../service/noticeService.js";
+
 
 
 const NoticeModal = ({setModalDetailOpen,setNoticeList}) => {
@@ -13,6 +15,7 @@ const NoticeModal = ({setModalDetailOpen,setNoticeList}) => {
     const dispatch = useDispatch();
     let reduxUserNoticeInfo = useSelector((state) => state.notice);
     let reduxUserNoticeListInfo = useSelector((state) => state.noticeList);
+    const token = JSON.parse(localStorage.getItem("token"));
 
     const closeModalDetail = () => {
         setModalDetailOpen(false);
@@ -36,15 +39,22 @@ const NoticeModal = ({setModalDetailOpen,setNoticeList}) => {
         }
     }
 
-    const deleteNotice = () => {
+    const deleteNotice = async  () => {
         // 리스트 정제 과정 (단건이여도 백엔드 메소드 재활용을 위해 리스트로 정제)
         let noticeList = [];
+        let newNoticeList = [];
         noticeList.push(reduxUserNoticeInfo.id);
-        console.log(noticeList)
-        console.log(reduxUserNoticeListInfo)
-        setNoticeList(reduxUserNoticeListInfo.noticeList)
+        try {
+            await fetchUserNoticeListDelete(noticeList);
+            const newData = await noticeService.fetcherUserNoticeList(token).then((data) => {
+                //console.log(data.data);
+                newNoticeList = data.data;
+                })
+        } catch (error) {
+            console.error('Error fetching user notice list:', error);
+        }
+        setNoticeList(newNoticeList);
         dispatch({type:"get", payload: reduxUserNoticeListInfo.noticeList});
-        //fetchUserNoticeListDelete(noticeList);
         setModalDetailOpen(false);
     };
     

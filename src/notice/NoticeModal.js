@@ -6,8 +6,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import modalStyle from "../style/modal.module.css"
 import Fetcher from '../utils/Fetcher';
 import NoticeModalDetail from '../notice/NoticeModalDetail.js';
+import * as noticeService from "../service/noticeService.js";
 
-const NoticeModal = ({setModalOpen}) => {
+const NoticeModal = ({setModalOpen, setUnReadNoticeCount}) => {
 
     const dispatch = useDispatch();
 
@@ -17,6 +18,9 @@ const NoticeModal = ({setModalOpen}) => {
     //알림 Detail모달 state
     const [modalDetailOpen, setModalDetailOpen] = useState(false);
 
+    // 유저 로그인 토근 가져오기
+    const token = JSON.parse(localStorage.getItem("token"));
+
     const showModalDetail = (id) => {
       setModalDetailOpen(true);
       dispatch({type:"delete", payload: id})
@@ -24,6 +28,13 @@ const NoticeModal = ({setModalOpen}) => {
 
     const closeModal = () => {
       setModalOpen(false);
+    };
+
+    const userUnReadNoticeCountSet = async  () => {
+      noticeService.fetchUserNoticeCount(token).then((data) => {
+        console.log(data.data);
+        setUnReadNoticeCount(data.data);
+        })
     };
 
       // 로그인 유저 알림 List 함수
@@ -49,6 +60,7 @@ const NoticeModal = ({setModalOpen}) => {
 
     useEffect(() => {
       getUserNoticeList();
+      userUnReadNoticeCountSet();
     },[]);
   
     return (
@@ -81,7 +93,7 @@ const NoticeModal = ({setModalOpen}) => {
                   )  
                 }
                 </div>
-                {modalDetailOpen && <NoticeModalDetail  setModalDetailOpen={setModalDetailOpen}/> }
+                {modalDetailOpen && <NoticeModalDetail  setModalDetailOpen={setModalDetailOpen} setNoticeList={setNoticeList} /> }
             </div>
         </div>
     );

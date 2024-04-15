@@ -9,7 +9,7 @@ import profile from '../assets/image/profile.png';
 import NoticeModal from '../notice/NoticeModal.js';
 import Fetcher from '../utils/Fetcher';
 import { isTokenExpired} from "../login/LoginHandler.js";
-
+import * as noticeService from "../service/noticeService.js";
 
 
 function Header() {
@@ -22,6 +22,9 @@ function Header() {
   const [getUnReadNoticeCount, setUnReadNoticeCount] = useState(0);
   //알림 모달 state
   const [modalOpen, setModalOpen] = useState(false);
+  // 유저 로그인 토근 가져오기
+  const token = JSON.parse(localStorage.getItem("token"));
+
 
   // 화면 이동 함수
   const goUserProfile = () => {
@@ -29,7 +32,8 @@ function Header() {
   };
 
   // 모달 제어 함수
-  const showModal = () => {
+  const showModal = async () => {
+    await noticeService.fetcherUpdateUserReadNoticeList(token);
     setModalOpen(true);
   };
 
@@ -91,8 +95,8 @@ function Header() {
         {localStorage.getItem("token") === null ? 
           <NavLink to="/login" className={moduleStyle.menuVarLink}>로그인</NavLink> 
           :
-          <div className={moduleStyle.flexJustifyRight} onClick={showModal}>
-            <FontAwesomeIcon style={{color:"white", padding:"4%", paddingRight:"0%"}} icon={faBell} />
+          <div className={moduleStyle.flexJustifyRight} >
+            <FontAwesomeIcon style={{color:"white", padding:"4%", paddingRight:"0%"}} icon={faBell} onClick={showModal}/>
             {getUnReadNoticeCount === 0 ?
             <a style={{color:"red"}}></a>
             :
@@ -106,7 +110,7 @@ function Header() {
             </div>
           </div> 
         }
-        {modalOpen && <NoticeModal  setModalOpen={setModalOpen}/> }
+        {modalOpen && <NoticeModal  setModalOpen={setModalOpen} setUnReadNoticeCount={setUnReadNoticeCount}/> }
         </div>
       </div>
     );
