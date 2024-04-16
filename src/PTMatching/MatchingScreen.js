@@ -5,6 +5,7 @@ import moduleStyle from "../style/common.module.css";
 import matchingStyle from "../style/matching.module.css"
 import profile from '../assets/image/profile.png';
 import AreaModal from './AreaModal';
+import CategoryModal from './CategoryModal';
 import GymMap from './GymMap';
 import Fetcher from '../utils/Fetcher';
 import { useSelector, useDispatch } from "react-redux";
@@ -14,6 +15,7 @@ import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 const MatchingScreen = () => {
 
     const [modalOpen, setModalOpen] = useState(false);
+    const [categoryModalOpen, setCategoryModalOpen] = useState(false);
     const [areaData, setAreaData] = useState([]);
     const dispatch = useDispatch();
     const reduxAreaRegionInfo = useSelector((state) => state.getAreaUserWant);
@@ -27,6 +29,10 @@ const MatchingScreen = () => {
     const showModal = () => {
         setModalOpen(true);
         dispatch({type:"resetAreaSetting", payload: areaData})
+    };
+
+    const showCategoryModal = () => {
+        setCategoryModalOpen(true);
     };
 
     const fetchCode = async () => {
@@ -57,14 +63,15 @@ const MatchingScreen = () => {
                         <div className={matchingStyle.blank}></div>
                         
                         <div className={matchingStyle.area}>
-                            <div>
-                                <button className={matchingStyle.categoryBtn}> 
+                            <div className={matchingStyle.categoryBtnContainer}>
+                                <button className={matchingStyle.categoryBtn} onClick={showCategoryModal}> 
                                     카테고리 
                                     <FontAwesomeIcon className={matchingStyle.categoryArrow} icon={faAngleDown} />
+                                    {categoryModalOpen && <CategoryModal setCategoryModalOpen={setCategoryModalOpen}/> }
                                 </button>
                                 
                             </div>
-                            <p className={matchingStyle.areaInput}>운동종류 여기 </p>
+                            <p className={matchingStyle.category}>운동종류 여기 </p>
                         </div>
 
                         <div className={matchingStyle.areaSection}>
@@ -75,7 +82,7 @@ const MatchingScreen = () => {
                                 {reduxAreaRegionInfo == null ? 
                                     (<p> 선택한 지역이 없습니다 </p>) 
                                     :
-                                    (<input className={matchingStyle.areaInput}
+                                    (<input className={matchingStyle.areaInput} disabled
                                             type="text" 
                                             value={`${reduxAreaRegionInfo.area} ${reduxAreaRegionInfo.region}`} 
                                             onChange={onClickRegion} 
@@ -83,8 +90,10 @@ const MatchingScreen = () => {
                                 }
                             </div>
                         </div>
-                        
-                        <GymMap/>
+
+
+                                <GymMap/>
+
 
                         <div className={matchingStyle.trainerWrapper}>
                             <div className={matchingStyle.trainerContainer}>

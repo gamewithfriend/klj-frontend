@@ -61,7 +61,7 @@ const AreaModal = ({setModalOpen}) => {
                   <div className={matchingModalStyle.areaBtnContainer}>
                     <p className={matchingModalStyle.areaTitle}>지역</p>
                     {reduxAreaInfo.areaList.data.map((area) => (
-                      <button className={matchingModalStyle.areaBtn} onClick={() => {fetchRegionCode(area.id); areaPick(area.name);  }} className={matchingModalStyle.areaBtn} key={area.id}>{area.name}</button>
+                      <button className={matchingModalStyle.areaBtn} onClick={() => {fetchRegionCode(area.id); areaPick(area.name);  }} key={area.id}>{area.name}</button>
                       ))}
                   </div>
 
@@ -70,7 +70,7 @@ const AreaModal = ({setModalOpen}) => {
                     {reduxRegionInfo && reduxRegionInfo.regionList && reduxRegionInfo.regionList.data ? (
                         <div className={matchingModalStyle.regionBtnContainer}> 
                             {reduxRegionInfo.regionList.data.map((region) => (
-                                <button className={matchingModalStyle.regionBtn} onClick={() => {regionPick(region.name); closeModal() }} className={matchingModalStyle.areaBtn} key={region.id}>{region.name}</button>
+                                <button className={`${matchingModalStyle.regionBtn}`} onClick={() => {regionPick(region.name); closeModal() }} className={matchingModalStyle.areaBtn} key={region.id}>{region.name}</button>
                             ))}
                         </div>
                     ) : (
