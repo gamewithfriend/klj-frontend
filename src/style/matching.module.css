@@ -56,16 +56,22 @@
 }
 
 .areaPickBtn:hover, .categoryBtn:hover{
-    background-color: #e2e2e2;
     cursor: pointer;
 }
 
-.categoryArrow{
-    border: 1px solid #b9b7b7;
-    border-radius: 50%;
+.clicked{
+    border-radius: 30%;
     padding: 5px;
     margin-left: 5px;
-    
+    transform: rotate(180deg);
+    transition-duration: 0.5s;
+}
+
+.unclicked{
+    border-radius: 30%;
+    padding: 5px;
+    margin-left: 5px;
+    transition-duration: 0.5s;
 }
 
 .category{
