@@ -4,6 +4,7 @@
     flex-direction: row;
     justify-content: center;
     flex-wrap: wrap;
+    margin-top: 3rem;
 }
 
 .trainerContainer{
@@ -34,17 +35,21 @@
 }
 
 .blank{
-    height: 200px;
+    height: 100px;
 }
 
 .area{
     width: 80%;
     display: flex;
-    justify-content: space-between;
+}
+
+.categoryBtnContainer{
+    display: flex;
+    align-items: center;
 }
 
 .areaPickBtn, .categoryBtn{
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     border: none;
     background-color: transparent;
     display: flex;
@@ -63,16 +68,40 @@
     
 }
 
+.category{
+    font-size: 1.1rem;
+    text-align: left;
+    margin-left: 3rem;
+}
+
 .areaInput{
     border: transparent;
     font-size: 1.1rem;
-    text-align: right;
+    text-align: left;
+    margin-left: 5rem;
+    background-color: transparent;
+
 }
 
 .areaSection{
     width: 80%;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     margin-bottom: 40px;
+}
+
+.mapSection{
+    width: 100%;
+    display: flex;
+    margin: 2rem 0;
+}
+
+.mapContainer{
+    flex-basis: 50%;
+    display: flex;
+    justify-content: center;
+}
+
+.gymListSection{
+    flex-basis: 50%;
 }
