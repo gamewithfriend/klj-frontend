@@ -16,6 +16,8 @@ const UserTrainerProfile = () => {
     const [getEmail, setEmail] = useState('');
     const [getRegularExpressionEmail, setRegularExpressionEmail] = useState(false);
     const [getTrainPlace, setTrainPlace] = useState('');
+    const [getTrainPlacePostcode, setTrainPlacePostcode] = useState('');
+    const [getTrainPlaceDetail, setTrainPlaceDetail] = useState('');
     //주소 모달 state
     const [modalOpen, setModalOpen] = useState(false);
 
@@ -43,6 +45,10 @@ const UserTrainerProfile = () => {
 
     const saveTrainPlace = event => {
         setTrainPlace(event.target.value);
+    };
+
+    const saveTrainPostcode = event => {
+        setTrainPlacePostcode(event.target.value);
     };
 
     const isValidEmail = (email) => {
@@ -77,11 +83,14 @@ const UserTrainerProfile = () => {
             alert("유효하지 않은 이메일 주소입니다.");
             return false;
         }
+        console.log(getTrainPlacePostcode)
         const data = {
             employmentHistoryPeriod: getEmploymentHistoryPeriod,
             phoneNumber: getPhoneNumber,
             email:getEmail,
-            trainPlace: getTrainPlace
+            trainPlace: getTrainPlace,
+            trainPlaceDetail: getTrainPlaceDetail,
+            trainPlacePostcode: getTrainPlacePostcode
         };
         const fetcher = new Fetcher().setUrl("/user/trainer/apply")
                                         .setMethod("POST")
@@ -179,23 +188,29 @@ const UserTrainerProfile = () => {
                                     <input 
                                     className={moduleStyle.inputBottomBorderStyle}
                                     style={{height:"40%", width:"30%"}}
-                                    value={getTrainPlace}
-                                    onChange={saveTrainPlace}
+                                    value={getTrainPlacePostcode}
+                                    onChange={saveTrainPostcode}
                                     ></input>
                                     <button style={{marginLeft:"3%"}} onClick={showModal} >
                                         주소찾기
                                     </button>
-                                    {modalOpen && <AdressModal  setModalOpen={setModalOpen} /> }   
+                                    {modalOpen && <AdressModal  
+                                    setModalOpen={setModalOpen} 
+                                    setTrainPlace={setTrainPlace} 
+                                    setTrainPlacePostcode={setTrainPlacePostcode}
+                                    /> }   
                                 </div>
                                 <div style={{height:"10vh", width:"100%", marginLeft:"5%"}}>
                                     <input 
                                     className={moduleStyle.inputBottomBorderStyle}
+                                    value={getTrainPlace}
                                     style={{height:"40%", width:"40%"}}
                                     ></input>  
                                 </div>
                                 <div style={{height:"10vh", width:"100%", marginLeft:"5%"}}>
                                     <input 
                                     className={moduleStyle.inputBottomBorderStyle}
+                                    value={getTrainPlaceDetail}
                                     style={{height:"40%", width:"40%"}}
                                     ></input>  
                                 </div>
