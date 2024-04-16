@@ -28,7 +28,21 @@
     overflow: auto;
     backdrop-filter: blur(5px);
 }
-
+.modalAdressContainer{
+    border: 1px solid black;
+    width: 360px;
+    height: 500px;
+    z-index: 150;
+    top: 260px;
+    right: -90px;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+    background-color: white;
+    justify-content: center;
+    overflow: auto;
+    backdrop-filter: blur(5px);
+}
 .closeBtn{
     cursor: pointer;
     background-color: transparent;

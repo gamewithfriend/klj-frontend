@@ -1,19 +1,28 @@
 import { useEffect, React, useState } from "react";
 import { NavLink } from "react-router-dom";
-import DaumPostcode from 'react-daum-postcode';
+
 
 import moduleStyle from "../style/common.module.css";
 import Header from "../template/Header.js";
 import Body from "../template/Body.js";
+import AdressModal from '../template/AdressModal.js';
 import { logout} from "../login/LoginHandler.js";
 import Fetcher from '../utils/Fetcher';
 
 const UserTrainerProfile = () => {
+    
     const [getEmploymentHistoryPeriod, setEmploymentHistoryPeriod] = useState('');
     const [getPhoneNumber, setPhoneNumber] = useState('');
     const [getEmail, setEmail] = useState('');
     const [getRegularExpressionEmail, setRegularExpressionEmail] = useState(false);
     const [getTrainPlace, setTrainPlace] = useState('');
+    //주소 모달 state
+    const [modalOpen, setModalOpen] = useState(false);
+
+    // 모달 제어 함수
+    const showModal =  () => {
+        setModalOpen(true);
+    };
 
     const handleLogout = () => {
         logout();
@@ -169,10 +178,26 @@ const UserTrainerProfile = () => {
                                 <div style={{height:"10vh", width:"100%", marginLeft:"5%"}}>
                                     <input 
                                     className={moduleStyle.inputBottomBorderStyle}
-                                    style={{height:"40%", width:"40%"}}
+                                    style={{height:"40%", width:"30%"}}
                                     value={getTrainPlace}
                                     onChange={saveTrainPlace}
                                     ></input>
+                                    <button style={{marginLeft:"3%"}} onClick={showModal} >
+                                        주소찾기
+                                    </button>
+                                    {modalOpen && <AdressModal  setModalOpen={setModalOpen} /> }   
+                                </div>
+                                <div style={{height:"10vh", width:"100%", marginLeft:"5%"}}>
+                                    <input 
+                                    className={moduleStyle.inputBottomBorderStyle}
+                                    style={{height:"40%", width:"40%"}}
+                                    ></input>  
+                                </div>
+                                <div style={{height:"10vh", width:"100%", marginLeft:"5%"}}>
+                                    <input 
+                                    className={moduleStyle.inputBottomBorderStyle}
+                                    style={{height:"40%", width:"40%"}}
+                                    ></input>  
                                 </div>
                                 <div style={{height:"5vh", width:"100%", marginLeft:"5%"}}>
                                     <div style={{height:"100%", width:"20%", alignContent:"center"}}>
