@@ -18,6 +18,7 @@ const UserTrainerProfile = () => {
     const [getTrainPlace, setTrainPlace] = useState('');
     const [getTrainPlacePostcode, setTrainPlacePostcode] = useState('');
     const [getTrainPlaceDetail, setTrainPlaceDetail] = useState('');
+    const [getTrainPlaceName, setTrainPlaceName] = useState('');
     //주소 모달 state
     const [modalOpen, setModalOpen] = useState(false);
 
@@ -46,9 +47,17 @@ const UserTrainerProfile = () => {
     const saveTrainPlace = event => {
         setTrainPlace(event.target.value);
     };
+    
+    const saveTrainPlaceDetail = event => {
+        setTrainPlaceDetail(event.target.value);
+    };
 
     const saveTrainPostcode = event => {
         setTrainPlacePostcode(event.target.value);
+    };
+
+    const saveTrainPlaceName = event => {
+        setTrainPlaceName(event.target.value);
     };
 
     const isValidEmail = (email) => {
@@ -73,6 +82,9 @@ const UserTrainerProfile = () => {
             //이메일 정규식 체크용
             setRegularExpressionEmail(isValidEmail(result.data.email));
             setTrainPlace(result.data.trainPlace);
+            setTrainPlacePostcode(result.data.trainPlacePostcode);
+            setTrainPlaceDetail(result.data.trainPlaceDetail);
+            setTrainPlaceName(result.data.trainPlaceName);
         }                                     
     }
 
@@ -90,7 +102,8 @@ const UserTrainerProfile = () => {
             email:getEmail,
             trainPlace: getTrainPlace,
             trainPlaceDetail: getTrainPlaceDetail,
-            trainPlacePostcode: getTrainPlacePostcode
+            trainPlacePostcode: getTrainPlacePostcode,
+            trainPlaceName: getTrainPlaceName
         };
         const fetcher = new Fetcher().setUrl("/user/trainer/apply")
                                         .setMethod("POST")
@@ -204,6 +217,7 @@ const UserTrainerProfile = () => {
                                     <input 
                                     className={moduleStyle.inputBottomBorderStyle}
                                     value={getTrainPlace}
+                                    onChange={saveTrainPlace}
                                     style={{height:"40%", width:"40%"}}
                                     ></input>  
                                 </div>
@@ -211,6 +225,20 @@ const UserTrainerProfile = () => {
                                     <input 
                                     className={moduleStyle.inputBottomBorderStyle}
                                     value={getTrainPlaceDetail}
+                                    onChange={saveTrainPlaceDetail}
+                                    style={{height:"40%", width:"40%"}}
+                                    ></input>  
+                                </div>
+                                <div style={{height:"5vh", width:"100%", marginLeft:"5%"}}>
+                                    <div style={{height:"100%", width:"20%", alignContent:"center"}}>
+                                        트레이닝장소이름
+                                    </div>
+                                </div>
+                                <div style={{height:"10vh", width:"100%", marginLeft:"5%"}}>
+                                    <input 
+                                    className={moduleStyle.inputBottomBorderStyle}
+                                    value={getTrainPlaceName}
+                                    onChange={saveTrainPlaceName}
                                     style={{height:"40%", width:"40%"}}
                                     ></input>  
                                 </div>
