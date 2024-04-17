@@ -15,11 +15,14 @@ import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 const MatchingScreen = () => {
 
     const [modalOpen, setModalOpen] = useState(false);
-    const [categoryModalOpen, setCategoryModalOpen] = useState(false);
     const [areaData, setAreaData] = useState([]);
+    const [categoryData, setCategoryData] = useState([]);
     const dispatch = useDispatch();
     const reduxAreaRegionInfo = useSelector((state) => state.getAreaUserWant);
     const [selectedRegion, setSelectedRegion] = useState("");
+
+    const [categoryModalOpen, setCategoryModalOpen] = useState(false);
+    const [clicked, setClicked] = useState(false);
 
     const onClickRegion = (e) => {
         setSelectedRegion(e.target.value);
@@ -33,6 +36,7 @@ const MatchingScreen = () => {
 
     const showCategoryModal = () => {
         setCategoryModalOpen(true);
+        setClicked(true); 
     };
 
     const fetchCode = async () => {
@@ -48,9 +52,24 @@ const MatchingScreen = () => {
         dispatch({type:"basicAreaSetting", payload: result})
         setAreaData(result);
     }
+
+    const fetchCategoryCode = async () => {
+        const data = {
+            id: "category",
+            name : "test"
+        };
     
+        const fetcher = new Fetcher().setUrl("/search/area")
+                                        .setMethod("POST")
+                                        .setData(JSON.stringify(data));
+        const result = await fetcher.jsonFetch();
+        dispatch({type:"basicCategorySetting", payload: result})
+        setCategoryData(result);
+    }
+     
     useEffect(() => {
         fetchCode();
+        fetchCategoryCode();
     },[]);
 
     return (
@@ -66,12 +85,12 @@ const MatchingScreen = () => {
                             <div className={matchingStyle.categoryBtnContainer}>
                                 <button className={matchingStyle.categoryBtn} onClick={showCategoryModal}> 
                                     카테고리 
-                                    <FontAwesomeIcon className={matchingStyle.categoryArrow} icon={faAngleDown} />
-                                    {categoryModalOpen && <CategoryModal setCategoryModalOpen={setCategoryModalOpen}/> }
+                                    <FontAwesomeIcon className={`${clicked ? matchingStyle.clicked : matchingStyle.unclicked}`} icon={faAngleDown} />
                                 </button>
+                                    {categoryModalOpen && <CategoryModal setCategoryModalOpen={setCategoryModalOpen} setClicked={setClicked} />}
                                 
                             </div>
-                            <p className={matchingStyle.category}>운동종류 여기 </p>
+                            <p className={matchingStyle.category}>운동종류 여기</p>
                         </div>
 
                         <div className={matchingStyle.areaSection}>
