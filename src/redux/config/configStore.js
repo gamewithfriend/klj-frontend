@@ -5,6 +5,7 @@ import getArea from "../modules/getArea";
 import getRegion from "../modules/getRegion";
 import getAreaUserWant from "../modules/getAreaUserWant";
 import getCategory from "../modules/getCategory"
+import getSports from "../modules/getSports";
 import notice from "../modules/notice";
 import noticeList from "../modules/noticeList";
 
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
     notice:notice,
     noticeList:noticeList,
     getCategory:getCategory,
+    getSports:getSports,
 }); 
 const store = createStore(rootReducer); 
 
