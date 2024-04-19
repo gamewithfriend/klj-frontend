@@ -17,6 +17,11 @@ import KakaoOAuth2RedirectHandler from './login/KakaoOAuth2RedirectHandler';
 import UserProfile from "./user/UserProfile";
 import UserTrainerProfile from "./user/UserTrainerProfile";
 
+const HealthCheck = () => {
+  // 여기에 건강 검사 로직을 추가합니다.
+  return <div>Health Check OK</div>;
+};
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <>
@@ -37,6 +42,8 @@ root.render(
           <Route path="/matching" element={<Matching/>}/>
           <Route path="/user/userProfile" element={<UserProfile/>}/>
           <Route path="/user/userTrainerProfile" element={<UserTrainerProfile/>}/>
+          {/* 건강 검사 엔드포인트 */}
+          <Route path="/health" element={<HealthCheck />} />
         </Routes>
       </BrowserRouter>
     </Provider>
