@@ -19,14 +19,16 @@ const MatchingScreen = () => {
     const [categoryData, setCategoryData] = useState([]);
     const dispatch = useDispatch();
     const reduxAreaRegionInfo = useSelector((state) => state.getAreaUserWant);
+    const reduxSportsList = useSelector((state) => state.sendSportsList);
     const [selectedRegion, setSelectedRegion] = useState("");
-
     const [categoryModalOpen, setCategoryModalOpen] = useState(false);
     const [clicked, setClicked] = useState(false);
+    const [sportsList, setSportsList] = useState([]);
 
+
+    // console.log(reduxSportsList.sportsList)
     const onClickRegion = (e) => {
         setSelectedRegion(e.target.value);
-        console.log(selectedRegion);
       };
 
     const showModal = () => {
@@ -87,10 +89,25 @@ const MatchingScreen = () => {
                                     카테고리 
                                     <FontAwesomeIcon className={`${clicked ? matchingStyle.clicked : matchingStyle.unclicked}`} icon={faAngleDown} />
                                 </button>
-                                    {categoryModalOpen && <CategoryModal setCategoryModalOpen={setCategoryModalOpen} setClicked={setClicked} />}
+                                    {categoryModalOpen 
+                                    && 
+                                    <CategoryModal 
+                                        setCategoryModalOpen={setCategoryModalOpen} 
+                                        setClicked={setClicked} 
+                                        sportsList={sportsList} 
+                                        setSportsList={setSportsList}
+                                    />}
                                 
                             </div>
-                            <p className={matchingStyle.category}>운동종류 여기</p>
+                            <div className={matchingStyle.category}>
+                                {sportsList.map((sports, index) => (
+                                    <button 
+                                        key={index}
+                                        >
+                                        {sports}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
 
                         <div className={matchingStyle.areaSection}>
