@@ -1,0 +1,109 @@
+/* 메세지 및 메세지 리스트 컴포넌트 */
+
+.message {
+    padding: 8px;
+    margin: 4px 0;
+    border-radius: 8px;
+  }
+  
+  .userMessage {
+    background-color: #DCF8C6;
+    align-self: flex-end;
+  }
+  
+  .otherMessage {
+    background-color: #E0E0E0;
+    align-self: flex-start;
+  }
+  
+  .messageList {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    height: calc(100vh - 120px); /* 화면 높이에서 입력창 높이를 제외한 값 */
+    overflow-y: scroll;
+  }
+  
+  .chatScreen {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 95%;
+    height: 95%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .inputContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .input {
+    flex: 1;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+  }
+  
+  .sendButton {
+    padding: 8px 16px;
+    border-radius: 8px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  /* 채팅목록 */
+
+.chatList {
+    padding: 10px;
+    height: calc(100vh - 120px); /* 화면 높이에서 입력창 높이를 제외한 값 */
+  }
+  
+  .chatItem {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+  }
+  
+  .chatItem img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .chatItem h3 {
+    margin: 0;
+  }
+  
+  .chatItem p {
+    margin: 0;
+    color: #777;
+  }
+  
+  /* 채팅화면 */
+  .chatPage {
+    display: flex;
+    height: 95vh;
+  }
+  
+  .chatListContainer {
+    flex: 1;
+    border: 1px solid #ccc;
+    border-right: "";
+    border-radius: 8px;
+    overflow-y: scroll;
+    height: 100%; /* 부모 요소에 꽉 차도록 높이를 100%로 설정 */
+  }
+  
+  .chatScreenContainer {
+    flex: 4;
+    height: 100%; /* 부모 요소에 꽉 차도록 높이를 100%로 설정 */
+  }
