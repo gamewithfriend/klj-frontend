@@ -48,6 +48,8 @@ const AreaModal = ({setModalOpen}) => {
   };
 
     return (
+      <div>
+        <button className={matchingModalStyle.layer} onClick={()=>closeModal()}></button>
         <div className={matchingModalStyle.modalContainer}>
             <div className="modal-content">
 
@@ -83,6 +85,7 @@ const AreaModal = ({setModalOpen}) => {
                 </div>
                
             </div>
+        </div>
         </div>
     );
 };

@@ -2,8 +2,6 @@ import React, {useState, useEffect} from 'react';
 import matchingModalStyle from "../style/matchingModal.module.css"
 import { useSelector, useDispatch } from "react-redux";
 import Fetcher from '../utils/Fetcher';
-import { combineSlices } from '@reduxjs/toolkit';
-import MatchingScreen from './MatchingScreen';
 
 const CategoryModal = ({setCategoryModalOpen, setClicked, setSportsList, sportsList}) => {
 
@@ -18,7 +16,12 @@ const CategoryModal = ({setCategoryModalOpen, setClicked, setSportsList, sportsL
     const closeCategoryModal = () => {
         setCategoryModalOpen(false);
         setClicked(false); 
-      };
+    };
+
+    const closeModal = () =>{
+        setCategoryModalOpen(false);
+        setClicked(false); 
+    }
     
     const fetchCategoryCode = async (categoryCode) => {
     
@@ -41,25 +44,25 @@ const CategoryModal = ({setCategoryModalOpen, setClicked, setSportsList, sportsL
 
     const sportsPick = (sportsName) => {
         let updatedList;
+
         if (sportsList.includes(sportsName)) {
             updatedList = sportsList.filter(item => item !== sportsName);
         } else {
             updatedList = [...sportsList, sportsName];
         }
 
-        setSportsList(updatedList);
-        console.log(updatedList)
+        if(updatedList.length > 5){
+            alert("운동은 최대 5개까지 선택 가능합니다.") // 추후에 모달로 대체
+        }else{
+            setSportsList(updatedList);
+        }
+
         
     };
 
-    // const sportsPick = (regionName) => {
-    //     const updatedData = { ...areaRegionData, region: regionName };
-    //     setAreaRegionData(updatedData);
-    //     dispatch({ type: "setAreaUserWant", payload: updatedData });
-    // };
-
-
     return (
+        <div>
+        <button className={matchingModalStyle.layer} onClick={()=>closeModal()}></button>
         <div className={matchingModalStyle.modalContainer}>
 
             <div className={matchingModalStyle.selectAreaTitle}>
@@ -96,6 +99,7 @@ const CategoryModal = ({setCategoryModalOpen, setClicked, setSportsList, sportsL
                   </div>
 
             </div>
+        </div>
         </div>
     );
 };
