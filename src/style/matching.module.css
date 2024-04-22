@@ -41,6 +41,7 @@
 .area{
     width: 80%;
     display: flex;
+    margin-bottom: 20px;
 }
 
 .categoryBtnContainer{
@@ -78,6 +79,7 @@
     font-size: 1.1rem;
     text-align: left;
     margin-left: 3rem;
+    display: flex;
 }
 
 .areaInput{
@@ -110,4 +112,21 @@
 
 .gymListSection{
     flex-basis: 50%;
+}
+
+.sportsBtn{
+    border-radius: 30px;
+    margin-right: 10px;
+    padding: 5px 10px;
+    font-size: 1rem;
+    background-color: #e7e7e7;
+    display: flex;
+    flex-direction: row;
+}
+
+.sportDelete{
+    border: transparent;
+    background-color: transparent;
+    font-size: 0.7rem;
+    cursor: pointer;
 }

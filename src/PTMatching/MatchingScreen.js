@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import Modal from 'react-modal';
 import Header from "../template/Header";
 import moduleStyle from "../style/common.module.css";
@@ -18,6 +18,7 @@ const MatchingScreen = () => {
     const [areaData, setAreaData] = useState([]);
     const [categoryData, setCategoryData] = useState([]);
     const dispatch = useDispatch();
+    const ref = useRef();
     const reduxAreaRegionInfo = useSelector((state) => state.getAreaUserWant);
     const reduxSportsList = useSelector((state) => state.sendSportsList);
     const [selectedRegion, setSelectedRegion] = useState("");
@@ -36,10 +37,19 @@ const MatchingScreen = () => {
         dispatch({type:"resetAreaSetting", payload: areaData})
     };
 
+
     const showCategoryModal = () => {
         setCategoryModalOpen(true);
         setClicked(true); 
     };
+
+    const deleteSports = (index) => {
+        console.log(sportsList)
+        const updateList = [...sportsList];
+        updateList.splice(index, 1);
+        setSportsList(updateList);
+
+    }
 
     const fetchCode = async () => {
         const data = {
@@ -101,11 +111,12 @@ const MatchingScreen = () => {
                             </div>
                             <div className={matchingStyle.category}>
                                 {sportsList.map((sports, index) => (
-                                    <button 
+                                    <span className={matchingStyle.sportsBtn}
                                         key={index}
                                         >
                                         {sports}
-                                    </button>
+                                        <button className={matchingStyle.sportDelete} onClick={() => deleteSports(index)}>X</button>
+                                    </span>
                                 ))}
                             </div>
                         </div>
