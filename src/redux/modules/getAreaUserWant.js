@@ -11,6 +11,11 @@ const setAreaUserWant = (state = initialState, action) => {
         area: action.payload.area, 
         region: action.payload.region
       };
+    case "resetAreaRegionSetting" :
+      return{
+        area: "", 
+        region: ""
+      }
     default:
       return state;
   }

@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import matchingModalStyle from "../style/matchingModal.module.css"
 import { useSelector, useDispatch } from "react-redux";
 import Fetcher from '../utils/Fetcher';
+import * as matchingService from "../service/matchingService.js";
 
 const AreaModal = ({setModalOpen}) => {
 
@@ -14,16 +15,7 @@ const AreaModal = ({setModalOpen}) => {
     });
     
     const fetchRegionCode = async (regionCode) => {
-      
-      const data = {
-        id: regionCode,
-        name : "test"
-      };
-
-      const fetcher = new Fetcher().setUrl("/search/area")
-                                      .setMethod("POST")
-                                      .setData(JSON.stringify(data));
-      const result = await fetcher.jsonFetch();
+      const result = await matchingService.fetchRegionCode(regionCode);
       dispatch({type:"basicRegionSetting", payload: result})
     }
 

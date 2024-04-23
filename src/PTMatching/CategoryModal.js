@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import matchingModalStyle from "../style/matchingModal.module.css"
 import { useSelector, useDispatch } from "react-redux";
 import Fetcher from '../utils/Fetcher';
+import * as matchingService from "../service/matchingService.js";
 
 const CategoryModal = ({setCategoryModalOpen, setClicked, setSportsList, sportsList}) => {
 
@@ -23,17 +24,8 @@ const CategoryModal = ({setCategoryModalOpen, setClicked, setSportsList, sportsL
         setClicked(false); 
     }
     
-    const fetchCategoryCode = async (categoryCode) => {
-    
-        const data = {
-            id: categoryCode,
-            name : "test"
-        };
-
-        const fetcher = new Fetcher().setUrl("/search/area")
-                                        .setMethod("POST")
-                                        .setData(JSON.stringify(data));
-        const result = await fetcher.jsonFetch();
+    const fetchSportsCode = async (categoryCode) => {
+        const result = await matchingService.fetchSportsCode(categoryCode);
         dispatch({type:"basicSprotsSetting", payload: result})
     }   
 
@@ -75,7 +67,7 @@ const CategoryModal = ({setCategoryModalOpen, setClicked, setSportsList, sportsL
                 <div className={matchingModalStyle.areaBtnContainer}>
                     <p className={matchingModalStyle.areaTitle}>카테고리</p>
                     {reduxCategoryInfo.categoryList.data.map((category, index) => (
-                    <button className={matchingModalStyle.areaBtn} onClick={() => {fetchCategoryCode(category.id); categoryPick(category.name); }}  key={index}>{category.name}</button>
+                    <button className={matchingModalStyle.areaBtn} onClick={() => {fetchSportsCode(category.id); categoryPick(category.name); }}  key={index}>{category.name}</button>
                     ))}
                 </div>
 
