@@ -36,8 +36,6 @@ class Fetcher extends Builder{
 
     setUrl(url) {
         this.url += url;
-        console.log(url)
-        console.log(this.url)
         return this;
     }
 
@@ -103,7 +101,6 @@ class Fetcher extends Builder{
      */
     async _urlFecth(paramUrl) {
         try {
-            console.log(this.headers)
             const response = await fetch(paramUrl, {
                 method: this.method,
                 //headers: this.headers,
