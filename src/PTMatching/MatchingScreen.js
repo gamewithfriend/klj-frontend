@@ -12,6 +12,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import * as matchingService from "../service/matchingService.js";
+import TimePicker from "./TimePicker.js"
 
 const MatchingScreen = () => {
 
@@ -27,6 +28,7 @@ const MatchingScreen = () => {
     const [clicked, setClicked] = useState(false);
     const [sportsList, setSportsList] = useState([]);
     const [memberCount, setMemberCount] = useState(0);
+    const [startDate, setStartDate] = useState(new Date());
 
     const memberCountMinus = () => {
         if(memberCount == 0){
@@ -67,6 +69,7 @@ const MatchingScreen = () => {
     const allReset = () =>{
         setMemberCount(0);
         setSportsList([]);
+        setStartDate(new Date())
         dispatch({type:"resetAreaRegionSetting", payload: areaData});
     }
 
@@ -126,7 +129,7 @@ const MatchingScreen = () => {
                         </div>
 
                         <div className={matchingStyle.areaSection}>
-                            <button className={matchingStyle.areaPickBtn} onClick={showModal}>지역선택
+                            <button className={matchingStyle.areaPickBtn} onClick={showModal}>지역 선택
                             </button>
                             {modalOpen && <AreaModal setModalOpen={setModalOpen}/> }
                             <div> 
@@ -145,13 +148,26 @@ const MatchingScreen = () => {
 
                         <div className={matchingStyle.memberCountSection}>
                             
-                            <button className={matchingStyle.areaPickBtn}>인원선택
+                            <button className={matchingStyle.areaPickBtn}>인원 선택
                             </button>
 
                             <div> 
                                 <button className={matchingStyle.minusBtn} onClick={memberCountMinus}>-</button>
                                 <input disabled className={matchingStyle.memberCount} value={memberCount}></input>
                                 <button className={matchingStyle.plusBtn} onClick={memberCountPlus}>+</button>
+                            </div>
+
+                        </div>
+
+                        <div className={matchingStyle.timeChooseSection}>
+                            
+                            <button className={matchingStyle.areaPickBtn}>희망 시간
+                            </button>
+
+                            <div> 
+                            <TimePicker 
+                            setStartDate={setStartDate} 
+                            startDate={startDate}/>
                             </div>
 
                             <div className={matchingStyle.resetContainer}>
@@ -209,7 +225,6 @@ const MatchingScreen = () => {
                     <div className={moduleStyle.bodySideHeight100} />
                 </div>
         </div>
-
         
     );
 
