@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Fetcher from '../utils/Fetcher';
 import * as matchingService from "../service/matchingService.js";
 
-const CategoryModal = ({setCategoryModalOpen, setClicked, setSportsList, sportsList}) => {
+const CategoryModal = ({setCategoryModalOpen, setClicked, setSportsList, sportsList, setModalPathParam}) => {
 
     const dispatch = useDispatch();
     const reduxCategoryInfo = useSelector((state) => state.getCategory);
