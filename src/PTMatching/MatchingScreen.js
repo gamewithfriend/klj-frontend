@@ -29,6 +29,7 @@ const MatchingScreen = () => {
     const [sportsList, setSportsList] = useState([]);
     const [memberCount, setMemberCount] = useState(0);
     const [startDate, setStartDate] = useState(new Date());
+    const [modalPathParam, setModalPathParam] = useState("matching");
 
     const memberCountMinus = () => {
         if(memberCount == 0){
@@ -113,6 +114,7 @@ const MatchingScreen = () => {
                                         setClicked={setClicked} 
                                         sportsList={sportsList} 
                                         setSportsList={setSportsList}
+                                        setModalPathParam={setModalPathParam}
                                     />}
                                 
                             </div>
@@ -181,7 +183,7 @@ const MatchingScreen = () => {
                         </div>
 
 
-                        <GymMap />
+                        {/* <GymMap /> */}
 
 
                         <div className={matchingStyle.trainerWrapper}>
