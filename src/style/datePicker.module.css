@@ -13,3 +13,7 @@
     font-size: 1.1rem;
     cursor: pointer;
 }
+
+.react-datepicker__aria-live {
+    display: none;
+  }

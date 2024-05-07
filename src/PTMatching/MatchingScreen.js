@@ -183,7 +183,7 @@ const MatchingScreen = () => {
                         </div>
 
 
-                        {/* <GymMap /> */}
+                        <GymMap />
 
 
                         <div className={matchingStyle.trainerWrapper}>
