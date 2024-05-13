@@ -7,12 +7,26 @@ import * as matchingService from "../service/matchingService.js";
 const CategoryModal = ({setCategoryModalOpen, setClicked, setSportsList, sportsList, setModalPathParam}) => {
 
     const dispatch = useDispatch();
+    const [clickedArea, setClickedArea] = useState([]);
     const reduxCategoryInfo = useSelector((state) => state.getCategory);
     const reduxSportsInfo = useSelector((state) => state.getSports);
     const [sportsData, setSportsData] = useState({
         category: "",
         sports: ""
       });
+
+    const handleClick = (id) => {
+        let updatedId;
+
+        if (clickedArea.includes(id)) {
+           updatedId = clickedArea.filter(item => item !== id);
+        } else {
+           updatedId = [...clickedArea, id];
+        }
+
+        console.log(clickedArea)
+        setClickedArea(updatedId)
+    }
 
     const closeCategoryModal = () => {
         setCategoryModalOpen(false);
@@ -75,11 +89,11 @@ const CategoryModal = ({setCategoryModalOpen, setClicked, setSportsList, sportsL
                     <p className={matchingModalStyle.regionTitle}>상세 운동</p>
                     {reduxSportsInfo && reduxSportsInfo.sportsList && reduxSportsInfo.sportsList.data ? (
                         <div className={matchingModalStyle.regionBtnContainer}> 
-                            {reduxSportsInfo.sportsList.data.map((sports, index) => (
+                            {reduxSportsInfo.sportsList.data.map((sports, index, id) => (
                                 <button 
-                                    className={`${matchingModalStyle.regionBtn} ${matchingModalStyle.areaBtn}`} 
+                                    className={`${matchingModalStyle.regionBtn} ${matchingModalStyle.areaBtn} ${clickedArea == sports.id ? 'clickedSports' : ''}`} 
                                     key={index}
-                                    onClick={() => {sportsPick(sports.name); }} >
+                                    onClick={() => {sportsPick(sports.name); handleClick(sports.id) }} >
                                     {sports.name}
                                 </button>
                                 

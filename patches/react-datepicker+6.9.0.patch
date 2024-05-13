@@ -1,0 +1,13 @@
+diff --git a/node_modules/react-datepicker/dist/react-datepicker.css b/node_modules/react-datepicker/dist/react-datepicker.css
+index c987363..36fca1d 100644
+--- a/node_modules/react-datepicker/dist/react-datepicker.css
++++ b/node_modules/react-datepicker/dist/react-datepicker.css
+@@ -40,7 +40,7 @@
+ }
+ 
+ .react-datepicker-popper {
+-  z-index: 1;
++  z-index: 2;
+   line-height: 0;
+ }
+ .react-datepicker-popper .react-datepicker__triangle {
