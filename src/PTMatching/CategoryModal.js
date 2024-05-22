@@ -55,7 +55,7 @@ const CategoryModal = ({setCategoryModalOpen, setClicked, setSportsList, sportsL
     return (
         <div>
         <button className={matchingModalStyle.layer} onClick={()=>closeModal()}></button>
-        <div className={matchingModalStyle.modalContainer}>
+        <div className={ setModalPathParam == "trainer" ? matchingModalStyle.modalCategoryTrainerContainer : matchingModalStyle.modalContainer }>
 
             <div className={matchingModalStyle.selectAreaTitle}>
                 <p className={matchingModalStyle.selectAreaHeader}>운동 선택</p>
