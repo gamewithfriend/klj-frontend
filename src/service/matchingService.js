@@ -71,3 +71,27 @@ export const fetchRegionCode = async (regionCode) => {
         console.log(error)
     }
   }
+
+  export const getGymList = async () => {
+      
+    const fetcher = new Fetcher().setUrl("/search/gym")
+                                    .setMethod("GET")
+    try{
+        const result = await fetcher.jsonFetch();
+        return result;
+    }catch(error){
+        console.log(error)
+    }
+  }
+
+  export const getTrainerList = async () => {
+      
+    const fetcher = new Fetcher().setUrl("/search/trainer")
+                                    .setMethod("GET")
+    try{
+        const result = await fetcher.jsonFetch();
+        return result;
+    }catch(error){
+        console.log(error)
+    }
+  }

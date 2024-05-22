@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Fetcher from '../utils/Fetcher';
 import * as matchingService from "../service/matchingService.js";
 
-const CategoryModal = ({setCategoryModalOpen, setClicked, setSportsList, sportsList, setModalPathParam}) => {
+const CategoryModal = ({setCategoryModalOpen, setClicked, setSportsList, sportsList, setModalPathParam, setSportsInfo, sportsInfo}) => {
 
     const dispatch = useDispatch();
     const [clickedArea, setClickedArea] = useState([]);
@@ -62,9 +62,24 @@ const CategoryModal = ({setCategoryModalOpen, setClicked, setSportsList, sportsL
         }else{
             setSportsList(updatedList);
         }
-
-        
     };
+
+    const saveSportsInfo = (name, id) => {
+
+        const updateSportsInfo = { sportsName: name, sportsId: id };
+        const exists = sportsInfo.some(sport => sport.sportsId === id);
+
+        let updatedList;
+        if (exists) {
+        // 이미 존재하면 제거
+        updatedList = sportsInfo.filter(sport => sport.sportsId !== id);
+        } else {
+        // 존재하지 않으면 추가
+        updatedList = [...sportsInfo, updateSportsInfo];
+        }
+
+        setSportsInfo(updatedList);
+    }
 
     return (
         <div>
@@ -89,11 +104,11 @@ const CategoryModal = ({setCategoryModalOpen, setClicked, setSportsList, sportsL
                     <p className={matchingModalStyle.regionTitle}>상세 운동</p>
                     {reduxSportsInfo && reduxSportsInfo.sportsList && reduxSportsInfo.sportsList.data ? (
                         <div className={matchingModalStyle.regionBtnContainer}> 
-                            {reduxSportsInfo.sportsList.data.map((sports, index, id) => (
+                            {reduxSportsInfo.sportsList.data.map((sports, index) => (
                                 <button 
                                     className={`${matchingModalStyle.regionBtn} ${matchingModalStyle.areaBtn} ${clickedArea == sports.id ? 'clickedSports' : ''}`} 
                                     key={index}
-                                    onClick={() => {sportsPick(sports.name); handleClick(sports.id) }} >
+                                    onClick={() => {sportsPick(sports.name); handleClick(sports.id); saveSportsInfo(sports.name, sports.id) }} >
                                     {sports.name}
                                 </button>
                                 
