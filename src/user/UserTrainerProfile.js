@@ -1,16 +1,26 @@
 import { useEffect, React, useState } from "react";
 import { NavLink } from "react-router-dom";
-
+import { useSelector, useDispatch } from "react-redux";
 
 import moduleStyle from "../style/common.module.css";
+import matchingStyle from "../style/matching.module.css";
 import Header from "../template/Header.js";
 import Body from "../template/Body.js";
 import AdressModal from '../template/AdressModal.js';
 import { logout} from "../login/LoginHandler.js";
 import Fetcher from '../utils/Fetcher';
+import * as matchingService from "../service/matchingService.js";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+
+import CategoryModal from '../PTMatching/CategoryModal';
 
 const UserTrainerProfile = () => {
     
+    // dispatch 
+    const dispatch = useDispatch();
+
     const [getEmploymentHistoryPeriod, setEmploymentHistoryPeriod] = useState('');
     const [getPhoneNumber, setPhoneNumber] = useState('');
     const [getEmail, setEmail] = useState('');
@@ -19,8 +29,39 @@ const UserTrainerProfile = () => {
     const [getTrainPlacePostcode, setTrainPlacePostcode] = useState('');
     const [getTrainPlaceDetail, setTrainPlaceDetail] = useState('');
     const [getTrainPlaceName, setTrainPlaceName] = useState('');
+    
     //주소 모달 state
     const [modalOpen, setModalOpen] = useState(false);
+    const [clicked, setClicked] = useState(false);
+    const [sportsList, setSportsList] = useState([]);
+
+    //카테고리 관련 state
+    const [categoryModalOpen, setCategoryModalOpen] = useState(false);
+    const [modalPathParam, setModalPathParam] = useState("trainer");
+    const [categoryData, setCategoryData] = useState([]);
+
+    // 카테고리 관련 모달 제어 함수   
+    const showCategoryModal = () => {
+        setCategoryModalOpen(true);
+        setClicked(true); 
+    };
+
+    // 카테고리 태그 ui 삭제 함수
+    const deleteSports = (index) => {
+        const updateList = [...sportsList];
+        updateList.splice(index, 1);
+        setSportsList(updateList);
+    }
+
+    // 카테고리 fetch 함수
+    const fetchCategoryCode = async () => {
+        const result = await matchingService.fetchCategoryCode();
+        console.log(result)
+        dispatch({type:"basicCategorySetting", payload: result})
+        setCategoryData(result);
+    }
+
+    
 
     // 모달 제어 함수
     const showModal =  () => {
@@ -96,6 +137,7 @@ const UserTrainerProfile = () => {
             return false;
         }
         console.log(getTrainPlacePostcode)
+        console.log(sportsList)
         const data = {
             employmentHistoryPeriod: getEmploymentHistoryPeriod,
             phoneNumber: getPhoneNumber,
@@ -117,6 +159,7 @@ const UserTrainerProfile = () => {
 
     useEffect(() => {
         fetchUserTrainerApplyInfo();
+        fetchCategoryCode();
     },[]);
 
     return (
@@ -242,18 +285,33 @@ const UserTrainerProfile = () => {
                                     style={{height:"40%", width:"40%"}}
                                     ></input>  
                                 </div>
-                                <div style={{height:"5vh", width:"100%", marginLeft:"5%"}}>
-                                    <div style={{height:"100%", width:"20%", alignContent:"center"}}>
-                                        카테고리
+                                <div style={{height:"13vh", width:"100%", marginLeft:"5%"}}>
+                                    <div className={matchingStyle.categoryBtnContainer}>
+                                        <button className={matchingStyle.categoryBtn} onClick={showCategoryModal}> 
+                                            카테고리 
+                                            <FontAwesomeIcon className={`${clicked ? matchingStyle.clicked : matchingStyle.unclicked}`} icon={faAngleDown} />
+                                        </button>
+                                            {categoryModalOpen 
+                                            && 
+                                            <CategoryModal 
+                                            setCategoryModalOpen={setCategoryModalOpen} 
+                                            setClicked={setClicked} 
+                                            sportsList={sportsList} 
+                                            setSportsList={setSportsList}
+                                            setModalPathParam={modalPathParam}
+                                            />}
+                                        
                                     </div>
-                                </div>
-                                <div style={{height:"10vh", width:"100%", marginLeft:"5%"}}>
-                                    <input 
-                                    className={moduleStyle.inputBottomBorderStyle}
-                                    style={{height:"40%", width:"40%"}}
-                                    value={getTrainPlace}
-                                    onChange={saveTrainPlace}
-                                    ></input>
+                                    <div className={matchingStyle.category}>
+                                        {sportsList.map((sports, index) => (
+                                            <span className={matchingStyle.sportsBtn}
+                                            key={index}
+                                            >
+                                                {sports}
+                                                <button className={matchingStyle.sportDelete} onClick={() => deleteSports(index)}>X</button>
+                                            </span>
+                                        ))}
+                                    </div>
                                 </div>
                                 <div style={{height:"5vh", width:"100%", marginLeft:"5%"}}>
                                     <div style={{height:"100%", width:"20%", alignContent:"center"}}>
