@@ -20,16 +20,19 @@ const MatchingScreen = () => {
     const [areaData, setAreaData] = useState([]);
     const [categoryData, setCategoryData] = useState([]);
     const dispatch = useDispatch();
-    const ref = useRef(null);
+    const mapRef = useRef({});
     const reduxAreaRegionInfo = useSelector((state) => state.getAreaUserWant);
     const reduxSportsList = useSelector((state) => state.sendSportsList);
     const [selectedRegion, setSelectedRegion] = useState("");
     const [categoryModalOpen, setCategoryModalOpen] = useState(false);
     const [clicked, setClicked] = useState(false);
     const [sportsList, setSportsList] = useState([]);
+    const [sportsInfo, setSportsInfo] = useState([]);
     const [memberCount, setMemberCount] = useState(0);
     const [startDate, setStartDate] = useState(new Date());
     const [modalPathParam, setModalPathParam] = useState("matching");
+
+    console.log(sportsInfo)
 
     const memberCountMinus = () => {
         if(memberCount == 0){
@@ -71,6 +74,7 @@ const MatchingScreen = () => {
         setMemberCount(0);
         setSportsList([]);
         setStartDate(new Date())
+        mapRef.current.getMap();
         dispatch({type:"resetAreaRegionSetting", payload: areaData});
     }
 
@@ -78,6 +82,11 @@ const MatchingScreen = () => {
         const result = await matchingService.fetchCode();
         dispatch({type:"basicAreaSetting", payload: result})
         setAreaData(result);
+    }
+
+    const getTrainerList = async () => {
+        const result = await matchingService.getTrainerList();
+        console.log(result);
     }
 
     const fetchCategoryCode = async () => {
@@ -112,18 +121,20 @@ const MatchingScreen = () => {
                                     <CategoryModal 
                                         setCategoryModalOpen={setCategoryModalOpen} 
                                         setClicked={setClicked} 
-                                        sportsList={sportsList} 
                                         setSportsList={setSportsList}
+                                        sportsList={sportsList}
                                         setModalPathParam={setModalPathParam}
+                                        sportsInfo={sportsInfo} 
+                                        setSportsInfo={setSportsInfo}
                                     />}
                                 
                             </div>
                             <div className={matchingStyle.category}>
-                                {sportsList.map((sports, index) => (
+                                {sportsInfo.map((sports, index) => (
                                     <span className={matchingStyle.sportsBtn}
                                         key={index}
                                         >
-                                        {sports}
+                                        {sports.sportsName}
                                         <button className={matchingStyle.sportDelete} onClick={() => deleteSports(index)}>X</button>
                                     </span>
                                 ))}
@@ -183,7 +194,7 @@ const MatchingScreen = () => {
                         </div>
 
 
-                        <GymMap />
+                        <GymMap ref={mapRef} />
 
 
                         <div className={matchingStyle.trainerWrapper}>
