@@ -1,20 +1,56 @@
-import React, { useState, useEffect} from 'react';
-import Fetcher from '../utils/Fetcher';
+import React, { useState, useEffect, forwardRef, useImperativeHandle} from 'react';
 import { useSelector, useDispatch } from "react-redux";
+import * as matchingService from "../service/matchingService.js";
 
-const GymMap = () => {
+const GymMap = forwardRef((props, mapRef) => {
+
   const [map, setMap] = useState();
   const reduxAreaRegionInfo = useSelector((state) => state.getAreaUserWant);
   const KAKAO_MAP_KEY = process.env.REACT_APP_KAKAO_MAP_KEY;
   const [gymList, setGymList] = useState([]);
-  const dispatch = useDispatch();
+  const [bounds, setBounds] = useState();
 
   const getGymList = async () => {
-    const fetcher = new Fetcher().setUrl("/search/gym")
-                                    .setMethod("GET")
-    const result = await fetcher.jsonFetch();
+    const result = await matchingService.getGymList();
     setGymList(result);
   }
+
+  const getMap = () => {
+    window.kakao.maps.load(() => {
+      const container = document.getElementById("map");
+      const options = {
+        center: new window.kakao.maps.LatLng(37.566826, 126.9786567),
+        level: 5,
+      };
+      const map = new window.kakao.maps.Map(container, options);
+      setMap(map);
+    });
+  }
+
+  const getGymInfoInMap = () => {
+    var sw = new window.kakao.maps.LatLng(bounds.qa, bounds.ha);
+    var ne = new window.kakao.maps.LatLng(bounds.pa, bounds.oa);
+    var lb = new window.kakao.maps.LatLngBounds(sw, ne);
+    // var l1 = new window.kakao.maps.LatLng(37.562, 126.96)
+    const geocoder = new window.kakao.maps.services.Geocoder();
+    gymList.data.forEach(gym => {
+      geocoder.addressSearch(gym.address, function(result, status) {
+        if (status === window.kakao.maps.services.Status.OK) {
+          var coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
+        }
+        console.log(lb.contain(coords))
+      });
+
+    })
+
+    // console.log(lb.contain(l1))
+  }
+
+
+
+  useImperativeHandle(mapRef, () => ({
+    getMap,
+  }));
 
   useEffect(() => {
     getGymList();
@@ -24,15 +60,7 @@ const GymMap = () => {
     document.head.appendChild(script);
 
     script.addEventListener("load", () => {
-      window.kakao.maps.load(() => {
-        const container = document.getElementById("map");
-        const options = {
-          center: new window.kakao.maps.LatLng(37.566826, 126.9786567),
-          level: 5,
-        };
-        const map = new window.kakao.maps.Map(container, options);
-        setMap(map);
-      });
+      getMap();
     }, []);
 
     return () => {
@@ -52,6 +80,7 @@ const GymMap = () => {
                 map: map,
                 position: coords
               });
+              setBounds(map.getBounds());
               //  var infowindow = new window.kakao.maps.InfoWindow({
               //     content: gym.gymName
               //   });
@@ -77,6 +106,7 @@ const GymMap = () => {
       };
       moveArea();
     }
+    
   }, [reduxAreaRegionInfo, map]);
 
   return (
@@ -84,6 +114,6 @@ const GymMap = () => {
       <div id="map" style={{width:'52rem',height:'20rem'}}></div>
     </div>
   );
-};
+});
 
 export default GymMap;
