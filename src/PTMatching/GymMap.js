@@ -25,30 +25,9 @@ const GymMap = forwardRef((props, mapRef) => {
       };
       const map = new window.kakao.maps.Map(container, options);
       setMap(map);
+      
     });
   }
-
-  const getGymInfoInMap = () => {
-    
-    var sw = new window.kakao.maps.LatLng(bounds.qa, bounds.ha);
-    var ne = new window.kakao.maps.LatLng(bounds.pa, bounds.oa);
-    var lb = new window.kakao.maps.LatLngBounds(sw, ne);
-    // var l1 = new window.kakao.maps.LatLng(37.562, 126.96)
-    const geocoder = new window.kakao.maps.services.Geocoder();
-    gymList.data.forEach(gym => {
-      geocoder.addressSearch(gym.address, function(result, status) {
-        if (status === window.kakao.maps.services.Status.OK) {
-          var coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
-        }
-        console.log(lb.contain(coords))
-      });
-
-    })
-
-    // console.log(lb.contain(l1))
-  }
-
-
 
   useImperativeHandle(mapRef, () => ({
     getMap,
@@ -97,6 +76,37 @@ const GymMap = forwardRef((props, mapRef) => {
 
   useEffect(() => {
     if (map) {
+      const handleDragEnd = () => {
+        setBounds(map.getBounds());
+        const bounds = map.getBounds();
+        const sw = new window.kakao.maps.LatLng(bounds.qa, bounds.ha);
+        const ne = new window.kakao.maps.LatLng(bounds.pa, bounds.oa);
+        const lb = new window.kakao.maps.LatLngBounds(sw, ne);
+        const geocoder = new window.kakao.maps.services.Geocoder();
+        gymList.data.forEach(gym => {
+
+          geocoder.addressSearch(gym.address, function(result, status) {
+            if (status === window.kakao.maps.services.Status.OK) {
+              const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
+              if(lb.contain(coords)){
+                console.log(gym.gymName)
+              }
+            }
+          });
+        });
+      };
+
+      window.kakao.maps.event.addListener(map, 'dragend', handleDragEnd);
+
+      return () => {
+        window.kakao.maps.event.removeListener(map, 'dragend', handleDragEnd);
+      };
+    }
+  }, [map, gymList]);
+
+
+  useEffect(() => {
+    if (map) {
       const moveArea = () => {
         const geocoder = new window.kakao.maps.services.Geocoder();
         geocoder.addressSearch(`${reduxAreaRegionInfo.area} ${reduxAreaRegionInfo.region}`, function(result, status){
@@ -116,7 +126,6 @@ const GymMap = forwardRef((props, mapRef) => {
       <Map 
         id="map" 
         center={{
-          // 지도의 중심좌표
           lat: 33.450701,
           lng: 126.570667,
         }} 
@@ -125,9 +134,6 @@ const GymMap = forwardRef((props, mapRef) => {
           height:'20rem'        
         }}
         level={3}
-        onDragEnd={(map) => {
-          setBounds(map.getBounds());
-        }}
       />
     </div>
   );
