@@ -32,8 +32,6 @@ const MatchingScreen = () => {
     const [startDate, setStartDate] = useState(new Date());
     const [modalPathParam, setModalPathParam] = useState("matching");
 
-    console.log(sportsInfo)
-
     const memberCountMinus = () => {
         if(memberCount == 0){
             return;
