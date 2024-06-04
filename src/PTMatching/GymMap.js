@@ -1,6 +1,7 @@
 import React, { useState, useEffect, forwardRef, useImperativeHandle} from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import * as matchingService from "../service/matchingService.js";
+import { Map } from "react-kakao-maps-sdk"
 
 const GymMap = forwardRef((props, mapRef) => {
 
@@ -28,6 +29,7 @@ const GymMap = forwardRef((props, mapRef) => {
   }
 
   const getGymInfoInMap = () => {
+    
     var sw = new window.kakao.maps.LatLng(bounds.qa, bounds.ha);
     var ne = new window.kakao.maps.LatLng(bounds.pa, bounds.oa);
     var lb = new window.kakao.maps.LatLngBounds(sw, ne);
@@ -80,7 +82,7 @@ const GymMap = forwardRef((props, mapRef) => {
                 map: map,
                 position: coords
               });
-              setBounds(map.getBounds());
+              
               //  var infowindow = new window.kakao.maps.InfoWindow({
               //     content: gym.gymName
               //   });
@@ -111,7 +113,22 @@ const GymMap = forwardRef((props, mapRef) => {
 
   return (
     <div>
-      <div id="map" style={{width:'52rem',height:'20rem'}}></div>
+      <Map 
+        id="map" 
+        center={{
+          // 지도의 중심좌표
+          lat: 33.450701,
+          lng: 126.570667,
+        }} 
+        style={{
+          width:'52rem',
+          height:'20rem'        
+        }}
+        level={3}
+        onDragEnd={(map) => {
+          setBounds(map.getBounds());
+        }}
+      />
     </div>
   );
 });
