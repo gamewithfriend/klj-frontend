@@ -39,6 +39,7 @@ const UserTrainerProfile = () => {
     const [categoryModalOpen, setCategoryModalOpen] = useState(false);
     const [modalPathParam, setModalPathParam] = useState("trainer");
     const [categoryData, setCategoryData] = useState([]);
+    const [sportsInfo, setSportsInfo] = useState([]);
 
     // 카테고리 관련 모달 제어 함수   
     const showCategoryModal = () => {
@@ -294,22 +295,25 @@ const UserTrainerProfile = () => {
                                             {categoryModalOpen 
                                             && 
                                             <CategoryModal 
-                                            setCategoryModalOpen={setCategoryModalOpen} 
-                                            setClicked={setClicked} 
-                                            sportsList={sportsList} 
-                                            setSportsList={setSportsList}
-                                            setModalPathParam={modalPathParam}
+                                                setCategoryModalOpen={setCategoryModalOpen} 
+                                                setClicked={setClicked} 
+                                                setSportsList={setSportsList}
+                                                sportsList={sportsList}
+                                                setModalPathParam={modalPathParam}
+                                                sportsInfo={sportsInfo} 
+                                                setSportsInfo={setSportsInfo}
                                             />}
                                         
                                     </div>
-                                    <div className={matchingStyle.category}>
-                                        {sportsList.map((sports, index) => (
-                                            <span className={matchingStyle.sportsBtn}
-                                            key={index}
-                                            >
-                                                {sports}
-                                                <button className={matchingStyle.sportDelete} onClick={() => deleteSports(index)}>X</button>
-                                            </span>
+                                    <div className={matchingStyle.categoryTrainer}>
+                                        {sportsInfo.map((sports, index) => (
+                                                <span className={matchingStyle.sportsBtn}
+                                                key={index}
+                                                >
+                                                    {sports.sportsName}
+                                                    <button className={matchingStyle.sportDelete} onClick={() => deleteSports(index)}>X</button>
+                                                </span>
+                                                
                                         ))}
                                     </div>
                                 </div>
