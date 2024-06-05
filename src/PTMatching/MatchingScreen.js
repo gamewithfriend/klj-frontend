@@ -31,9 +31,7 @@ const MatchingScreen = () => {
     const [memberCount, setMemberCount] = useState(0);
     const [startDate, setStartDate] = useState(new Date());
     const [modalPathParam, setModalPathParam] = useState("matching");
-
-    console.log(sportsInfo)
-
+    
     const memberCountMinus = () => {
         if(memberCount == 0){
             return;
@@ -195,7 +193,6 @@ const MatchingScreen = () => {
 
 
                         <GymMap ref={mapRef} />
-
 
                         <div className={matchingStyle.trainerWrapper}>
                             <div className={matchingStyle.trainerContainer}>
