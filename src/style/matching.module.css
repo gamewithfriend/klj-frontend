@@ -179,6 +179,10 @@
     animation: rotate_image 1s linear infinite;
 }
 
+.blank500{
+    height: 500px;
+}
+
 @keyframes rotate_image{
 	100% {
     	transform: rotate(360deg);

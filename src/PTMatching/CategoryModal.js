@@ -24,7 +24,6 @@ const CategoryModal = ({setCategoryModalOpen, setClicked, setSportsList, sportsL
            updatedId = [...clickedArea, id];
         }
 
-        console.log(clickedArea)
         setClickedArea(updatedId)
     }
 
@@ -49,19 +48,21 @@ const CategoryModal = ({setCategoryModalOpen, setClicked, setSportsList, sportsL
     }
 
     const sportsPick = (sportsName) => {
-        let updatedList;
-
-        if (sportsList.includes(sportsName)) {
-            updatedList = sportsList.filter(item => item !== sportsName);
-        } else {
-            updatedList = [...sportsList, sportsName];
-        }
-
-        if(updatedList.length > 5){
-            alert("운동은 최대 5개까지 선택 가능합니다.") // 추후에 모달로 대체
-        }else{
-            setSportsList(updatedList);
-        }
+        setSportsList(prevSportsList => {
+            let updatedList;
+    
+            if (prevSportsList.includes(sportsName)) {
+                updatedList = prevSportsList.filter(item => item !== sportsName);
+            } else {
+                if (prevSportsList.length >= 5) {
+                    alert("운동은 최대 5개까지 선택 가능합니다."); // 추후에 모달로 대체
+                    return prevSportsList; // 업데이트하지 않고 기존 리스트 반환
+                }
+                updatedList = [...prevSportsList, sportsName];
+            }
+    
+            return updatedList;
+        });
     };
 
     const saveSportsInfo = (name, id) => {

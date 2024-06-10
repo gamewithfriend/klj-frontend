@@ -4,15 +4,11 @@ import { useSelector, useDispatch } from "react-redux";
 import Fetcher from '../utils/Fetcher';
 import * as matchingService from "../service/matchingService.js";
 
-const AreaModal = ({setModalOpen}) => {
+const AreaModal = ({setModalOpen, areaRegionData, setAreaRegionData}) => {
 
     const reduxAreaInfo = useSelector((state) => state.getArea);
     const reduxRegionInfo = useSelector((state) => state.getRegion);
     const dispatch = useDispatch();
-    const [areaRegionData, setAreaRegionData] = useState({
-      area: "",
-      region: ""
-    });
     
     const fetchRegionCode = async (regionCode) => {
       const result = await matchingService.fetchRegionCode(regionCode);

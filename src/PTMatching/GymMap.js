@@ -3,13 +3,14 @@ import { useSelector, useDispatch } from "react-redux";
 import * as matchingService from "../service/matchingService.js";
 import { Map } from "react-kakao-maps-sdk"
 
-const GymMap = forwardRef((props, mapRef) => {
+const GymMap = forwardRef(({setTrainerList, areaRegionData, setAreaRegionData}, mapRef) => {
 
   const [map, setMap] = useState();
   const reduxAreaRegionInfo = useSelector((state) => state.getAreaUserWant);
   const KAKAO_MAP_KEY = process.env.REACT_APP_KAKAO_MAP_KEY;
   const [gymList, setGymList] = useState([]);
   const [bounds, setBounds] = useState();
+  const dispatch = useDispatch();
 
   const getGymList = async () => {
     const result = await matchingService.getGymList();
@@ -74,6 +75,38 @@ const GymMap = forwardRef((props, mapRef) => {
     }
   }, [map, gymList]);
 
+  function searchAddrFromCoords(coords, callback) {
+    // 좌표로 행정동 주소 정보를 요청합니다
+    const geocoder = new window.kakao.maps.services.Geocoder();
+    geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);         
+  }
+
+  function displayCenterInfo(result, status) {
+    if (status === window.kakao.maps.services.Status.OK) {
+        for(var i = 0; i < result.length; i++) {
+            // 행정동의 region_type 값은 'H' 이므로
+            if (result[i].region_type === 'H') {
+                const dragArea = {
+                  area : result[i].address_name.split(" ")[0],
+                  region : result[i].address_name.split(" ")[1]
+                }
+                setAreaRegionData({
+                  area : result[i].address_name.split(" ")[0],
+                  region : result[i].address_name.split(" ")[1]
+                  })
+                  // dispatch({ type: "setAreaUserWant", payload: dragArea });
+                console.log(dragArea)
+                console.log(areaRegionData)
+                // const area = result[i].address_name.split(" ")[0]
+                //               + " "
+                //               + result[i].address_name.split(" ")[1];
+                // console.log(area);
+                break;
+            }
+        }
+    }    
+  }
+
   useEffect(() => {
     if (map) {
       const handleDragEnd = () => {
@@ -83,14 +116,44 @@ const GymMap = forwardRef((props, mapRef) => {
         const ne = new window.kakao.maps.LatLng(bounds.pa, bounds.oa);
         const lb = new window.kakao.maps.LatLngBounds(sw, ne);
         const geocoder = new window.kakao.maps.services.Geocoder();
+
+        searchAddrFromCoords(map.getCenter(), displayCenterInfo);
+
         gymList.data.forEach(gym => {
 
+          let trainerInfo = {
+            trainerName: gym.trainerName,
+            gymAddress: gym.address,
+            gymName: gym.gymName
+          };
+        
           geocoder.addressSearch(gym.address, function(result, status) {
+
             if (status === window.kakao.maps.services.Status.OK) {
               const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
-              if(lb.contain(coords)){
-                console.log(gym.gymName)
-              }
+              setTrainerList(prevTrainerList => {
+                // 지도 경계 내에 있는 경우 추가
+                if (lb.contain(coords)) {
+                  const isDuplicate = prevTrainerList.some(trainer =>
+                    trainer.trainerName === trainerInfo.trainerName &&
+                    trainer.gymAddress === trainerInfo.gymAddress &&
+                    trainer.gymName === trainerInfo.gymName
+                  );
+  
+                  if (!isDuplicate) {
+                    return [...prevTrainerList, trainerInfo];
+                  }
+                } else {
+                  // 지도 경계 밖에 있는 경우 제거
+                  return prevTrainerList.filter(trainer =>
+                    !(trainer.trainerName === trainerInfo.trainerName &&
+                      trainer.gymAddress === trainerInfo.gymAddress &&
+                      trainer.gymName === trainerInfo.gymName)
+                  );
+                }
+  
+                return prevTrainerList;
+              });
             }
           });
         });
