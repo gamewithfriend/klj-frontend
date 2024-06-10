@@ -31,6 +31,14 @@ const MatchingScreen = () => {
     const [memberCount, setMemberCount] = useState(0);
     const [startDate, setStartDate] = useState(new Date());
     const [modalPathParam, setModalPathParam] = useState("matching");
+    const [trainerList, setTrainerList] = useState([]);
+    const [areaRegionData, setAreaRegionData] = useState({});
+    // const [params, setParams] = useState([{
+    //     category : "",
+    //     trainingArea : "",
+    //     personCnt : 0,
+    //     trainingTime : ""
+    // }]);
     
     const memberCountMinus = () => {
         if(memberCount == 0){
@@ -63,15 +71,17 @@ const MatchingScreen = () => {
     };
 
     const deleteSports = (index) => {
-        const updateList = [...sportsList];
+        const updateList = [...sportsInfo];
         updateList.splice(index, 1);
-        setSportsList(updateList);
+        setSportsInfo(updateList);
     }
 
     const allReset = () =>{
         setMemberCount(0);
         setSportsList([]);
-        setStartDate(new Date())
+        setSportsInfo([]);
+        setStartDate(new Date());
+        setTrainerList([]);
         mapRef.current.getMap();
         dispatch({type:"resetAreaRegionSetting", payload: areaData});
     }
@@ -80,11 +90,6 @@ const MatchingScreen = () => {
         const result = await matchingService.fetchCode();
         dispatch({type:"basicAreaSetting", payload: result})
         setAreaData(result);
-    }
-
-    const getTrainerList = async () => {
-        const result = await matchingService.getTrainerList();
-        console.log(result);
     }
 
     const fetchCategoryCode = async () => {
@@ -142,7 +147,10 @@ const MatchingScreen = () => {
                         <div className={matchingStyle.areaSection}>
                             <button className={matchingStyle.areaPickBtn} onClick={showModal}>지역 선택
                             </button>
-                            {modalOpen && <AreaModal setModalOpen={setModalOpen}/> }
+                            {modalOpen && <AreaModal 
+                                            setModalOpen={setModalOpen}
+                                            areaRegionData={areaRegionData} 
+                                            setAreaRegionData={setAreaRegionData}/> }
                             <div> 
                                 {reduxAreaRegionInfo == null ? 
                                     (<p> 선택한 지역이 없습니다 </p>) 
@@ -177,8 +185,8 @@ const MatchingScreen = () => {
 
                             <div> 
                             <TimePicker 
-                            setStartDate={setStartDate} 
-                            startDate={startDate}/>
+                                setStartDate={setStartDate} 
+                                startDate={startDate}/>
                             </div>
 
                             <div className={matchingStyle.resetContainer}>
@@ -191,45 +199,34 @@ const MatchingScreen = () => {
 
                         </div>
 
-
-                        <GymMap ref={mapRef} />
+                        <GymMap ref={mapRef} 
+                                setTrainerList={setTrainerList} 
+                                trainerList={trainerList}
+                                areaRegionData={areaRegionData} 
+                                setAreaRegionData={setAreaRegionData}/>
 
                         <div className={matchingStyle.trainerWrapper}>
-                            <div className={matchingStyle.trainerContainer}>
-                                <div className={matchingStyle.trainerPicWrapper}>
-                                <div className={matchingStyle.trainerPic}>
-                                    <img src={profile} className={matchingStyle.trainerImg} >
-                                    </img>
+                            {trainerList.length == 0 ? 
+                            (<p>검색 결과가 없습니다.</p>)
+                            : 
+                            (trainerList.map((trainer, index) => (
+
+                                <div className={matchingStyle.trainerContainer} key={index}>
+                                    <div className={matchingStyle.trainerPicWrapper}>
+                                        <div className={matchingStyle.trainerPic}>
+                                            <img src={profile} className={matchingStyle.trainerImg} >
+                                            </img>
+                                        </div>
+                                    </div>
+                                    <div>{trainer.trainerName}</div>
+                                    <div>{trainer.gymName}</div>
                                 </div>
-                                </div>
-                                <div>김피티</div>
-                                <div>삼두짐</div>
-                            </div>
+
+                            )))
                             
-                            <div className={matchingStyle.trainerContainer}>
-                                <div className={matchingStyle.trainerPicWrapper}>
-                                <div className={matchingStyle.trainerPic}>
-                                    <img src={profile} className={matchingStyle.trainerImg} >
-                                    </img>
-                                </div>
-                                </div>
-                                <div>김피티</div>
-                                <div>삼두짐</div>
-                            </div>
-
-                            <div className={matchingStyle.trainerContainer}>
-                                <div className={matchingStyle.trainerPicWrapper}>
-                                <div className={matchingStyle.trainerPic}>
-                                    <img src={profile} className={matchingStyle.trainerImg} >
-                                    </img>
-                                </div>
-                                </div>
-                                <div>김피티</div>
-                                <div>삼두짐</div>
-                            </div>
-
+                            }
                         </div>
-                        
+
                     </div>
 
                     <div className={moduleStyle.bodySideHeight100} />
