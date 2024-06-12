@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import * as matchingService from "../service/matchingService.js";
 import { Map } from "react-kakao-maps-sdk"
 
-const GymMap = forwardRef(({setTrainerList, areaRegionData, setAreaRegionData}, mapRef) => {
+const GymMap = forwardRef(({setTrainerList, areaRegionData, setAreaRegionData, mapSwitch, setMapSwitch}, mapRef) => {
 
   const [map, setMap] = useState();
   const reduxAreaRegionInfo = useSelector((state) => state.getAreaUserWant);
@@ -90,17 +90,7 @@ const GymMap = forwardRef(({setTrainerList, areaRegionData, setAreaRegionData}, 
                   area : result[i].address_name.split(" ")[0],
                   region : result[i].address_name.split(" ")[1]
                 }
-                setAreaRegionData({
-                  area : result[i].address_name.split(" ")[0],
-                  region : result[i].address_name.split(" ")[1]
-                  })
-                  // dispatch({ type: "setAreaUserWant", payload: dragArea });
-                console.log(dragArea)
-                console.log(areaRegionData)
-                // const area = result[i].address_name.split(" ")[0]
-                //               + " "
-                //               + result[i].address_name.split(" ")[1];
-                // console.log(area);
+                  dispatch({ type: "setAreaUserWant", payload: dragArea });
                 break;
             }
         }
@@ -173,9 +163,13 @@ const GymMap = forwardRef(({setTrainerList, areaRegionData, setAreaRegionData}, 
       const moveArea = () => {
         const geocoder = new window.kakao.maps.services.Geocoder();
         geocoder.addressSearch(`${reduxAreaRegionInfo.area} ${reduxAreaRegionInfo.region}`, function(result, status){
+        // geocoder.addressSearch(areaRegionData.area + areaRegionData.region , function(result, status){
           if (status === window.kakao.maps.services.Status.OK) {
             var coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
-            map.setCenter(coords);
+            if(mapSwitch){
+              map.setCenter(coords);
+              setMapSwitch(false);
+            }
           }
         });
       };

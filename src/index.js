@@ -11,6 +11,7 @@ import store from "./redux/config/configStore";
 import App from './App';
 import Login from "./login/LoginScreen";
 import Matching from './PTMatching/MatchingScreen';
+import TrainerProfile from './PTMatching/TrainerProfile';
 import reportWebVitals from './reportWebVitals';
 import OAuth2RedirectHandler from './login/OAuth2RedirectHandler';
 import KakaoOAuth2RedirectHandler from './login/KakaoOAuth2RedirectHandler';
@@ -40,6 +41,7 @@ root.render(
           <Route path="/login/callback/naver" element={<OAuth2RedirectHandler/>} />
           <Route path="/login/callback/kakao" element={<KakaoOAuth2RedirectHandler/>} />
           <Route path="/matching" element={<Matching/>}/>
+          <Route path="/matching/trainerProfile" element={<TrainerProfile/>}/>
           <Route path="/user/userProfile" element={<UserProfile/>}/>
           <Route path="/user/userTrainerProfile" element={<UserTrainerProfile/>}/>
           {/* 건강 검사 엔드포인트 */}
