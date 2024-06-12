@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Fetcher from '../utils/Fetcher';
 import * as matchingService from "../service/matchingService.js";
 
-const AreaModal = ({setModalOpen, areaRegionData, setAreaRegionData}) => {
+const AreaModal = ({setModalOpen, areaRegionData, setAreaRegionData, setMapSwitch}) => {
 
     const reduxAreaInfo = useSelector((state) => state.getArea);
     const reduxRegionInfo = useSelector((state) => state.getRegion);
@@ -30,6 +30,7 @@ const AreaModal = ({setModalOpen, areaRegionData, setAreaRegionData}) => {
     }
 
     const regionPick = (regionName) => {
+      setMapSwitch(true)
       const updatedData = { ...areaRegionData, region: regionName };
       setAreaRegionData(updatedData);
       dispatch({ type: "setAreaUserWant", payload: updatedData });

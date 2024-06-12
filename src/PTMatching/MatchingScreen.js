@@ -1,4 +1,5 @@
 import React, {useRef, useState, useEffect} from 'react';
+import { NavLink, useNavigate } from "react-router-dom";
 import Modal from 'react-modal';
 import Header from "../template/Header";
 import moduleStyle from "../style/common.module.css";
@@ -33,6 +34,7 @@ const MatchingScreen = () => {
     const [modalPathParam, setModalPathParam] = useState("matching");
     const [trainerList, setTrainerList] = useState([]);
     const [areaRegionData, setAreaRegionData] = useState({});
+    const [mapSwitch, setMapSwitch] = useState(false);
     // const [params, setParams] = useState([{
     //     category : "",
     //     trainingArea : "",
@@ -107,7 +109,7 @@ const MatchingScreen = () => {
     return (
         <div>
             <Header/>
-            <div className="body" style={{display:"flex", height:"100%",}}>        
+            <div className={matchingStyle.body}>        
                     <div className={moduleStyle.bodySideHeight100} />
                     
                     <div className={`${moduleStyle.bodyCenter} ${moduleStyle.verticalHorizontalCenter}`} style={{display:'flex', flexDirection:'column'}} >
@@ -150,7 +152,8 @@ const MatchingScreen = () => {
                             {modalOpen && <AreaModal 
                                             setModalOpen={setModalOpen}
                                             areaRegionData={areaRegionData} 
-                                            setAreaRegionData={setAreaRegionData}/> }
+                                            setAreaRegionData={setAreaRegionData}
+                                            setMapSwitch = {setMapSwitch} /> }
                             <div> 
                                 {reduxAreaRegionInfo == null ? 
                                     (<p> 선택한 지역이 없습니다 </p>) 
@@ -203,24 +206,27 @@ const MatchingScreen = () => {
                                 setTrainerList={setTrainerList} 
                                 trainerList={trainerList}
                                 areaRegionData={areaRegionData} 
-                                setAreaRegionData={setAreaRegionData}/>
+                                setAreaRegionData={setAreaRegionData}
+                                mapSwitch={mapSwitch}
+                                setMapSwitch={setMapSwitch}/>
 
                         <div className={matchingStyle.trainerWrapper}>
                             {trainerList.length == 0 ? 
-                            (<p>검색 결과가 없습니다.</p>)
+                            (<p className={matchingStyle.notMatching}>검색 결과가 없습니다.</p>)
                             : 
                             (trainerList.map((trainer, index) => (
-
-                                <div className={matchingStyle.trainerContainer} key={index}>
-                                    <div className={matchingStyle.trainerPicWrapper}>
-                                        <div className={matchingStyle.trainerPic}>
-                                            <img src={profile} className={matchingStyle.trainerImg} >
-                                            </img>
+                                <NavLink to="/matching/trainerProfile" className={matchingStyle.trainerInput}> 
+                                    <div className={matchingStyle.trainerContainer} key={index}>
+                                        <div className={matchingStyle.trainerPicWrapper}>
+                                            <div className={matchingStyle.trainerPic}>
+                                                <img src={profile} className={matchingStyle.trainerImg} >
+                                                </img>
+                                            </div>
                                         </div>
+                                        <div>{trainer.trainerName}</div>
+                                        <div>{trainer.gymName}</div>
                                     </div>
-                                    <div>{trainer.trainerName}</div>
-                                    <div>{trainer.gymName}</div>
-                                </div>
+                                </NavLink>
 
                             )))
                             
@@ -229,8 +235,8 @@ const MatchingScreen = () => {
 
                     </div>
 
-                    <div className={moduleStyle.bodySideHeight100} />
                 </div>
+                <div className={matchingStyle.heiBlank} />
         </div>
         
     );
