@@ -26,12 +26,10 @@ const CategoryModal = ({setParams, setCategoryModalOpen, setClicked, setSportsLi
 
         setClickedSports(updatedId);
         setParams(prevParams => {
-            return prevParams.map(param => {
-                return {
-                    ...param,
-                    category: updatedId
-                };
-            });
+            return {
+                ...prevParams,
+                category: updatedId
+            };
         });
     }
 

@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Fetcher from '../utils/Fetcher';
 import * as matchingService from "../service/matchingService.js";
 
-const AreaModal = ({setModalOpen, areaRegionData, setAreaRegionData, setMapSwitch}) => {
+const AreaModal = ({setModalOpen, areaRegionData, setAreaRegionData, setMapSwitch, setParams}) => {
 
     const reduxAreaInfo = useSelector((state) => state.getArea);
     const reduxRegionInfo = useSelector((state) => state.getRegion);
@@ -19,21 +19,38 @@ const AreaModal = ({setModalOpen, areaRegionData, setAreaRegionData, setMapSwitc
       setModalOpen(false);
     };
 
-    const areaPick = (areaName) => {
-      const updatedData = { ...areaRegionData, area: areaName };
+    const areaPick = (areaParam) => {
+      const updatedData = { area: areaParam.name, region: "" };
       setAreaRegionData(updatedData);
       
-      if (areaName === "세종특별자치시") {
+      if (areaParam.name === "세종특별자치시") {
+
+        setParams(prevParams => {
+            return {
+                ...prevParams,
+                trainingArea: areaParam.id
+            };
+        });
+
         closeModal();
         dispatch({ type: "setAreaUserWant", payload: updatedData });
+        
       }
     }
 
-    const regionPick = (regionName) => {
+    const regionPick = (region) => {
       setMapSwitch(true)
-      const updatedData = { ...areaRegionData, region: regionName };
+      const updatedData = { ...areaRegionData, region: region.name };
       setAreaRegionData(updatedData);
       dispatch({ type: "setAreaUserWant", payload: updatedData });
+
+      setParams(prevParams => {
+        return {
+            ...prevParams,
+            trainingArea: region.id
+        };
+    });
+      
   };
 
     return (
@@ -52,7 +69,7 @@ const AreaModal = ({setModalOpen, areaRegionData, setAreaRegionData, setMapSwitc
                   <div className={matchingModalStyle.areaBtnContainer}>
                     <p className={matchingModalStyle.areaTitle}>지역</p>
                     {reduxAreaInfo.areaList.data.map((area) => (
-                      <button className={matchingModalStyle.areaBtn} onClick={() => {fetchRegionCode(area.id); areaPick(area.name);  }} key={area.id}>{area.name}</button>
+                      <button className={matchingModalStyle.areaBtn} onClick={() => {fetchRegionCode(area.id); areaPick(area);  }} key={area.id}>{area.name}</button>
                       ))}
                   </div>
 
@@ -61,7 +78,7 @@ const AreaModal = ({setModalOpen, areaRegionData, setAreaRegionData, setMapSwitc
                     {reduxRegionInfo && reduxRegionInfo.regionList && reduxRegionInfo.regionList.data ? (
                         <div className={matchingModalStyle.regionBtnContainer}> 
                             {reduxRegionInfo.regionList.data.map((region) => (
-                                <button className={`${matchingModalStyle.regionBtn} ${matchingModalStyle.areaBtn}`} onClick={() => {regionPick(region.name); closeModal() }} key={region.id}>{region.name}</button>
+                                <button className={`${matchingModalStyle.regionBtn} ${matchingModalStyle.areaBtn}`} onClick={() => {regionPick(region); closeModal() }} key={region.id}>{region.name}</button>
                             ))}
                         </div>
                     ) : (
