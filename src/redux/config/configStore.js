@@ -8,6 +8,7 @@ import getCategory from "../modules/getCategory"
 import getSports from "../modules/getSports";
 import notice from "../modules/notice";
 import noticeList from "../modules/noticeList";
+import trainerId from "../modules/trainerId";
 
 const rootReducer = combineReducers({
     login: login,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
     noticeList:noticeList,
     getCategory:getCategory,
     getSports:getSports,
+    trainerId : trainerId,
 }); 
 const store = createStore(rootReducer); 
 

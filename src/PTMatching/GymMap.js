@@ -114,7 +114,8 @@ const GymMap = forwardRef(({setTrainerList, areaRegionData, setAreaRegionData, m
           let trainerInfo = {
             trainerName: gym.trainerName,
             gymAddress: gym.address,
-            gymName: gym.gymName
+            gymName: gym.gymName,
+            trainerId : gym.trainerId
           };
         
           geocoder.addressSearch(gym.address, function(result, status) {
