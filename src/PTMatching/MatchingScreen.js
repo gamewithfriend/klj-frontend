@@ -35,13 +35,16 @@ const MatchingScreen = () => {
     const [trainerList, setTrainerList] = useState([]);
     const [areaRegionData, setAreaRegionData] = useState({});
     const [mapSwitch, setMapSwitch] = useState(false);
-    // const [params, setParams] = useState([{
-    //     category : "",
-    //     trainingArea : "",
-    //     personCnt : 0,
-    //     trainingTime : ""
-    // }]);
+    const [clickedSports, setClickedSports] = useState([]);
+    const [params, setParams] = useState([{
+        category : [],
+        trainingArea : "",
+        personCnt : 0,
+        trainingTime : ""
+    }]);
     
+    console.log([params])
+
     const memberCountMinus = () => {
         if(memberCount == 0){
             return;
@@ -137,6 +140,9 @@ const MatchingScreen = () => {
                                         setModalPathParam={setModalPathParam}
                                         sportsInfo={sportsInfo} 
                                         setSportsInfo={setSportsInfo}
+                                        clickedSports={clickedSports} 
+                                        setClickedSports={setClickedSports}
+                                        setParams={setParams}
                                     />}
                                 
                             </div>

@@ -4,10 +4,10 @@ import { useSelector, useDispatch } from "react-redux";
 import Fetcher from '../utils/Fetcher';
 import * as matchingService from "../service/matchingService.js";
 
-const CategoryModal = ({setCategoryModalOpen, setClicked, setSportsList, sportsList, setModalPathParam, setSportsInfo, sportsInfo}) => {
+const CategoryModal = ({setParams, setCategoryModalOpen, setClicked, setSportsList, setModalPathParam, setSportsInfo, sportsInfo, clickedSports, setClickedSports}) => {
 
     const dispatch = useDispatch();
-    const [clickedArea, setClickedArea] = useState([]);
+    
     const reduxCategoryInfo = useSelector((state) => state.getCategory);
     const reduxSportsInfo = useSelector((state) => state.getSports);
     const [sportsData, setSportsData] = useState({
@@ -18,13 +18,21 @@ const CategoryModal = ({setCategoryModalOpen, setClicked, setSportsList, sportsL
     const handleClick = (id) => {
         let updatedId;
 
-        if (clickedArea.includes(id)) {
-           updatedId = clickedArea.filter(item => item !== id);
+        if (clickedSports.includes(id)) {
+           updatedId = clickedSports.filter(item => item !== id);
         } else {
-           updatedId = [...clickedArea, id];
+           updatedId = [...clickedSports, id];
         }
 
-        setClickedArea(updatedId)
+        setClickedSports(updatedId);
+        setParams(prevParams => {
+            return prevParams.map(param => {
+                return {
+                    ...param,
+                    category: updatedId
+                };
+            });
+        });
     }
 
     const closeCategoryModal = () => {
@@ -107,9 +115,9 @@ const CategoryModal = ({setCategoryModalOpen, setClicked, setSportsList, sportsL
                         <div className={matchingModalStyle.regionBtnContainer}> 
                             {reduxSportsInfo.sportsList.data.map((sports, index) => (
                                 <button 
-                                    className={`${matchingModalStyle.regionBtn} ${matchingModalStyle.areaBtn} ${clickedArea == sports.id ? 'clickedSports' : ''}`} 
+                                    className={`${matchingModalStyle.regionBtn} ${matchingModalStyle.areaBtn} ${clickedSports.includes(sports.id) ? matchingModalStyle.clickedSports : ''}`} 
                                     key={index}
-                                    onClick={() => {sportsPick(sports.name); handleClick(sports.id); saveSportsInfo(sports.name, sports.id) }} >
+                                    onClick={() => {sportsPick(sports.name); handleClick(sports.id); saveSportsInfo(sports.name, sports.id) ; }} >
                                     {sports.name}
                                 </button>
                                 
