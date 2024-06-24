@@ -3,6 +3,18 @@
     height: 100%;
 }
 
+.bodyCenter{
+    width: 70%;
+    border-left: #e4e4e4 solid;
+    border-right: #e4e4e4 solid;
+}
+
+.verticalHorizontalCenter{
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
 .heiBlank{
     height: 200px;
 }

@@ -99,6 +99,12 @@ const MatchingScreen = () => {
         dispatch({type:"basicCategorySetting", payload: result})
         setCategoryData(result);
     }
+
+    const setTrainerId = async (trainerId) => {
+        console.log(trainerId);
+        dispatch({type:"setTrainerId", payload: trainerId})
+    }
+
      
     useEffect(() => {
         fetchCode();
@@ -112,7 +118,7 @@ const MatchingScreen = () => {
             <div className={matchingStyle.body}>        
                     <div className={moduleStyle.bodySideHeight100} />
                     
-                    <div className={`${moduleStyle.bodyCenter} ${moduleStyle.verticalHorizontalCenter}`} style={{display:'flex', flexDirection:'column'}} >
+                    <div className={`${matchingStyle.bodyCenter} ${matchingStyle.verticalHorizontalCenter}`} style={{display:'flex', flexDirection:'column'}} >
                         <div className={matchingStyle.blank}></div>
                         
                         <div className={matchingStyle.area}>
@@ -215,7 +221,10 @@ const MatchingScreen = () => {
                             (<p className={matchingStyle.notMatching}>검색 결과가 없습니다.</p>)
                             : 
                             (trainerList.map((trainer, index) => (
-                                <NavLink to="/matching/trainerProfile" className={matchingStyle.trainerInput}> 
+                                <NavLink to="/matching/trainerProfile" 
+                                        className={matchingStyle.trainerInput}
+                                        onClick={() => setTrainerId(trainer.trainerId)}
+                                        > 
                                     <div className={matchingStyle.trainerContainer} key={index}>
                                         <div className={matchingStyle.trainerPicWrapper}>
                                             <div className={matchingStyle.trainerPic}>
@@ -233,10 +242,10 @@ const MatchingScreen = () => {
                             }
                         </div>
 
+                         <div className={matchingStyle.heiBlank} />
                     </div>
 
                 </div>
-                <div className={matchingStyle.heiBlank} />
         </div>
         
     );
