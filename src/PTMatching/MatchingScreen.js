@@ -36,20 +36,26 @@ const MatchingScreen = () => {
     const [areaRegionData, setAreaRegionData] = useState({});
     const [mapSwitch, setMapSwitch] = useState(false);
     const [clickedSports, setClickedSports] = useState([]);
-    const [params, setParams] = useState([{
+
+    
+    const [params, setParams] = useState({
         category : [],
         trainingArea : "",
         personCnt : 0,
         trainingTime : ""
-    }]);
-    
-    console.log([params])
+    });
 
     const memberCountMinus = () => {
         if(memberCount == 0){
             return;
         }else{
             setMemberCount(memberCount - 1);
+            setParams(prevParams => {
+                return {
+                    ...prevParams,
+                    personCnt: memberCount-1
+                };
+            });
         }
     }
 
@@ -58,6 +64,12 @@ const MatchingScreen = () => {
             return;
         }else{
             setMemberCount(memberCount + 1);
+            setParams(prevParams => {
+                return {
+                    ...prevParams,
+                    personCnt: memberCount+1
+                };
+            });
         }
     }
 
@@ -89,6 +101,12 @@ const MatchingScreen = () => {
         setTrainerList([]);
         mapRef.current.getMap();
         dispatch({type:"resetAreaRegionSetting", payload: areaData});
+        setParams({
+            category : [],
+            trainingArea : "",
+            personCnt : 0,
+            trainingTime : ""
+        })
     }
 
     const fetchCode = async () => {
@@ -108,11 +126,16 @@ const MatchingScreen = () => {
         dispatch({type:"setTrainerId", payload: trainerId})
     }
 
+    const searchTrainer = async (params) => {
+        const result = await matchingService.trainerSearch(params);
+    }
+
      
     useEffect(() => {
         fetchCode();
         fetchCategoryCode();
-    },[]);
+        searchTrainer(params)
+    },[params]);
 
 
     return (
@@ -165,7 +188,9 @@ const MatchingScreen = () => {
                                             setModalOpen={setModalOpen}
                                             areaRegionData={areaRegionData} 
                                             setAreaRegionData={setAreaRegionData}
-                                            setMapSwitch = {setMapSwitch} /> }
+                                            setMapSwitch = {setMapSwitch} 
+                                            setParams={setParams}
+                                            /> }
                             <div> 
                                 {reduxAreaRegionInfo == null ? 
                                     (<p> 선택한 지역이 없습니다 </p>) 
@@ -201,7 +226,9 @@ const MatchingScreen = () => {
                             <div> 
                             <TimePicker 
                                 setStartDate={setStartDate} 
-                                startDate={startDate}/>
+                                startDate={startDate}
+                                setParams={setParams}
+                                />
                             </div>
 
                             <div className={matchingStyle.resetContainer}>
