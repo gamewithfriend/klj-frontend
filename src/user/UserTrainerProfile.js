@@ -15,6 +15,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 
 import CategoryModal from '../PTMatching/CategoryModal';
+import HorizonLine from "../template/HorizonLine.js";
 
 const UserTrainerProfile = () => {
     
@@ -49,9 +50,9 @@ const UserTrainerProfile = () => {
 
     // 카테고리 태그 ui 삭제 함수
     const deleteSports = (index) => {
-        const updateList = [...sportsList];
+        const updateList = [...sportsInfo];
         updateList.splice(index, 1);
-        setSportsList(updateList);
+        setSportsInfo(updateList);
     }
 
     // 카테고리 fetch 함수
@@ -286,7 +287,7 @@ const UserTrainerProfile = () => {
                                     style={{height:"40%", width:"40%"}}
                                     ></input>  
                                 </div>
-                                <div style={{height:"13vh", width:"100%", marginLeft:"5%"}}>
+                                <div style={{height:"auto", width:"100%", marginLeft:"5%"}}>
                                     <div className={matchingStyle.categoryBtnContainer}>
                                         <button className={matchingStyle.categoryBtn} onClick={showCategoryModal}> 
                                             카테고리 
@@ -305,16 +306,17 @@ const UserTrainerProfile = () => {
                                             />}
                                         
                                     </div>
-                                    <div className={matchingStyle.categoryTrainer}>
-                                        {sportsInfo.map((sports, index) => (
-                                                <span className={matchingStyle.sportsBtn}
+                                    <div className={matchingStyle.categoryTrainerWrap}>
+                                        {sportsInfo.map((sports, index) => {                                                                                     
+                                            return(
+                                                <span className={matchingStyle.sportsBtnWrap}
                                                 key={index}
                                                 >
                                                     {sports.sportsName}
                                                     <button className={matchingStyle.sportDelete} onClick={() => deleteSports(index)}>X</button>
                                                 </span>
-                                                
-                                        ))}
+                                            )
+                                        })}
                                     </div>
                                 </div>
                                 <div style={{height:"5vh", width:"100%", marginLeft:"5%"}}>
