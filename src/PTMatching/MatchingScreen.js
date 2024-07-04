@@ -247,7 +247,9 @@ const MatchingScreen = () => {
                                 areaRegionData={areaRegionData} 
                                 setAreaRegionData={setAreaRegionData}
                                 mapSwitch={mapSwitch}
-                                setMapSwitch={setMapSwitch}/>
+                                setMapSwitch={setMapSwitch}
+                                setParams={setParams}
+                                />
 
                         <div className={matchingStyle.trainerWrapper}>
                             {trainerList.length == 0 ? 

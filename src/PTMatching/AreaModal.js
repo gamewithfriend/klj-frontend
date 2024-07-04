@@ -20,7 +20,7 @@ const AreaModal = ({setModalOpen, areaRegionData, setAreaRegionData, setMapSwitc
     };
 
     const areaPick = (areaParam) => {
-      const updatedData = { area: areaParam.name, region: "" };
+      const updatedData = { area: areaParam.name, region : "" };
       setAreaRegionData(updatedData);
       
       if (areaParam.name === "세종특별자치시") {
@@ -39,6 +39,7 @@ const AreaModal = ({setModalOpen, areaRegionData, setAreaRegionData, setMapSwitc
     }
 
     const regionPick = (region) => {
+
       setMapSwitch(true)
       const updatedData = { ...areaRegionData, region: region.name };
       setAreaRegionData(updatedData);

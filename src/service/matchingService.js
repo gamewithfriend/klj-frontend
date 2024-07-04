@@ -63,7 +63,6 @@ export const fetchRegionCode = async (regionCode) => {
     const fetcher = new Fetcher().setUrl("/search/area")
                                     .setMethod("POST")
                                     .setData(JSON.stringify(data));
-    const result = await fetcher.jsonFetch();
     try{
         const result = await fetcher.jsonFetch();
         return result;
@@ -76,6 +75,24 @@ export const fetchRegionCode = async (regionCode) => {
       
     const fetcher = new Fetcher().setUrl("/search/gym")
                                     .setMethod("GET")
+    try{
+        const result = await fetcher.jsonFetch();
+        return result;
+    }catch(error){
+        console.log(error)
+    }
+  }
+
+  export const selectRegionCode = async (reduxRegion) => {
+      
+    const data = {
+        region: reduxRegion,
+        name : "test"
+      };
+
+    const fetcher = new Fetcher().setUrl("/search/regionCode")
+                                    .setMethod("POST")  
+                                    .setData(JSON.stringify(data));
     try{
         const result = await fetcher.jsonFetch();
         return result;

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import * as matchingService from "../service/matchingService.js";
 import { Map } from "react-kakao-maps-sdk"
 
-const GymMap = forwardRef(({setTrainerList, areaRegionData, setAreaRegionData, mapSwitch, setMapSwitch}, mapRef) => {
+const GymMap = forwardRef(({setTrainerList, areaRegionData, setAreaRegionData, mapSwitch, setMapSwitch, setParams}, mapRef) => {
 
   const [map, setMap] = useState();
   const reduxAreaRegionInfo = useSelector((state) => state.getAreaUserWant);
@@ -11,6 +11,20 @@ const GymMap = forwardRef(({setTrainerList, areaRegionData, setAreaRegionData, m
   const [gymList, setGymList] = useState([]);
   const [bounds, setBounds] = useState();
   const dispatch = useDispatch();
+
+  const selectRegionCode = async (reduxRegion) => {
+
+    const regionCode = await matchingService.selectRegionCode(reduxRegion);
+
+    console.log("regioncode = " + regionCode)
+
+    setParams(prevParams => {
+      return {
+          ...prevParams,
+          trainingArea: regionCode
+      };
+  });
+  }
 
   const getGymList = async () => {
     const result = await matchingService.getGymList();
@@ -164,7 +178,17 @@ const GymMap = forwardRef(({setTrainerList, areaRegionData, setAreaRegionData, m
       const moveArea = () => {
         const geocoder = new window.kakao.maps.services.Geocoder();
         geocoder.addressSearch(`${reduxAreaRegionInfo.area} ${reduxAreaRegionInfo.region}`, function(result, status){
-        // geocoder.addressSearch(areaRegionData.area + areaRegionData.region , function(result, status){
+          
+          let reduxRegion ="";
+          if(reduxAreaRegionInfo.area == '세종특별자치시'){
+            reduxRegion = reduxAreaRegionInfo.area 
+          }else{
+            reduxRegion = reduxAreaRegionInfo.region;
+          }
+
+          // selectRegionCode(reduxRegion);
+          
+          // geocoder.addressSearch(areaRegionData.area + areaRegionData.region , function(result, status){
           if (status === window.kakao.maps.services.Status.OK) {
             var coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
             if(mapSwitch){
