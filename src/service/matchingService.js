@@ -84,14 +84,17 @@ export const fetchRegionCode = async (regionCode) => {
     }
   }
 
-  export const getTrainerList = async () => {
-      
-    const fetcher = new Fetcher().setUrl("/search/trainer")
-                                    .setMethod("GET")
-    try{
-        const result = await fetcher.jsonFetch();
-        return result;
-    }catch(error){
-        console.log(error)
-    }
+  export const trainerSearch = async (data) => {
+
+    // const fetcher = new Fetcher().setUrl("/search/trainer")
+    //                                 .setMethod("POST")
+    //                                 .setData(JSON.stringify(data));
+    // const result = await fetcher.jsonFetch();
+
+    // try{
+    //     const result = await fetcher.jsonFetch();
+    //     return result;
+    // }catch(error){
+    //     console.log(error)
+    // }
   }

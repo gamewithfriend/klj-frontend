@@ -35,18 +35,27 @@ const MatchingScreen = () => {
     const [trainerList, setTrainerList] = useState([]);
     const [areaRegionData, setAreaRegionData] = useState({});
     const [mapSwitch, setMapSwitch] = useState(false);
-    // const [params, setParams] = useState([{
-    //     category : "",
-    //     trainingArea : "",
-    //     personCnt : 0,
-    //     trainingTime : ""
-    // }]);
+    const [clickedSports, setClickedSports] = useState([]);
+
     
+    const [params, setParams] = useState({
+        category : [],
+        trainingArea : "",
+        personCnt : 0,
+        trainingTime : ""
+    });
+
     const memberCountMinus = () => {
         if(memberCount == 0){
             return;
         }else{
             setMemberCount(memberCount - 1);
+            setParams(prevParams => {
+                return {
+                    ...prevParams,
+                    personCnt: memberCount-1
+                };
+            });
         }
     }
 
@@ -55,6 +64,12 @@ const MatchingScreen = () => {
             return;
         }else{
             setMemberCount(memberCount + 1);
+            setParams(prevParams => {
+                return {
+                    ...prevParams,
+                    personCnt: memberCount+1
+                };
+            });
         }
     }
 
@@ -86,6 +101,12 @@ const MatchingScreen = () => {
         setTrainerList([]);
         mapRef.current.getMap();
         dispatch({type:"resetAreaRegionSetting", payload: areaData});
+        setParams({
+            category : [],
+            trainingArea : "",
+            personCnt : 0,
+            trainingTime : ""
+        })
     }
 
     const fetchCode = async () => {
@@ -99,11 +120,22 @@ const MatchingScreen = () => {
         dispatch({type:"basicCategorySetting", payload: result})
         setCategoryData(result);
     }
+
+    const setTrainerId = async (trainerId) => {
+        console.log(trainerId);
+        dispatch({type:"setTrainerId", payload: trainerId})
+    }
+
+    const searchTrainer = async (params) => {
+        const result = await matchingService.trainerSearch(params);
+    }
+
      
     useEffect(() => {
         fetchCode();
         fetchCategoryCode();
-    },[]);
+        searchTrainer(params)
+    },[params]);
 
 
     return (
@@ -112,7 +144,7 @@ const MatchingScreen = () => {
             <div className={matchingStyle.body}>        
                     <div className={moduleStyle.bodySideHeight100} />
                     
-                    <div className={`${moduleStyle.bodyCenter} ${moduleStyle.verticalHorizontalCenter}`} style={{display:'flex', flexDirection:'column'}} >
+                    <div className={`${matchingStyle.bodyCenter} ${matchingStyle.verticalHorizontalCenter}`} style={{display:'flex', flexDirection:'column'}} >
                         <div className={matchingStyle.blank}></div>
                         
                         <div className={matchingStyle.area}>
@@ -131,6 +163,9 @@ const MatchingScreen = () => {
                                         setModalPathParam={setModalPathParam}
                                         sportsInfo={sportsInfo} 
                                         setSportsInfo={setSportsInfo}
+                                        clickedSports={clickedSports} 
+                                        setClickedSports={setClickedSports}
+                                        setParams={setParams}
                                     />}
                                 
                             </div>
@@ -153,7 +188,9 @@ const MatchingScreen = () => {
                                             setModalOpen={setModalOpen}
                                             areaRegionData={areaRegionData} 
                                             setAreaRegionData={setAreaRegionData}
-                                            setMapSwitch = {setMapSwitch} /> }
+                                            setMapSwitch = {setMapSwitch} 
+                                            setParams={setParams}
+                                            /> }
                             <div> 
                                 {reduxAreaRegionInfo == null ? 
                                     (<p> 선택한 지역이 없습니다 </p>) 
@@ -189,7 +226,9 @@ const MatchingScreen = () => {
                             <div> 
                             <TimePicker 
                                 setStartDate={setStartDate} 
-                                startDate={startDate}/>
+                                startDate={startDate}
+                                setParams={setParams}
+                                />
                             </div>
 
                             <div className={matchingStyle.resetContainer}>
@@ -215,7 +254,10 @@ const MatchingScreen = () => {
                             (<p className={matchingStyle.notMatching}>검색 결과가 없습니다.</p>)
                             : 
                             (trainerList.map((trainer, index) => (
-                                <NavLink to="/matching/trainerProfile" className={matchingStyle.trainerInput}> 
+                                <NavLink to="/matching/trainerProfile" 
+                                        className={matchingStyle.trainerInput}
+                                        onClick={() => setTrainerId(trainer.trainerId)}
+                                        > 
                                     <div className={matchingStyle.trainerContainer} key={index}>
                                         <div className={matchingStyle.trainerPicWrapper}>
                                             <div className={matchingStyle.trainerPic}>
@@ -233,10 +275,10 @@ const MatchingScreen = () => {
                             }
                         </div>
 
+                         <div className={matchingStyle.heiBlank} />
                     </div>
 
                 </div>
-                <div className={matchingStyle.heiBlank} />
         </div>
         
     );
