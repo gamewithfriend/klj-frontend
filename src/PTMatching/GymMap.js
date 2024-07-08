@@ -16,12 +16,10 @@ const GymMap = forwardRef(({setTrainerList, areaRegionData, setAreaRegionData, m
 
     const regionCode = await matchingService.selectRegionCode(reduxRegion);
 
-    console.log("regioncode = " + regionCode)
-
     setParams(prevParams => {
       return {
           ...prevParams,
-          trainingArea: regionCode
+          trainingArea: regionCode.data.id
       };
   });
   }
@@ -179,14 +177,27 @@ const GymMap = forwardRef(({setTrainerList, areaRegionData, setAreaRegionData, m
         const geocoder = new window.kakao.maps.services.Geocoder();
         geocoder.addressSearch(`${reduxAreaRegionInfo.area} ${reduxAreaRegionInfo.region}`, function(result, status){
           
-          let reduxRegion ="";
-          if(reduxAreaRegionInfo.area == '세종특별자치시'){
-            reduxRegion = reduxAreaRegionInfo.area 
-          }else{
-            reduxRegion = reduxAreaRegionInfo.region;
-          }
 
-          // selectRegionCode(reduxRegion);
+          let reduxRegion = {
+            area : reduxAreaRegionInfo.area,
+            region : reduxAreaRegionInfo.region
+          };
+
+          // if(reduxAreaRegionInfo.area == '세종특별자치시'){
+          //   reduxRegion = {
+          //     area : reduxAreaRegionInfo.area,
+          //     region : ""
+          //   };
+          // }else{
+          //   reduxRegion = {
+          //     area : reduxAreaRegionInfo.area,
+          //     region : reduxAreaRegionInfo.region
+          //   };
+          // }
+
+          if(reduxRegion.area != ''){
+            selectRegionCode(reduxRegion);
+          }
           
           // geocoder.addressSearch(areaRegionData.area + areaRegionData.region , function(result, status){
           if (status === window.kakao.maps.services.Status.OK) {

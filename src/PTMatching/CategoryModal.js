@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Fetcher from '../utils/Fetcher';
 import * as matchingService from "../service/matchingService.js";
 
-const CategoryModal = ({setParams, setCategoryModalOpen, setClicked, setSportsList, setModalPathParam, setSportsInfo, sportsInfo, clickedSports, setClickedSports}) => {
+const CategoryModal = ({setParams, setCategoryModalOpen, setClicked, setModalPathParam, setSportsInfo, sportsInfo, clickedSports, setClickedSports}) => {
 
     const dispatch = useDispatch();
     
@@ -20,8 +20,15 @@ const CategoryModal = ({setParams, setCategoryModalOpen, setClicked, setSportsLi
 
         if (clickedSports.includes(id)) {
            updatedId = clickedSports.filter(item => item !== id);
+           // clickedSports 안에 같은 값이 있을 때
         } else {
            updatedId = [...clickedSports, id];
+           // clickedSports 안에 같은 값이 없을 때
+            
+           if(updatedId.length > 5){
+            alert("카테고리는 최대 5개까지 선택 가능합니다.");
+            updatedId.pop();
+           }
         }
 
         setClickedSports(updatedId);
@@ -53,24 +60,6 @@ const CategoryModal = ({setParams, setCategoryModalOpen, setClicked, setSportsLi
         setSportsData(updatedData);
     }
 
-    const sportsPick = (sportsName) => {
-        setSportsList(prevSportsList => {
-            let updatedList;
-    
-            if (prevSportsList.includes(sportsName)) {
-                updatedList = prevSportsList.filter(item => item !== sportsName);
-            } else {
-                if (prevSportsList.length >= 5) {
-                    alert("운동은 최대 5개까지 선택 가능합니다."); // 추후에 모달로 대체
-                    return prevSportsList; // 업데이트하지 않고 기존 리스트 반환
-                }
-                updatedList = [...prevSportsList, sportsName];
-            }
-    
-            return updatedList;
-        });
-    };
-
     const saveSportsInfo = (name, id) => {
 
         const updateSportsInfo = { sportsName: name, sportsId: id };
@@ -83,9 +72,15 @@ const CategoryModal = ({setParams, setCategoryModalOpen, setClicked, setSportsLi
         } else {
         // 존재하지 않으면 추가
         updatedList = [...sportsInfo, updateSportsInfo];
+        
+        if(updatedList.length > 5){
+            updatedList.pop();
+        }
+
         }
 
         setSportsInfo(updatedList);
+
     }
 
     return (
@@ -115,7 +110,7 @@ const CategoryModal = ({setParams, setCategoryModalOpen, setClicked, setSportsLi
                                 <button 
                                     className={`${matchingModalStyle.regionBtn} ${matchingModalStyle.areaBtn} ${clickedSports.includes(sports.id) ? matchingModalStyle.clickedSports : ''}`} 
                                     key={index}
-                                    onClick={() => {sportsPick(sports.name); handleClick(sports.id); saveSportsInfo(sports.name, sports.id) ; }} >
+                                    onClick={() => {handleClick(sports.id); saveSportsInfo(sports.name, sports.id) ; }} >
                                     {sports.name}
                                 </button>
                                 

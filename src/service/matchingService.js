@@ -86,10 +86,11 @@ export const fetchRegionCode = async (regionCode) => {
   export const selectRegionCode = async (reduxRegion) => {
       
     const data = {
-        region: reduxRegion,
-        name : "test"
+        area: reduxRegion.area,
+        region : reduxRegion.region
       };
 
+    console.log(data)
     const fetcher = new Fetcher().setUrl("/search/regionCode")
                                     .setMethod("POST")  
                                     .setData(JSON.stringify(data));
