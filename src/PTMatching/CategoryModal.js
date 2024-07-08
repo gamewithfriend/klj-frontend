@@ -24,8 +24,9 @@ const CategoryModal = ({setParams, setCategoryModalOpen, setClicked, setModalPat
         } else {
            updatedId = [...clickedSports, id];
            // clickedSports 안에 같은 값이 없을 때
-            
-           if(updatedId.length > 5){
+           
+           //5개 넘어가면 저장 안됨 하지만 트레이너 신청쪽은 가능 
+           if(updatedId.length > 5 && setModalPathParam !="trainer"){
             alert("카테고리는 최대 5개까지 선택 가능합니다.");
             updatedId.pop();
            }
@@ -73,7 +74,8 @@ const CategoryModal = ({setParams, setCategoryModalOpen, setClicked, setModalPat
         // 존재하지 않으면 추가
         updatedList = [...sportsInfo, updateSportsInfo];
         
-        if(updatedList.length > 5){
+        //5개 넘어가면 저장 안됨 하지만 트레이너 신청쪽은 가능 
+        if(updatedList.length > 5 && setModalPathParam !="trainer"){
             updatedList.pop();
         }
 
