@@ -14,6 +14,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import * as matchingService from "../service/matchingService.js";
 import TimePicker from "./TimePicker.js"
+import { combineReducers } from 'redux';
 
 const MatchingScreen = () => {
 
@@ -27,7 +28,6 @@ const MatchingScreen = () => {
     const [selectedRegion, setSelectedRegion] = useState("");
     const [categoryModalOpen, setCategoryModalOpen] = useState(false);
     const [clicked, setClicked] = useState(false);
-    const [sportsList, setSportsList] = useState([]);
     const [sportsInfo, setSportsInfo] = useState([]);
     const [memberCount, setMemberCount] = useState(0);
     const [startDate, setStartDate] = useState(new Date());
@@ -36,14 +36,14 @@ const MatchingScreen = () => {
     const [areaRegionData, setAreaRegionData] = useState({});
     const [mapSwitch, setMapSwitch] = useState(false);
     const [clickedSports, setClickedSports] = useState([]);
-
-    
     const [params, setParams] = useState({
         category : [],
         trainingArea : "",
         personCnt : 0,
         trainingTime : ""
     });
+
+    console.log(params)
 
     const memberCountMinus = () => {
         if(memberCount == 0){
@@ -95,7 +95,6 @@ const MatchingScreen = () => {
 
     const allReset = () =>{
         setMemberCount(0);
-        setSportsList([]);
         setSportsInfo([]);
         setStartDate(new Date());
         setTrainerList([]);
@@ -158,8 +157,6 @@ const MatchingScreen = () => {
                                     <CategoryModal 
                                         setCategoryModalOpen={setCategoryModalOpen} 
                                         setClicked={setClicked} 
-                                        setSportsList={setSportsList}
-                                        sportsList={sportsList}
                                         setModalPathParam={setModalPathParam}
                                         sportsInfo={sportsInfo} 
                                         setSportsInfo={setSportsInfo}
