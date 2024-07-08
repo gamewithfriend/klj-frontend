@@ -21,6 +21,9 @@ const NoticeModal = ({setModalOpen, setUnReadNoticeCount}) => {
     // 유저 로그인 토근 가져오기
     const token = JSON.parse(localStorage.getItem("token"));
 
+    // detail modal 인덱스 변경
+    const [moveTop, setMoveTop] = useState("340px");
+
     const showModalDetail = (id) => {
       setModalDetailOpen(true);
       dispatch({type:"delete", payload: id})
@@ -58,29 +61,36 @@ const NoticeModal = ({setModalOpen, setUnReadNoticeCount}) => {
       }
     }
 
+    const handleScroll = (e) => {
+      setMoveTop(340 + Math.floor(e.target.scrollTop)+"px");
+      console.log(moveTop)
+    }
+
     useEffect(() => {
       getUserNoticeList();
       userUnReadNoticeCountSet();
+
     },[]);
   
     return (
-        <div style={{overflow: modalDetailOpen ? "hidden" : "auto"}} className={modalStyle.modalNoticeContainer}>
+        <div style={{overflow: modalDetailOpen ? "hidden" : "auto"}} className={modalStyle.modalNoticeContainer} onScroll={handleScroll}>
             <div className="modal-content">
                 <button className={modalStyle.closeBtn} onClick={closeModal}>X</button>
                 <div >
                 {getNoticeList && getNoticeList.length > 0 ?
                   (
                     <div style={{backgroundColor:"#f5f6f8"}}>
-                    {getNoticeList.map((content)=>( 
+                    {getNoticeList.map((content,index)=>( 
                       <div style={{margin:"6%"
                                   , backgroundColor:"white"
                                   , borderRadius:"5%"
                                   , border:"solid 1px #efefef"
-                                  }}>
+                                  }}
+                                  key={index}>
                         <div style={{margin:"2%", display:"flex"}}>
                           <div style={{whiteSpace:"pre-line", fontWeight:"bold"}}>{content.title}</div>
                           <div style={{whiteSpace:"pre-line", marginLeft:"4%"}}>{content.createdDate}</div>
-                          <FontAwesomeIcon style={{marginTop:"1%", marginLeft:"10%", cursor:"pointer"}} onClick={() =>{showModalDetail(content.id)}} icon={faEllipsisVertical} />
+                          <FontAwesomeIcon style={{marginTop:"1%", marginLeft:"10%", cursor:"pointer"}} onClick={() =>{showModalDetail(content.id)}}  icon={faEllipsisVertical} />
                         </div>
                         <div style={{margin:"3%", marginTop:"3%",textAlign:"left", whiteSpace:"pre-line"}}>{content.content}</div> 
                       </div>
@@ -93,7 +103,7 @@ const NoticeModal = ({setModalOpen, setUnReadNoticeCount}) => {
                   )  
                 }
                 </div>
-                {modalDetailOpen && <NoticeModalDetail  setModalDetailOpen={setModalDetailOpen} setNoticeList={setNoticeList} /> }
+                {modalDetailOpen && <NoticeModalDetail moveTop={moveTop}  setModalDetailOpen={setModalDetailOpen} setNoticeList={setNoticeList} /> }
             </div>
         </div>
     );

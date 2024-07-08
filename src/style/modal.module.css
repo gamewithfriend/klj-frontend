@@ -19,7 +19,7 @@
     width: 320px;
     height: 100px;
     z-index: 150;
-    top: 340px;
+    top: var(--move-top);
     right: -140px;
     position: absolute;
     transform: translate(-50%, -50%);

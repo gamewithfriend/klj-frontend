@@ -41,6 +41,13 @@ const UserTrainerProfile = () => {
     const [modalPathParam, setModalPathParam] = useState("trainer");
     const [categoryData, setCategoryData] = useState([]);
     const [sportsInfo, setSportsInfo] = useState([]);
+    const [clickedSports, setClickedSports] = useState([]);
+    const [params, setParams] = useState({
+        category : [],
+        trainingArea : "",
+        personCnt : 0,
+        trainingTime : ""
+    });
 
     // 카테고리 관련 모달 제어 함수   
     const showCategoryModal = () => {
@@ -303,6 +310,9 @@ const UserTrainerProfile = () => {
                                                 setModalPathParam={modalPathParam}
                                                 sportsInfo={sportsInfo} 
                                                 setSportsInfo={setSportsInfo}
+                                                clickedSports={clickedSports} 
+                                                setClickedSports={setClickedSports}
+                                                setParams={setParams}
                                             />}
                                         
                                     </div>

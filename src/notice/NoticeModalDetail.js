@@ -10,7 +10,14 @@ import * as noticeService from "../service/noticeService.js";
 
 
 
-const NoticeModal = ({setModalDetailOpen,setNoticeList}) => {
+const NoticeModal = ({moveTop,setModalDetailOpen,setNoticeList}) => {
+
+
+    const modalMoveStyle = () => {
+        document.documentElement.style.setProperty(
+            '--move-top' , moveTop
+        );       
+    }
     
     const dispatch = useDispatch();
     let reduxUserNoticeInfo = useSelector((state) => state.notice);
@@ -57,7 +64,9 @@ const NoticeModal = ({setModalDetailOpen,setNoticeList}) => {
         dispatch({type:"get", payload: reduxUserNoticeListInfo.noticeList});
         setModalDetailOpen(false);
     };
-    
+    useEffect(() => {
+        modalMoveStyle();
+    },[]);
     return (
         <div className={modalStyle.modalNoticeDetailContainer}>
             <div className="modal-content">
