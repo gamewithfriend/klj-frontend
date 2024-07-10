@@ -71,6 +71,25 @@ export const fetchRegionCode = async (regionCode) => {
     }
   }
 
+  export const selectRegionCode = async (reduxRegion) => {
+      
+    const data = {
+        area: reduxRegion.area,
+        region : reduxRegion.region
+      };
+
+    const fetcher = new Fetcher().setUrl("/search/regionCode")
+                                    .setMethod("POST")  
+                                    .setData(JSON.stringify(data));
+    try{
+        const result = await fetcher.jsonFetch();
+        return result;
+    }catch(error){
+        console.log(error)
+    }
+  }
+
+  
   export const getGymList = async () => {
       
     const fetcher = new Fetcher().setUrl("/search/gym")
@@ -83,26 +102,9 @@ export const fetchRegionCode = async (regionCode) => {
     }
   }
 
-  export const selectRegionCode = async (reduxRegion) => {
-      
-    const data = {
-        area: reduxRegion.area,
-        region : reduxRegion.region
-      };
-
-    console.log(data)
-    const fetcher = new Fetcher().setUrl("/search/regionCode")
-                                    .setMethod("POST")  
-                                    .setData(JSON.stringify(data));
-    try{
-        const result = await fetcher.jsonFetch();
-        return result;
-    }catch(error){
-        console.log(error)
-    }
-  }
-
   export const trainerSearch = async (data) => {
+
+    console.log(data);
 
     // const fetcher = new Fetcher().setUrl("/search/trainer")
     //                                 .setMethod("POST")
