@@ -36,14 +36,13 @@ const MatchingScreen = () => {
     const [areaRegionData, setAreaRegionData] = useState({});
     const [mapSwitch, setMapSwitch] = useState(false);
     const [clickedSports, setClickedSports] = useState([]);
+    const [isFirstLoad, setIsFirstLoad] = useState(true);
     const [params, setParams] = useState({
         category : [],
         trainingArea : "",
         personCnt : 0,
         trainingTime : ""
     });
-
-    console.log(params)
 
     const memberCountMinus = () => {
         if(memberCount == 0){
@@ -133,6 +132,17 @@ const MatchingScreen = () => {
     useEffect(() => {
         fetchCode();
         fetchCategoryCode();
+    });
+
+    useEffect(() => {
+
+        console.log(isFirstLoad)
+
+        if (isFirstLoad) {
+            setIsFirstLoad(false);
+            return;
+          }
+
         searchTrainer(params)
     },[params]);
 
