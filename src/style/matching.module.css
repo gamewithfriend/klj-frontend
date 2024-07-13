@@ -1,30 +1,39 @@
-.body{
+.body {
     display: flex;
     height: 100%;
 }
 
-.bodyCenter{
+.bodyCenter {
     width: 70%;
     border-left: #e4e4e4 solid;
     border-right: #e4e4e4 solid;
 }
 
-.verticalHorizontalCenter{
+.verticalHorizontalCenter {
     justify-content: center;
     align-items: center;
     display: flex;
 }
 
-.heiBlank{
+.heiSmallBlank{
+    width: 80%;
+    height: 2rem;
+}
+.heiSmallBlank > hr{
+    width: 100%;
+    border: #f3f3f3 solid 1px
+}
+
+.heiBlank {
     height: 200px;
 }
 
-.notMatching{
+.notMatching {
     width: 100%;
     text-align: center;
 }
 
-.trainerWrapper{
+.trainerWrapper {
     width: 80%;
     display: flex;
     flex-direction: row;
@@ -33,34 +42,34 @@
     margin-top: 3rem;
 }
 
-.trainerContainer{
+.trainerContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 10px;
 }
 
-.trainerPicWrapper{
+.trainerPicWrapper {
     border: solid 1px black;
     height: 7rem;
     width: 7rem;
-    border-radius: 50%;   
+    border-radius: 50%;
 }
 
-.trainerPic{
+.trainerPic {
     width: 100%;
     height: 100%;
     border-radius: 70%;
     overflow: hidden;
 }
 
-.trainerImg{
+.trainerImg {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.trainerInput{
+.trainerInput {
     text-decoration: none;
     color: #000000;
     transition-duration: 0.4s;
@@ -68,38 +77,34 @@
     margin: 0 2rem;
 }
 
-.trainerInput:hover{
+.trainerInput:hover {
     transform: scale(1.2, 1.2);
-    background-color: rgba(0,0,0,0.1);
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
-.blank{
+.blank {
     height: 100px;
 }
 
-.area{
-    width: 80%;
-    display: flex;
-    margin-bottom: 20px;
-}
-
-.categoryBtnContainer{
+.categoryBtnContainer {
     display: flex;
     align-items: center;
 }
 
-.areaPickBtn, .categoryBtn{
+.areaPickBtn,
+.categoryBtn {
     font-size: 1.2rem;
     border: none;
     background-color: transparent;
     display: flex;
 }
 
-.areaPickBtn:hover, .categoryBtn:hover{
+.areaPickBtn:hover,
+.categoryBtn:hover {
     cursor: pointer;
 }
 
-.clicked{
+.clicked {
     border-radius: 30%;
     padding: 5px;
     margin-left: 5px;
@@ -107,26 +112,27 @@
     transition-duration: 0.5s;
 }
 
-.unclicked{
+.unclicked {
     border-radius: 30%;
     padding: 5px;
     margin-left: 5px;
     transition-duration: 0.5s;
 }
 
-.category{
+.category {
     font-size: 1.1rem;
     text-align: left;
     margin-left: 3rem;
     display: flex;
 }
-.categoryTrainer{
+
+.categoryTrainer {
     font-size: 1.1rem;
     text-align: left;
     display: flex;
 }
 
-.categoryTrainerWrap{
+.categoryTrainerWrap {
     font-size: 1.1rem;
     text-align: left;
     display: flex;
@@ -134,47 +140,54 @@
     width: 60%;
 }
 
-.areaInput{
+.areaInput {
     border: transparent;
     font-size: 1.1rem;
-    text-align: left;
-    margin-left: 5rem;
+    text-align: center;
     background-color: transparent;
 
 }
 
-.areaSection{
-    width: 80%;
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.memberCountSection, .timeChooseSection{
+.categorySection,
+.memberCountSection,
+.timeChooseSection,
+.areaSection {
     width: 80%;
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    margin-bottom: 20px;
+    margin-bottom: 1rem;
 }
 
-.mapSection{
+.memberCountSection>div:first-child,
+.timeChooseSection>div:first-child,
+.areaSection>div:first-child {
+    flex: 4;
+}
+
+.memberCountSection>div:last-child,
+.timeChooseSection>div:last-child,
+.areaSection>div:last-child {
+    flex: 6;
+}
+
+.mapSection {
     width: 100%;
     display: flex;
     margin: 2rem 0;
 }
 
-.mapContainer{
+.mapContainer {
     flex-basis: 50%;
     display: flex;
     justify-content: center;
 }
 
-.gymListSection{
+.gymListSection {
     flex-basis: 50%;
 }
 
-.sportsBtn{
+.sportsBtn {
     border-radius: 30px;
     margin-right: 10px;
     padding: 5px 10px;
@@ -183,7 +196,8 @@
     display: flex;
     flex-direction: row;
 }
-.sportsBtnWrap{
+
+.sportsBtnWrap {
     border-radius: 30px;
     margin-right: 10px;
     margin-top: 3%;
@@ -193,36 +207,37 @@
     display: flex;
     flex-direction: row;
 }
-.sportDelete{
+
+.sportDelete {
     border: transparent;
     background-color: transparent;
     font-size: 0.7rem;
     cursor: pointer;
 }
 
-.minusBtn{
+.minusBtn {
     width: 2rem;
     height: 1.8rem;
-    border-radius: 10px 0 0 10px ;
+    border-radius: 10px 0 0 10px;
     border: none;
-    margin-left: 5rem;
     cursor: pointer;
 }
 
-.plusBtn{
+.plusBtn {
     width: 2rem;
     height: 1.8rem;
     border-radius: 0 10px 10px 0;
     border: none;
     cursor: pointer;
-    
+
 }
 
-.minusBtn:active, .plusBtn:active{
+.minusBtn:active,
+.plusBtn:active {
     background-color: #e7e7e7;
 }
 
-.memberCount{
+.memberCount {
     text-align: center;
     width: 3rem;
     height: 1.5rem;
@@ -230,26 +245,96 @@
     background-color: transparent;
 }
 
-.resetBtn{
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
+.resetContainer{
+    width: 80%;
+    display: flex;
+    flex-direction: row-reverse;
 }
 
-.resetIcon:hover{
+.resetBtn {
+    background-color: rbg(84,84,84);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border-radius: 1rem;
+    transition-duration: 0.3s;
+}
+
+.resetBtn:hover{
+    background-color: #e7e7e7;
+}
+
+.resetIcon{
+    width : 30px;
+    height : 30px;
+}
+
+.resetBtn:hover .resetIcon {
     animation: rotate_image 1s linear infinite;
 }
 
-.blank500{
+.blank500 {
     height: 500px;
 }
 
-@keyframes rotate_image{
-	100% {
-    	transform: rotate(360deg);
+@keyframes rotate_image {
+    100% {
+        transform: rotate(360deg);
     }
 }
 
-.resetContainer{
-    margin-left: auto;
+.param {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+@media screen and (min-width: 530.6px) and (max-width: 590px) {
+
+    .categoryBtn,
+    .areaPickBtn {
+        font-size: 1rem;
+    }
+
+    .areaInput {
+        font-size: 1rem;
+    }
+
+}
+
+@media screen and (min-width: 425px) and (max-width: 530.5px) {
+
+    .categoryBtn,
+    .areaPickBtn,
+    .resetBtn {
+        font-size: 0.8rem;
+    }
+
+    .areaInput {
+        font-size: 0.8rem;
+    }
+
+    .resetIcon{
+        width: 20px;
+        height: 20px;
+    }
+}
+
+@media screen and (max-width: 424px) {
+
+    .categoryBtn,
+    .areaPickBtn,
+    .resetBtn {
+        font-size: 0.6rem;
+    }
+
+    .areaInput {
+        font-size: 0.6rem;
+    }
+    
+    .resetIcon{
+        width: 15px;
+        height: 15px;
+    }
 }
