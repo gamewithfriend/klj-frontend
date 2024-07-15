@@ -146,7 +146,7 @@ const UserTrainerProfile = () => {
             return false;
         }
         console.log(getTrainPlacePostcode)
-        console.log(sportsList)
+        console.log(sportsInfo)
         const data = {
             employmentHistoryPeriod: getEmploymentHistoryPeriod,
             phoneNumber: getPhoneNumber,
@@ -154,7 +154,8 @@ const UserTrainerProfile = () => {
             trainPlace: getTrainPlace,
             trainPlaceDetail: getTrainPlaceDetail,
             trainPlacePostcode: getTrainPlacePostcode,
-            trainPlaceName: getTrainPlaceName
+            trainPlaceName: getTrainPlaceName,
+            trainCategoryCodeList : sportsInfo
         };
         const fetcher = new Fetcher().setUrl("/user/trainer/apply")
                                         .setMethod("POST")
@@ -305,8 +306,6 @@ const UserTrainerProfile = () => {
                                             <CategoryModal 
                                                 setCategoryModalOpen={setCategoryModalOpen} 
                                                 setClicked={setClicked} 
-                                                setSportsList={setSportsList}
-                                                sportsList={sportsList}
                                                 setModalPathParam={modalPathParam}
                                                 sportsInfo={sportsInfo} 
                                                 setSportsInfo={setSportsInfo}
