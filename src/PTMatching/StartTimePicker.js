@@ -5,17 +5,27 @@ import 'react-datepicker/dist/react-datepicker.css';
 import CalendarContainer from "react-datepicker";
 import datePickerStyle from "../style/datePicker.module.css";
 
-const TimePicker = ({startDate, setStartDate, setParams}) => {
+const StartTimePicker = ({params, setParams}) => {
     
-    const timeClick = (date) => {
+    const startDate = new Date();
+    const [hours, minutes, seconds] = params.startTime.split(':').map(Number);
+    startDate.setHours(hours, minutes, seconds, 0);
 
-        const formattedDate = format(date, 'HH:mm:ss');
+    const startTimeClick = (date) => {
+
+        console.log(startDate)
+
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        const seconds = date.getSeconds().toString().padStart(2, '0');
+
         setParams(prevParams => {
             return {
                 ...prevParams,
-                trainingTime: formattedDate
+                startTime: `${hours}:${minutes}:${seconds}`
             };
         });
+
     }
 
     const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
@@ -28,7 +38,7 @@ const TimePicker = ({startDate, setStartDate, setParams}) => {
         <div>
             <DatePicker 
             selected={startDate}
-            onChange={(date) => {setStartDate(date); timeClick(date)} }
+            onChange={(date) => {startTimeClick(date)} }
             showTimeSelect={true}
             showTimeSelectOnly={true}
             ariaLabelClose="close"
@@ -38,11 +48,11 @@ const TimePicker = ({startDate, setStartDate, setParams}) => {
             dateFormat="h:mm aa"
             placeholderText="전체"
             closeOnScroll={false}
-            customInput={<ExampleCustomInput />}
+            // customInput={<ExampleCustomInput />}
             />
             
         </div>
     );
 };
 
-export default TimePicker;
+export default StartTimePicker;
