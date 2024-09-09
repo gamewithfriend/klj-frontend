@@ -245,13 +245,16 @@
     background-color: transparent;
 }
 
-.resetContainer{
+.btnContainer{
     width: 80%;
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
+    justify-content: flex-end;
 }
 
-.resetBtn {
+.searchBtn{
+    padding: 0 1.7rem;
+    margin: 0 0.3rem;
     background-color: rbg(84,84,84);
     border: none;
     cursor: pointer;
@@ -261,7 +264,18 @@
     transition-duration: 0.3s;
 }
 
-.resetBtn:hover{
+.resetBtn{
+    margin: 0 0.3rem;
+    background-color: rbg(84,84,84);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border-radius: 1rem;
+    transition-duration: 0.3s;
+}
+
+.resetBtn:hover, .searchBtn:hover{
     background-color: #e7e7e7;
 }
 
@@ -288,6 +302,11 @@
     width: 100%;
     display: flex;
     justify-content: center;
+}
+
+.timeArea{
+    display: flex;
+    align-items: center;
 }
 
 @media screen and (min-width: 530.6px) and (max-width: 590px) {

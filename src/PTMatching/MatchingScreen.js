@@ -13,7 +13,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import * as matchingService from "../service/matchingService.js";
-import TimePicker from "./TimePicker.js"
+import StartTimePicker from "./StartTimePicker.js"
+import EndTimePicker from "./StartTimePicker.js"
 import { combineReducers } from 'redux';
 
 const MatchingScreen = () => {
@@ -29,44 +30,38 @@ const MatchingScreen = () => {
     const [categoryModalOpen, setCategoryModalOpen] = useState(false);
     const [clicked, setClicked] = useState(false);
     const [sportsInfo, setSportsInfo] = useState([]);
-    const [memberCount, setMemberCount] = useState(0);
-    const [startDate, setStartDate] = useState(new Date());
-    const [modalPathParam, setModalPathParam] = useState("matching");
-    const [trainerList, setTrainerList] = useState([]);
     const [areaRegionData, setAreaRegionData] = useState({});
     const [mapSwitch, setMapSwitch] = useState(false);
     const [clickedSports, setClickedSports] = useState([]);
-    const [isFirstLoad, setIsFirstLoad] = useState(true);
+    const [trainerList, setTrainerList] = useState([]);
     const [params, setParams] = useState({
         category : [],
         trainingArea : "",
         personCnt : 0,
-        trainingTime : ""
+        startTime : "00:00:00",
+        endTime : "23:30:00",
     });
-
     const memberCountMinus = () => {
-        if(memberCount == 0){
+        if(params.personCnt == 0){
             return;
         }else{
-            setMemberCount(memberCount - 1);
             setParams(prevParams => {
                 return {
                     ...prevParams,
-                    personCnt: memberCount-1
+                    personCnt: params.personCnt-1
                 };
             });
         }
     }
 
     const memberCountPlus = () => {
-        if(memberCount > 9){
+        if(params.personCnt > 9){
             return;
         }else{
-            setMemberCount(memberCount + 1);
             setParams(prevParams => {
                 return {
                     ...prevParams,
-                    personCnt: memberCount+1
+                    personCnt: params.personCnt+1
                 };
             });
         }
@@ -74,7 +69,7 @@ const MatchingScreen = () => {
 
     const onClickRegion = (e) => {
         setSelectedRegion(e.target.value);
-      };
+    };
 
     const showModal = () => {
         setModalOpen(true);
@@ -93,10 +88,8 @@ const MatchingScreen = () => {
     }
 
     const allReset = () =>{
-        setMemberCount(0);
         setSportsInfo([]);
         setClickedSports([]);
-        setStartDate(new Date());
         setTrainerList([]);
         mapRef.current.getMap();
         dispatch({type:"resetAreaRegionSetting", payload: areaData});
@@ -104,7 +97,8 @@ const MatchingScreen = () => {
             category : [],
             trainingArea : "",
             personCnt : 0,
-            trainingTime : ""
+            startTime : "00:00:00",
+            endTime : "23:30:00",
         })
     }
 
@@ -125,27 +119,19 @@ const MatchingScreen = () => {
         dispatch({type:"setTrainerId", payload: trainerId})
     }
 
+    console.log(params)
+
     const searchTrainer = async (params) => {
         const result = await matchingService.trainerSearch(params);
+        console.log(result.data)
+        setTrainerList(result.data);
     }
 
      
     useEffect(() => {
-        fetchCode();
         fetchCategoryCode();
-    });
-
-    useEffect(() => {
-
-        console.log(isFirstLoad)
-
-        if (isFirstLoad) {
-            setIsFirstLoad(false);
-            return;
-          }
-
-        searchTrainer(params)
-    },[params]);
+        fetchCode();
+    },[]);
 
 
     return (
@@ -157,7 +143,12 @@ const MatchingScreen = () => {
                     <div className={`${matchingStyle.bodyCenter} ${matchingStyle.verticalHorizontalCenter}`} style={{display:'flex', flexDirection:'column'}} >
                         <div className={matchingStyle.blank}></div>
                         
-                        <div className={matchingStyle.resetContainer}>
+                        <div className={matchingStyle.btnContainer}>
+                            
+                            <button className={matchingStyle.searchBtn} onClick={()=> {searchTrainer(params)}}>
+                                <p>검색</p>
+                            </button>
+                            
                             <button className={matchingStyle.resetBtn} onClick={allReset}> 
                                 <p>초기화</p> &nbsp;&nbsp;
                                 <svg className={matchingStyle.resetIcon} xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 64 64">
@@ -169,7 +160,7 @@ const MatchingScreen = () => {
 
                         <div className={matchingStyle.categorySection}>
                             <div className={matchingStyle.categoryBtnContainer}>
-                                <button className={matchingStyle.categoryBtn} onClick={showCategoryModal}> 
+                                <button className={matchingStyle.categoryBtn} onClick={() => {showCategoryModal()}}> 
                                     카테고리 
                                     <FontAwesomeIcon className={`${clicked ? matchingStyle.clicked : matchingStyle.unclicked}`} icon={faAngleDown} />
                                 </button>
@@ -178,12 +169,12 @@ const MatchingScreen = () => {
                                     <CategoryModal 
                                         setCategoryModalOpen={setCategoryModalOpen} 
                                         setClicked={setClicked} 
-                                        setModalPathParam={setModalPathParam}
                                         sportsInfo={sportsInfo} 
                                         setSportsInfo={setSportsInfo}
                                         clickedSports={clickedSports} 
                                         setClickedSports={setClickedSports}
                                         setParams={setParams}
+                                        categoryData={categoryData}
                                     />}
                                 
                             </div>
@@ -230,7 +221,7 @@ const MatchingScreen = () => {
 
                             <div className={matchingStyle.param}> 
                                 <button className={matchingStyle.minusBtn} onClick={memberCountMinus}>-</button>
-                                <input disabled className={matchingStyle.memberCount} value={memberCount}></input>
+                                <input disabled className={matchingStyle.memberCount} value={params.personCnt}></input>
                                 <button className={matchingStyle.plusBtn} onClick={memberCountPlus}>+</button>
                             </div>
 
@@ -242,11 +233,23 @@ const MatchingScreen = () => {
                             </button>
 
                             <div className={matchingStyle.param}> 
-                            <TimePicker 
-                                setStartDate={setStartDate} 
-                                startDate={startDate}
-                                setParams={setParams}
-                                />
+                            
+                                <div className={matchingStyle.timeArea}>
+
+                                    <StartTimePicker 
+                                        params={params}
+                                        setParams={setParams}
+                                        />
+
+                                    &nbsp;&nbsp; <p>~</p> &nbsp;&nbsp;
+
+                                    <EndTimePicker 
+                                        params={params}
+                                        setParams={setParams}
+                                        />
+
+                                </div>
+                            
                             </div>
 
                         </div>
@@ -262,10 +265,11 @@ const MatchingScreen = () => {
                                 setAreaRegionData={setAreaRegionData}
                                 mapSwitch={mapSwitch}
                                 setMapSwitch={setMapSwitch}
+                                params={params}
                                 setParams={setParams}
                                 />
 
-                        <div className={matchingStyle.trainerWrapper}>
+                        { <div className={matchingStyle.trainerWrapper}>
                             {trainerList.length == 0 ? 
                             (<p className={matchingStyle.notMatching}>검색 결과가 없습니다.</p>)
                             : 
@@ -289,7 +293,7 @@ const MatchingScreen = () => {
                             )))
                             
                             }
-                        </div>
+                        </div>}
 
                         <div className={matchingStyle.heiBlank} />
                     </div>

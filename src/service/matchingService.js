@@ -90,31 +90,29 @@ export const fetchRegionCode = async (regionCode) => {
   }
 
   
-  export const getGymList = async () => {
+//   export const getGymList = async () => {
       
-    const fetcher = new Fetcher().setUrl("/search/gym")
-                                    .setMethod("GET")
-    try{
-        const result = await fetcher.jsonFetch();
-        return result;
-    }catch(error){
-        console.log(error)
-    }
-  }
+//     const fetcher = new Fetcher().setUrl("/search/gym")
+//                                     .setMethod("GET")
+//     try{
+//         const result = await fetcher.jsonFetch();
+//         return result;
+//     }catch(error){
+//         console.log(error)
+//     }
+//   }
 
   export const trainerSearch = async (data) => {
 
-    console.log(data);
+    const fetcher = new Fetcher().setUrl("/search/trainer")
+                                    .setMethod("POST")
+                                    .setData(JSON.stringify(data));
 
-    // const fetcher = new Fetcher().setUrl("/search/trainer")
-    //                                 .setMethod("POST")
-    //                                 .setData(JSON.stringify(data));
-    // const result = await fetcher.jsonFetch();
+    try{
+        const result = await fetcher.jsonFetch();
+        return result;
 
-    // try{
-    //     const result = await fetcher.jsonFetch();
-    //     return result;
-    // }catch(error){
-    //     console.log(error)
-    // }
+    }catch(error){
+        console.log(error)
+    }
   }
