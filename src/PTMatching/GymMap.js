@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import * as matchingService from "../service/matchingService.js";
 import { Map } from "react-kakao-maps-sdk"
 
-const GymMap = forwardRef(({setTrainerList, trainerList, mapSwitch, setMapSwitch, params, setParams}, mapRef) => {
+const GymMap = forwardRef(({setTrainerList, trainerList, mapSwitch, setMapSwitch, params, setParams, searchTrainer}, mapRef) => {
 
   const [map, setMap] = useState();
   const reduxAreaRegionInfo = useSelector((state) => state.getAreaUserWant);
@@ -79,6 +79,7 @@ const GymMap = forwardRef(({setTrainerList, trainerList, mapSwitch, setMapSwitch
   const locateTraineList = () => {
     const geocoder = new window.kakao.maps.services.Geocoder();
     trainerList.data.forEach(gym => {
+      console.log(gym.address)
       geocoder.addressSearch(gym.address, function(result, status) {
         if (status === window.kakao.maps.services.Status.OK) {
           var coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
@@ -86,6 +87,8 @@ const GymMap = forwardRef(({setTrainerList, trainerList, mapSwitch, setMapSwitch
             map: map,
             position: coords
           });
+          marker.setMap(map)
+
         }
       });
     });
@@ -188,6 +191,7 @@ const GymMap = forwardRef(({setTrainerList, trainerList, mapSwitch, setMapSwitch
 
       return () => {
         window.kakao.maps.event.removeListener(map, 'dragend', handleDragEnd);
+        searchTrainer(params);
       };
     }
   }, [map]);
@@ -198,7 +202,7 @@ const GymMap = forwardRef(({setTrainerList, trainerList, mapSwitch, setMapSwitch
     }
     
   }, [reduxAreaRegionInfo, map]);
-
+  
   useEffect(() => {
     if (map && trainerList.data) {
       locateTraineList();

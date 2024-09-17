@@ -13,4 +13,9 @@
     cursor: pointer;
 }
 
-  
+.timeContainer{
+    display: flex;
+}
+
+.amOrPm{
+}
