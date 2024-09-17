@@ -8,7 +8,7 @@ const MessageList = ({ messages }) => {
   return (
     <div className={styles.messageList}>
       {messages.map((message, index) => (
-        <Message key={index} text={message.text} sender={message.sender} />
+        <Message key={index} text={message.content} sender={message.senderId} />
       ))}
     </div>
   );
