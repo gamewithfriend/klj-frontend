@@ -1,41 +1,58 @@
-import React, { useState, forwardRef } from 'react';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import datePickerStyle from '../style/datePicker.module.css';
+import React from 'react';
+import datePickerStyle from "../style/datePicker.module.css";
 
 const EndTimePicker = ({ params, setParams }) => {
-    // 상태 초기화
-    const [endDate, setEndDate] = useState(() => {
-        const [hours, minutes, seconds] = params.endTime.split(':').map(Number);
-        const date = new Date();
-        date.setHours(hours, minutes, seconds, 0);
-        return date;
-    });
+    const endTimepick = (e) => {
+        const { name, value } = e.target;
+        const time = params.endTime.split(":"); // ["00", "00", "00"]
 
-    // 시간 선택 핸들러
-    const handleChange = (date) => {
-        setEndDate(date);
-        const hours = date.getHours().toString().padStart(2, '0');
-        const minutes = date.getMinutes().toString().padStart(2, '0');
-        const seconds = date.getSeconds().toString().padStart(2, '0');
-        setParams(prevParams => ({
-            ...prevParams,
-            endTime: `${hours}:${minutes}:${seconds}`
+        // AM/PM 처리
+        if (name === "amOrPm") {
+            if (value === "pm" && parseInt(time[0], 10) < 12) {
+                time[0] = (parseInt(time[0], 10) + 12).toString().padStart(2, '0');
+            } else if (value === "am" && parseInt(time[0], 10) >= 12) {
+                time[0] = (parseInt(time[0], 10) - 12).toString().padStart(2, '0');
+            }
+        }
+
+        // 시간 처리
+        if (name === "hour") {
+            let hour = parseInt(value, 10);
+            if (parseInt(time[0], 10) >= 12) {
+                hour = (hour === 12) ? 12 : hour + 12;  // PM일 경우 12를 더함
+            }
+            time[0] = hour.toString().padStart(2, '0');
+        }
+
+        if (name === "minute") {
+            time[1] = value.padStart(2, '0');
+        }
+
+        setParams((prevState) => ({
+            ...prevState,
+            endTime: `${time[0]}:${time[1]}:00`, 
         }));
     };
 
     return (
-        <div>
-            <DatePicker
-                selected={endDate}
-                onChange={handleChange}
-                showTimeSelect
-                showTimeSelectOnly
-                timeIntervals={30}
-                dateFormat="h:mm aa"
-                placeholderText="End Time"
-                closeOnScroll={false}
-            />
+        <div className={datePickerStyle.timeContainer}>
+            <select className={datePickerStyle.amOrPm} name="amOrPm" onChange={endTimepick}>
+                <option value="am">오전</option>
+                <option value="pm">오후</option>
+            </select>
+
+            <select name="hour" onChange={endTimepick}>
+                {Array.from({ length: 12 }, (_, i) => (
+                    <option key={i} value={i + 1}>
+                        {i + 1}
+                    </option>
+                ))}
+            </select>
+
+            <select name="minute" onChange={endTimepick}>
+                <option value="00">00</option>
+                <option value="30">30</option>
+            </select>
         </div>
     );
 };

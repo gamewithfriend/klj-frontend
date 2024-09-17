@@ -14,7 +14,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import * as matchingService from "../service/matchingService.js";
 import StartTimePicker from "./StartTimePicker.js"
-import EndTimePicker from "./StartTimePicker.js"
+import EndTimePicker from "./EndTimePicker.js"
 import { combineReducers } from 'redux';
 
 const MatchingScreen = () => {
@@ -38,9 +38,10 @@ const MatchingScreen = () => {
         category : [],
         trainingArea : "",
         personCnt : 0,
-        startTime : "00:00:00",
-        endTime : "23:30:00",
+        startTime : "01:00:00",
+        endTime : "01:00:00",
     });
+
     const memberCountMinus = () => {
         if(params.personCnt == 0){
             return;
@@ -119,12 +120,13 @@ const MatchingScreen = () => {
         dispatch({type:"setTrainerId", payload: trainerId})
     }
 
-    console.log(params)
-
     const searchTrainer = async (params) => {
-        const result = await matchingService.trainerSearch(params);
-        console.log(result.data)
-        setTrainerList(result.data);
+        if(params.startTime > params.endTime){
+            alert("시작 시간이 더 뒤에 있음")
+        }else{
+            const result = await matchingService.trainerSearch(params);
+            setTrainerList(result.data);
+        }
     }
 
      
@@ -267,6 +269,7 @@ const MatchingScreen = () => {
                                 setMapSwitch={setMapSwitch}
                                 params={params}
                                 setParams={setParams}
+                                searchTrainer={searchTrainer}
                                 />
 
                         { <div className={matchingStyle.trainerWrapper}>
