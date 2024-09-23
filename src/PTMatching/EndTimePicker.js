@@ -38,12 +38,12 @@ const EndTimePicker = ({ params, setParams }) => {
         <div className={datePickerStyle.timeContainer}>
             <select className={datePickerStyle.amOrPm} name="amOrPm" onChange={endTimepick}>
                 <option value="am">오전</option>
-                <option value="pm" selected>오후</option>
+                <option value="pm">오후</option>
             </select>
 
             <select name="hour" onChange={endTimepick}>
                 {Array.from({ length: 12 }, (_, i) => (
-                    <option key={i} value={i + 1} selected={i === 10}>
+                    <option key={i} value={i + 1} >
                         {i + 1}
                     </option>
                 ))}
@@ -51,7 +51,7 @@ const EndTimePicker = ({ params, setParams }) => {
 
             <select name="minute" onChange={endTimepick}>
                 <option value="00">00</option>
-                <option value="30" selected>30</option>
+                <option value="30" >30</option>
             </select>
         </div>
     );

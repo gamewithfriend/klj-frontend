@@ -160,7 +160,6 @@ const MatchingScreen = () => {
     }
 
     const setTrainerId = async (trainerId) => {
-        console.log(trainerId);
         dispatch({type:"setTrainerId", payload: trainerId})
     }
 
@@ -171,8 +170,6 @@ const MatchingScreen = () => {
             const result = await matchingService.trainerSearch(params);
             setTrainerList(result.data);
         }
-
-        console.log(params)
     }
      
     useEffect(() => {
@@ -338,6 +335,7 @@ const MatchingScreen = () => {
                                         className={matchingStyle.trainerInput}
                                         onClick={() => setTrainerId(trainer.trainerId)}
                                         key={index}
+                                        state={{trainer}}
                                         > 
                                     <div className={matchingStyle.trainerContainer} key={index}
                                         onMouseEnter={() => handleMouseEnter(trainer)}
@@ -352,6 +350,7 @@ const MatchingScreen = () => {
                                         <div>{trainer.trainerName}</div>
                                         <div>{trainer.gymName}</div>
                                     </div>
+
                                     <div className={matchingStyle.trainerBtnArea}>
                                         <button><FontAwesomeIcon icon={faHouse}/> 상세</button>
 
