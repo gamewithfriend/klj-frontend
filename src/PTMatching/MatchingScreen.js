@@ -1,4 +1,10 @@
 import React, {useRef, useState, useEffect} from 'react';
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faComments } from "@fortawesome/free-solid-svg-icons";
+import { faHouse } from "@fortawesome/free-solid-svg-icons";
+import { faDisplay } from "@fortawesome/free-solid-svg-icons";
+
 import { NavLink, useNavigate } from "react-router-dom";
 import Modal from 'react-modal';
 import Header from "../template/Header";
@@ -8,9 +14,9 @@ import profile from '../assets/image/profile.png';
 import AreaModal from './AreaModal';
 import CategoryModal from './CategoryModal';
 import GymMap from './GymMap';
+import TrainerHoverPopup from './TrainerHoverPopup.js';
 import Fetcher from '../utils/Fetcher';
 import { useSelector, useDispatch } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import * as matchingService from "../service/matchingService.js";
 import StartTimePicker from "./StartTimePicker.js"
@@ -34,13 +40,46 @@ const MatchingScreen = () => {
     const [mapSwitch, setMapSwitch] = useState(false);
     const [clickedSports, setClickedSports] = useState([]);
     const [trainerList, setTrainerList] = useState([]);
+    const [searchDetailBtn, setSearchDetailBtn] = useState(true);
+    const [searchExp, setSearchExp] = useState("상세 검색하기")
+    const [hoveredTrainer, setHoveredTrainer] = useState(null); 
+
+    const navigate = useNavigate(); 
+    const clickFeed = (trainerId) => {
+        navigate(`/feed/${trainerId}`); // 피드 
+    };
+
+    const clickChat = () => {
+        // navigate(`/chat/${trainerId}`); // 채팅
+        navigate(`/chat/ChatPage`); // 채팅
+    };
+
+
+    const handleMouseEnter = (trainer) => {
+        setHoveredTrainer(trainer.trainerId); 
+    };
+
+    const handleMouseLeave = () => {
+        setHoveredTrainer(null); 
+    };
+    
     const [params, setParams] = useState({
         category : [],
         trainingArea : "",
         personCnt : 0,
         startTime : "01:00:00",
-        endTime : "01:00:00",
+        endTime : "23:30:00",
     });
+
+    const clickSearchDetailBtn = () => {
+        if(!searchDetailBtn){
+            setSearchExp("상세 검색하기")
+        }else{
+            setSearchExp("지도로 검색하기")
+        }
+        
+        setSearchDetailBtn(!searchDetailBtn);
+    }
 
     const memberCountMinus = () => {
         if(params.personCnt == 0){
@@ -86,6 +125,11 @@ const MatchingScreen = () => {
         const updateList = [...sportsInfo];
         updateList.splice(index, 1);
         setSportsInfo(updateList);
+        console.log(updateList)
+        setParams(prevParams => ({
+            ...prevParams, 
+            category: updateList
+        }));
     }
 
     const allReset = () =>{
@@ -98,7 +142,7 @@ const MatchingScreen = () => {
             category : [],
             trainingArea : "",
             personCnt : 0,
-            startTime : "00:00:00",
+            startTime : "01:00:00",
             endTime : "23:30:00",
         })
     }
@@ -116,7 +160,6 @@ const MatchingScreen = () => {
     }
 
     const setTrainerId = async (trainerId) => {
-        console.log(trainerId);
         dispatch({type:"setTrainerId", payload: trainerId})
     }
 
@@ -128,7 +171,6 @@ const MatchingScreen = () => {
             setTrainerList(result.data);
         }
     }
-
      
     useEffect(() => {
         fetchCategoryCode();
@@ -143,117 +185,129 @@ const MatchingScreen = () => {
                     <div className={moduleStyle.bodySideHeight100} />
                     
                     <div className={`${matchingStyle.bodyCenter} ${matchingStyle.verticalHorizontalCenter}`} style={{display:'flex', flexDirection:'column'}} >
-                        <div className={matchingStyle.blank}></div>
                         
-                        <div className={matchingStyle.btnContainer}>
+                        <div className={matchingStyle.blank}></div>
                             
-                            <button className={matchingStyle.searchBtn} onClick={()=> {searchTrainer(params)}}>
-                                <p>검색</p>
-                            </button>
-                            
-                            <button className={matchingStyle.resetBtn} onClick={allReset}> 
-                                <p>초기화</p> &nbsp;&nbsp;
-                                <svg className={matchingStyle.resetIcon} xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 64 64">
-                                <path d="M 32 6 C 17.641 6 6 17.641 6 32 C 6 33.147 6.0844688 34.273859 6.2304688 35.380859 L 10.357422 35.865234 C 10.131422 34.608234 10 33.321 10 32 C 10 19.869 19.869 10 32 10 C 38.615909 10 44.551673 12.942341 48.587891 17.580078 L 45.505859 21.652344 L 58 22 L 54.275391 10.068359 L 51.050781 14.328125 C 46.302784 9.2111633 39.530462 6 32 6 z M 53.642578 28.134766 C 53.868578 29.391766 54 30.679 54 32 C 54 44.131 44.131 54 32 54 C 25.383867 54 19.447695 51.057454 15.412109 46.419922 L 18.494141 42.347656 L 6 42 L 9.7246094 53.931641 L 12.945312 49.675781 C 17.692812 54.79188 24.469735 58 32 58 C 46.359 58 58 46.359 58 32 C 58 30.853 57.914531 29.726141 57.769531 28.619141 L 53.642578 28.134766 z"></path>
-                                </svg>
-                            </button>
+                        <button className={matchingStyle.searchDetailBtn} onClick={clickSearchDetailBtn}>
+                            {searchExp}
+                        </button>
+
+                        <div className={matchingStyle.heiSmallBlank}>
+                                <hr/>
                         </div>
 
-
-                        <div className={matchingStyle.categorySection}>
-                            <div className={matchingStyle.categoryBtnContainer}>
-                                <button className={matchingStyle.categoryBtn} onClick={() => {showCategoryModal()}}> 
-                                    카테고리 
-                                    <FontAwesomeIcon className={`${clicked ? matchingStyle.clicked : matchingStyle.unclicked}`} icon={faAngleDown} />
-                                </button>
-                                    {categoryModalOpen 
-                                    && 
-                                    <CategoryModal 
-                                        setCategoryModalOpen={setCategoryModalOpen} 
-                                        setClicked={setClicked} 
-                                        sportsInfo={sportsInfo} 
-                                        setSportsInfo={setSportsInfo}
-                                        clickedSports={clickedSports} 
-                                        setClickedSports={setClickedSports}
-                                        setParams={setParams}
-                                        categoryData={categoryData}
-                                    />}
+                        <div className={`${matchingStyle.searchSection} ${searchDetailBtn ? matchingStyle.hiddenOption : ''} searchDetailBtn`}>
+    
+                            <div className={matchingStyle.btnContainer}>
                                 
+                                <button className={matchingStyle.searchBtn} onClick={()=> {searchTrainer(params)}}>
+                                    <p>검색</p>
+                                </button>
+                                
+                                <button className={matchingStyle.resetBtn} onClick={allReset}> 
+                                    <p>초기화</p> &nbsp;&nbsp;
+                                    <svg className={matchingStyle.resetIcon} xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 64 64">
+                                    <path d="M 32 6 C 17.641 6 6 17.641 6 32 C 6 33.147 6.0844688 34.273859 6.2304688 35.380859 L 10.357422 35.865234 C 10.131422 34.608234 10 33.321 10 32 C 10 19.869 19.869 10 32 10 C 38.615909 10 44.551673 12.942341 48.587891 17.580078 L 45.505859 21.652344 L 58 22 L 54.275391 10.068359 L 51.050781 14.328125 C 46.302784 9.2111633 39.530462 6 32 6 z M 53.642578 28.134766 C 53.868578 29.391766 54 30.679 54 32 C 54 44.131 44.131 54 32 54 C 25.383867 54 19.447695 51.057454 15.412109 46.419922 L 18.494141 42.347656 L 6 42 L 9.7246094 53.931641 L 12.945312 49.675781 C 17.692812 54.79188 24.469735 58 32 58 C 46.359 58 58 46.359 58 32 C 58 30.853 57.914531 29.726141 57.769531 28.619141 L 53.642578 28.134766 z"></path>
+                                    </svg>
+                                </button>
                             </div>
-                            <div className={matchingStyle.category}>
-                                {sportsInfo.map((sports, index) => (
-                                    <span className={matchingStyle.sportsBtn}
-                                        key={index}
-                                        >
-                                        {sports.sportsName}
-                                        <button className={matchingStyle.sportDelete} onClick={() => deleteSports(index)}>X</button>
-                                    </span>
-                                ))}
-                            </div>
-                        </div>
 
-                        <div className={matchingStyle.areaSection}>
-                            <button className={matchingStyle.areaPickBtn} onClick={showModal}>지역 선택
-                            </button>
-                            {modalOpen && <AreaModal 
-                                            setModalOpen={setModalOpen}
-                                            areaRegionData={areaRegionData} 
-                                            setAreaRegionData={setAreaRegionData}
-                                            setMapSwitch = {setMapSwitch} 
+
+                            <div className={matchingStyle.categorySection}>
+                                <div className={matchingStyle.categoryBtnContainer}>
+                                    <button className={matchingStyle.categoryBtn} onClick={() => {showCategoryModal()}}> 
+                                        카테고리 
+                                        <FontAwesomeIcon className={`${clicked ? matchingStyle.clicked : matchingStyle.unclicked}`} icon={faAngleDown} />
+                                    </button>
+                                        {categoryModalOpen 
+                                        && 
+                                        <CategoryModal 
+                                            setCategoryModalOpen={setCategoryModalOpen} 
+                                            setClicked={setClicked} 
+                                            sportsInfo={sportsInfo} 
+                                            setSportsInfo={setSportsInfo}
+                                            clickedSports={clickedSports} 
+                                            setClickedSports={setClickedSports}
                                             setParams={setParams}
-                                            /> }
-                            <div className={matchingStyle.param}> 
-                                {reduxAreaRegionInfo == null ? 
-                                    (<p> 선택한 지역이 없습니다 </p>) 
-                                    :
-                                    (<input className={matchingStyle.areaInput} disabled
-                                            type="text" 
-                                            value={`${reduxAreaRegionInfo.area} ${reduxAreaRegionInfo.region}`} 
-                                            onChange={onClickRegion} 
-                                    /> )
-                                }
-                            </div>
-                        </div>
-
-
-                        <div className={matchingStyle.memberCountSection}>
-                            
-                            <button className={matchingStyle.areaPickBtn}>인원 선택
-                            </button>
-
-                            <div className={matchingStyle.param}> 
-                                <button className={matchingStyle.minusBtn} onClick={memberCountMinus}>-</button>
-                                <input disabled className={matchingStyle.memberCount} value={params.personCnt}></input>
-                                <button className={matchingStyle.plusBtn} onClick={memberCountPlus}>+</button>
-                            </div>
-
-                        </div>
-
-                        <div className={matchingStyle.timeChooseSection}>
-                            
-                            <button className={matchingStyle.areaPickBtn}>희망 시간
-                            </button>
-
-                            <div className={matchingStyle.param}> 
-                            
-                                <div className={matchingStyle.timeArea}>
-
-                                    <StartTimePicker 
-                                        params={params}
-                                        setParams={setParams}
-                                        />
-
-                                    &nbsp;&nbsp; <p>~</p> &nbsp;&nbsp;
-
-                                    <EndTimePicker 
-                                        params={params}
-                                        setParams={setParams}
-                                        />
-
+                                            categoryData={categoryData}
+                                        />}
+                                    
                                 </div>
-                            
+                                <div className={matchingStyle.category}>
+                                    {sportsInfo.map((sports, index) => (
+                                        <span className={matchingStyle.sportsBtn}
+                                            key={index}
+                                            >
+                                            {sports.sportsName}
+                                            <button className={matchingStyle.sportDelete} onClick={() => deleteSports(index)}>X</button>
+                                        </span>
+                                    ))}
+                                </div>
                             </div>
 
+                            <div className={matchingStyle.areaSection}>
+                                <button className={matchingStyle.areaPickBtn} onClick={showModal}>지역 선택
+                                </button>
+                                {modalOpen && <AreaModal 
+                                                setModalOpen={setModalOpen}
+                                                areaRegionData={areaRegionData} 
+                                                setAreaRegionData={setAreaRegionData}
+                                                setMapSwitch = {setMapSwitch} 
+                                                setParams={setParams}
+                                                /> }
+                                <div className={matchingStyle.param}> 
+                                    {reduxAreaRegionInfo == null ? 
+                                        (<p> 선택한 지역이 없습니다 </p>) 
+                                        :
+                                        (<input className={matchingStyle.areaInput} disabled
+                                                type="text" 
+                                                value={`${reduxAreaRegionInfo.area} ${reduxAreaRegionInfo.region}`} 
+                                                onChange={onClickRegion} 
+                                        /> )
+                                    }
+                                </div>
+                            </div>
+
+
+                            <div className={matchingStyle.memberCountSection}>
+                                
+                                <button className={matchingStyle.areaPickBtn}>인원 선택
+                                </button>
+
+                                <div className={matchingStyle.param}> 
+                                    <button className={matchingStyle.minusBtn} onClick={memberCountMinus}>-</button>
+                                    <input disabled className={matchingStyle.memberCount} value={params.personCnt}></input>
+                                    <button className={matchingStyle.plusBtn} onClick={memberCountPlus}>+</button>
+                                </div>
+
+                            </div>
+
+                            <div className={matchingStyle.timeChooseSection}>
+                                
+                                <button className={matchingStyle.areaPickBtn}>희망 시간
+                                </button>
+
+                                <div className={matchingStyle.param}> 
+                                
+                                    <div className={matchingStyle.timeArea}>
+
+                                        <StartTimePicker 
+                                            params={params}
+                                            setParams={setParams}
+                                            />
+
+                                        &nbsp;&nbsp; <p>~</p> &nbsp;&nbsp;
+
+                                        <EndTimePicker 
+                                            params={params}
+                                            setParams={setParams}
+                                            />
+
+                                    </div>
+                                
+                                </div>
+
+                            </div>
                         </div>
 
                         <div className={matchingStyle.heiSmallBlank}>
@@ -280,8 +334,13 @@ const MatchingScreen = () => {
                                 <NavLink to="/matching/trainerProfile" 
                                         className={matchingStyle.trainerInput}
                                         onClick={() => setTrainerId(trainer.trainerId)}
+                                        key={index}
+                                        state={{trainer}}
                                         > 
-                                    <div className={matchingStyle.trainerContainer} key={index}>
+                                    <div className={matchingStyle.trainerContainer} key={index}
+                                        onMouseEnter={() => handleMouseEnter(trainer)}
+                                        onMouseLeave={handleMouseLeave}
+                                        >
                                         <div className={matchingStyle.trainerPicWrapper}>
                                             <div className={matchingStyle.trainerPic}>
                                                 <img src={profile} className={matchingStyle.trainerImg} >
@@ -291,6 +350,31 @@ const MatchingScreen = () => {
                                         <div>{trainer.trainerName}</div>
                                         <div>{trainer.gymName}</div>
                                     </div>
+
+                                    <div className={matchingStyle.trainerBtnArea}>
+                                        <button><FontAwesomeIcon icon={faHouse}/> 상세</button>
+
+                                        <button
+                                            onClick={(e) => {
+                                                e.preventDefault(); // NavLink 기본 이동 방지
+                                                clickFeed(trainer.trainerId); // 피드 페이지로 이동
+                                            }}
+                                        ><FontAwesomeIcon icon={faDisplay}/> 피드</button>
+
+                                        <button
+                                            onClick={(e) => {
+                                                e.preventDefault(); // NavLink 기본 이동 방지
+                                                clickChat(); // 피드 페이지로 이동
+                                            }}
+                                        ><FontAwesomeIcon icon={faComments}/> 채팅</button>
+                                    </div>
+                                    
+                                    
+                                    {hoveredTrainer === trainer.trainerId && (
+                                        <div className={`${matchingStyle.trainerHoverPopup} ${hoveredTrainer === trainer.trainerId ? 'show' : ''}`}>
+                                            <TrainerHoverPopup trainer={trainer} />
+                                        </div>
+                                    )}
                                 </NavLink>
 
                             )))

@@ -18,6 +18,8 @@ import KakaoOAuth2RedirectHandler from './login/KakaoOAuth2RedirectHandler';
 import UserProfile from "./user/UserProfile";
 import UserTrainerProfile from "./user/UserTrainerProfile";
 
+import ChatPage from "./chat/ChatPage";
+
 const HealthCheck = () => {
   // 여기에 건강 검사 로직을 추가합니다.
   return <div>Health Check OK</div>;
@@ -42,6 +44,9 @@ root.render(
           <Route path="/login/callback/kakao" element={<KakaoOAuth2RedirectHandler/>} />
           <Route path="/matching" element={<Matching/>}/>
           <Route path="/matching/trainerProfile" element={<TrainerProfile/>}/>
+
+          <Route path="/chat/ChatPage" element={<ChatPage/>}/>
+
           <Route path="/user/userProfile" element={<UserProfile/>}/>
           <Route path="/user/userTrainerProfile" element={<UserTrainerProfile/>}/>
           {/* 건강 검사 엔드포인트 */}

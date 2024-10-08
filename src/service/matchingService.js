@@ -89,19 +89,6 @@ export const fetchRegionCode = async (regionCode) => {
     }
   }
 
-  
-//   export const getGymList = async () => {
-      
-//     const fetcher = new Fetcher().setUrl("/search/gym")
-//                                     .setMethod("GET")
-//     try{
-//         const result = await fetcher.jsonFetch();
-//         return result;
-//     }catch(error){
-//         console.log(error)
-//     }
-//   }
-
   export const trainerSearch = async (data) => {
 
     const fetcher = new Fetcher().setUrl("/search/trainer")
@@ -110,6 +97,7 @@ export const fetchRegionCode = async (regionCode) => {
 
     try{
         const result = await fetcher.jsonFetch();
+        console.log(result)
         return result;
 
     }catch(error){

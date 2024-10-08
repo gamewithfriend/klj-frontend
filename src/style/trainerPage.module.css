@@ -1,0 +1,43 @@
+.body {
+    display: flex;
+    height: 100%;
+}
+
+.bodyCenter {
+    width: 70%;
+    border-left: #e4e4e4 solid;
+    border-right: #e4e4e4 solid;
+}
+
+.verticalHorizontalCenter {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.blank {
+    height: 100px;
+}
+
+.trainerProfileContainer{
+    width: 80%;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+}
+
+.trainerInfoSection{
+    flex-basis: 30%;
+
+    width: 100%;
+    justify-content: space-between;
+    display: flex;
+}
+
+.trainerExplSection{
+    flex-basis: 40%;
+}
+
+.feedSection{
+    flex-basis: 40%;
+}

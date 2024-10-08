@@ -43,7 +43,7 @@ const EndTimePicker = ({ params, setParams }) => {
 
             <select name="hour" onChange={endTimepick}>
                 {Array.from({ length: 12 }, (_, i) => (
-                    <option key={i} value={i + 1}>
+                    <option key={i} value={i + 1} >
                         {i + 1}
                     </option>
                 ))}
@@ -51,7 +51,7 @@ const EndTimePicker = ({ params, setParams }) => {
 
             <select name="minute" onChange={endTimepick}>
                 <option value="00">00</option>
-                <option value="30">30</option>
+                <option value="30" >30</option>
             </select>
         </div>
     );

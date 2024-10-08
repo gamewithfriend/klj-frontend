@@ -9,6 +9,32 @@
     border-right: #e4e4e4 solid;
 }
 
+.searchDetailBtn{
+    padding: 0.5rem 1.7rem;
+    margin: 0 10rem;
+    background-color: rbg(84,84,84);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border-radius: 0.5rem;
+    transition-duration: 0.3s;
+    align-self: flex-start;
+}
+
+.searchSection{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.hiddenOption{
+    height: 0px;
+    overflow: hidden;
+}
+
 .verticalHorizontalCenter {
     justify-content: center;
     align-items: center;
@@ -37,9 +63,9 @@
     width: 80%;
     display: flex;
     flex-direction: row;
-    /* justify-content: center; */
     flex-wrap: wrap;
     margin-top: 3rem;
+    position: relative;
 }
 
 .trainerContainer {
@@ -78,8 +104,8 @@
 }
 
 .trainerInput:hover {
-    transform: scale(1.2, 1.2);
-    background-color: rgba(0, 0, 0, 0.1);
+    /* transform: scale(1.2, 1.2); */
+    /* background-color: rgba(0, 0, 0, 0.1); */
 }
 
 .blank {
@@ -275,7 +301,7 @@
     transition-duration: 0.3s;
 }
 
-.resetBtn:hover, .searchBtn:hover{
+.resetBtn:hover, .searchBtn:hover, .searchDetailBtn:hover{
     background-color: #e7e7e7;
 }
 
@@ -291,6 +317,74 @@
 .blank500 {
     height: 500px;
 }
+
+.trainerBtnArea{
+    display: flex;
+    justify-content: space-between;
+}
+
+.trainerBtnArea > button {
+    background-color: transparent;
+    border: none;
+    padding: 0.4rem;
+    cursor: pointer;
+    transition-duration: 0.3s;
+    border-radius: 0.3rem;
+}
+
+.trainerBtnArea > button:hover{
+    background-color: #e4e4e4;
+}
+
+
+/*============ 트레이너 호버 팝업 */
+
+
+.trainerHoverPopup {
+    width: 50%;
+    position: absolute; 
+    bottom: 50%;
+    left: 50%;
+    background-color: #e4e4e4;
+    transform: translateX(-50%); 
+    z-index: 120;
+    border: 1px solid #ccc; 
+    border-radius: 0.5rem;
+    padding: 1rem;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.trainerHoverPopup.show {
+    opacity: 1; 
+    visibility: visible; 
+}
+
+.trainerPopupContainer{
+    display: flex;
+}
+
+.trainerInfoArea{
+    flex-basis: 40%;
+}
+
+.introAndBtnContainer{
+    flex-basis: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.introArea{
+    flex-basis: 100%;
+    resize: none;
+}
+
+
+
+
+
+
+
 
 @keyframes rotate_image {
     100% {

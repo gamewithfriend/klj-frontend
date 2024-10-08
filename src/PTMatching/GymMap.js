@@ -10,23 +10,23 @@ const GymMap = forwardRef(({setTrainerList, trainerList, mapSwitch, setMapSwitch
   const KAKAO_MAP_KEY = process.env.REACT_APP_KAKAO_MAP_KEY;
   const [bounds, setBounds] = useState();
   const dispatch = useDispatch();
+  const [markers, setMarkers]=([]);
 
   // 지역 정보 가져와서 param에 저장하는 함수
   const selectRegionCode = async (reduxRegion) => {
 
     const regionCode = await matchingService.selectRegionCode(reduxRegion);
-
     setParams(prevParams => {
       return {
           ...prevParams,
           trainingArea: regionCode.data.id
       };
     });
-
+    
   }
 
   // param 보내서 트레이너 목록 가져오는 함수
-  const getTraineList = () => {
+  const getTraineList = (params) => {
     const result = matchingService.trainerSearch(params);
     if (result && Array.isArray(result.data)) {
       setTrainerList(result.data);
@@ -47,10 +47,6 @@ const GymMap = forwardRef(({setTrainerList, trainerList, mapSwitch, setMapSwitch
       setMap(map);
     });
   }
-
-  useImperativeHandle(mapRef, () => ({
-    getMap
-  }));
 
   // 좌표로 행정동 주소 정보를 요청
   const searchAddrFromCoords = (coords, callback) => {
@@ -76,22 +72,21 @@ const GymMap = forwardRef(({setTrainerList, trainerList, mapSwitch, setMapSwitch
   }
 
   // trainerList 지도에 찍기
-  const locateTraineList = () => {
+  const locateTrainerList = () => {
     const geocoder = new window.kakao.maps.services.Geocoder();
-    trainerList.data.forEach(gym => {
-      console.log(gym.address)
-      geocoder.addressSearch(gym.address, function(result, status) {
-        if (status === window.kakao.maps.services.Status.OK) {
-          var coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
-          var marker = new window.kakao.maps.Marker({
-            map: map,
-            position: coords
-          });
-          marker.setMap(map)
-
-        }
+    
+      trainerList.forEach(gym => {
+        geocoder.addressSearch(gym.address, function(result, status) {
+          if (status === window.kakao.maps.services.Status.OK) {
+            var coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
+            var marker = new window.kakao.maps.Marker({
+              map: map,
+              position: coords
+            });
+            marker.setMap(map)
+          }
+        });
       });
-    });
   };
 
   // 맵 이동시 이벤트
@@ -105,16 +100,18 @@ const GymMap = forwardRef(({setTrainerList, trainerList, mapSwitch, setMapSwitch
 
     searchAddrFromCoords(map.getCenter(), displayCenterInfo);
 
-    trainerList.forEach(gym => {
+    // console.log(trainerList)
+    trainerList.forEach(trainer => {
 
       let trainerInfo = {
-        trainerName: gym.trainerName,
-        gymAddress: gym.address,
-        gymName: gym.gymName,
-        trainerId : gym.trainerId
+        trainerId : trainer.trainerId,
+        address: trainer.address,
+        gymName: trainer.gymName,
+        trainerName: trainer.trainerName,
       };
 
-      geocoder.addressSearch(gym.address, function(result, status) {
+
+      geocoder.addressSearch(trainer.address, function(result, status) {
 
         if (status === window.kakao.maps.services.Status.OK) {
           const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
@@ -123,7 +120,7 @@ const GymMap = forwardRef(({setTrainerList, trainerList, mapSwitch, setMapSwitch
             if (lb.contain(coords)) {
               const isDuplicate = prevTrainerList.some(trainer =>
                 trainer.trainerName === trainerInfo.trainerName &&
-                trainer.gymAddress === trainerInfo.gymAddress &&
+                trainer.address === trainerInfo.address &&
                 trainer.gymName === trainerInfo.gymName
               );
 
@@ -134,7 +131,7 @@ const GymMap = forwardRef(({setTrainerList, trainerList, mapSwitch, setMapSwitch
               // 지도 경계 밖에 있는 경우 제거
               return prevTrainerList.filter(trainer =>
                 !(trainer.trainerName === trainerInfo.trainerName &&
-                  trainer.gymAddress === trainerInfo.gymAddress &&
+                  trainer.address === trainerInfo.address &&
                   trainer.gymName === trainerInfo.gymName)
               );
             }
@@ -169,6 +166,10 @@ const GymMap = forwardRef(({setTrainerList, trainerList, mapSwitch, setMapSwitch
     });
   };
 
+  useImperativeHandle(mapRef, () => ({
+    getMap
+  }));
+
   useEffect(() => {
     const script = document.createElement("script");
     script.async = true;
@@ -191,10 +192,9 @@ const GymMap = forwardRef(({setTrainerList, trainerList, mapSwitch, setMapSwitch
 
       return () => {
         window.kakao.maps.event.removeListener(map, 'dragend', handleDragEnd);
-        searchTrainer(params);
       };
     }
-  }, [map]);
+  }, [map, trainerList]);
 
   useEffect(() => {
     if (map) {
@@ -205,12 +205,15 @@ const GymMap = forwardRef(({setTrainerList, trainerList, mapSwitch, setMapSwitch
   
   useEffect(() => {
     if (map && trainerList.data) {
-      locateTraineList();
+      locateTrainerList()
     }
   }, [map, trainerList]);
 
-  useEffect(()=> {  
-  },[])
+  useEffect(()=>{
+    if(trainerList.length > 0 ){
+      locateTrainerList();
+    }
+  },[trainerList])
 
   return (
     <div>

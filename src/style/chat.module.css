@@ -91,7 +91,7 @@
   /* 채팅화면 */
   .chatPage {
     display: flex;
-    height: 95vh;
+    height: 88vh;
   }
   
   .chatListContainer {
