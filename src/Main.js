@@ -6,6 +6,7 @@ import MainBanner from "./template/MainBanner";
 function Main() {
 
   useEffect(() => {
+    document.body.style.margin = "0";
   },[]);
 
   return (

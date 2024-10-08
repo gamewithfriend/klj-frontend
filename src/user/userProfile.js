@@ -1,4 +1,4 @@
-import { useEffect, React, useState } from "react";
+import { useEffect, React, useState, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -9,12 +9,19 @@ import { logout} from "../login/LoginHandler.js";
 import Fetcher from '../utils/Fetcher';
 
 import profile from '../assets/image/profile.png';
+import * as userService from "../service/userService.js";
 
 
 const UserProfile = () => {
+    const fileInput = useRef(null);
     const dispatch = useDispatch();
     let reduxUserInfo = useSelector((state) => state.login);
     const [getNickName, setNickName] = useState(reduxUserInfo.nickName);
+    const [getProfileImg, setProfileImg] = useState(profile);
+    const [getfileImg, setfileImg] = useState("");
+    // 유저 로그인 토근 가져오기
+    const token = JSON.parse(localStorage.getItem("token"));
+
 
     const saveNickName = event => {
         setNickName(event.target.value);
@@ -25,17 +32,23 @@ const UserProfile = () => {
     };
 
     const fetchUserTrainerApply = async () => {
+        const formData = new FormData();
+        formData.append('multipartFile', getfileImg); // formData에 파일 추가
+        formData.append('nickName', getNickName); // formData에 nickName 추가
+        const result = await userService.fetcherUserUpdateUserProfile(token,formData);
+          
+    }
 
-        const data = {
-            nickName:getNickName,
-            file:""
-        };
-        dispatch({type:"changeNickName",payload: data})
-        const fetcher = new Fetcher().setUrl("/user/info")
-                                        .setMethod("PUT")
-                                        .setAccessToken(JSON.parse(localStorage.getItem("token")).accessToken)
-                                        .setData(JSON.stringify(data));
-        const result = await fetcher.jsonFetch();               
+
+    const changeProfileImage = async (e) =>{
+        const reader = new FileReader();
+        reader.onload = () => {
+            if(reader.readyState === 2){
+                setProfileImg(reader.result)
+            }
+        }
+        reader.readAsDataURL(e.target.files[0]);
+        setfileImg(e.target.files[0]);
     }
 
 
@@ -71,10 +84,11 @@ const UserProfile = () => {
                                                 , alignContent:"center"
                                                 , textAlign:"center"
                                                 , borderRadius:"70%"
-                                                , overflow:"hidden"}}>
-                                            <img  src={profile} style={{width:"100%",height:"100%",objectFit:"cover" }} >
+                                                , overflow:"hidden"}} onClick={()=>{fileInput.current.click()}}>
+                                            <img  src={getProfileImg} style={{width:"100%",height:"100%",objectFit:"cover" }} >
                                             </img>
                                     </div>
+                                    <input accept="image/*" type="file" hidden value={""}  ref={fileInput}  onChange={changeProfileImage}/>
                                 </div>
                                 <div style={{height:"100%", width:"70%"}}>
                                     <div style={{height:"10%", width:"100%"}}>

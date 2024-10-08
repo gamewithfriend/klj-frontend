@@ -17,13 +17,9 @@ const LoginScreen = () => {
 
     const naverLoginClick = () => {
         window.open(NAVER_AUTH_URL,'_blank','width=700, height=600, top=50, left=50, scrollbars=yes');     
-        console.log(NAVER_AUTH_URL)
-        console.log(NAVER_REDIRECT_URI)
     };
     const kakaoLoginClick = () => {
         window.open(KAKAO_AUTH_URL,'_blank','width=700, height=600, top=50, left=50, scrollbars=yes');     
-        console.log(KAKAO_AUTH_URL)
-        console.log(KAKAO_REDIRECT_URI)
     };
 
         

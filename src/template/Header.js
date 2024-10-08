@@ -22,8 +22,13 @@ function Header() {
   const [getUnReadNoticeCount, setUnReadNoticeCount] = useState(0);
   //알림 모달 state
   const [modalOpen, setModalOpen] = useState(false);
+
+  //profilePath state
+  const [getproFilePath, setproFilePath] = useState(profile);
   // 유저 로그인 토근 가져오기
   const token = JSON.parse(localStorage.getItem("token"));
+  
+  const REACT_APP_LOCAL_FILE_PATH = process.env.REACT_APP_LOCAL_FILE_PATH;
 
 
   // 화면 이동 함수
@@ -51,7 +56,12 @@ function Header() {
         const result = await fetcher.jsonFetch();
         //console.log("result : ", result.data);
         dispatch({type:"PLUS_ONE",payload: result.data})
-        //console.log(reduxUserInfo)
+        console.log(result.data.profilePath)
+        console.log(REACT_APP_LOCAL_FILE_PATH)
+        let replaceFilepath = result.data.profilePath.replace(REACT_APP_LOCAL_FILE_PATH+"","");
+        replaceFilepath =  replaceFilepath.replace(/\\/g, "/")+"";
+        setproFilePath(replaceFilepath);
+        console.log(replaceFilepath)
       } catch (error) {
         console.error('login error:', error);
       }
@@ -105,7 +115,7 @@ function Header() {
             </a> 
             }
             <div style={{width:"13%",borderRadius:"70%", marginLeft:"7%", overflow:"hidden"}}>
-              <img onClick={goUserProfile}  src={profile} style={{width:"100%",height:"100%",objectFit:"cover" }} >
+              <img onClick={goUserProfile}  src={getproFilePath} style={{width:"100%",height:"100%",objectFit:"cover" }} >
               </img>
             </div>
           </div> 

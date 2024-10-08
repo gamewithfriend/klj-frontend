@@ -20,9 +20,7 @@ export const isTokenExpired = () => {
 export const getLoginNickName = () => {
     const token= JSON.parse(localStorage.getItem("token"));
     let userNickName= "";
-    if(token !=null){
-        console.log(token.nickName)
-        console.log(token.oauthId)    
+    if(token !=null){ 
         userNickName =token.nickName;       
     }
     return userNickName;
