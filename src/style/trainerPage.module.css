@@ -21,7 +21,7 @@
 
 .trainerProfileContainer{
     width: 80%;
-    height: 500px;
+    height: 1000px;
     display: flex;
     flex-direction: column;
 }
@@ -36,8 +36,21 @@
 
 .trainerExplSection{
     flex-basis: 40%;
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0;
 }
 
 .feedSection{
+    border: 1px solid;
     flex-basis: 40%;
+    margin: 1rem 0;
+    padding: 1rem;
+}
+
+.trainerExpl{
+    width: 90%;
+    height: 100%;
+    resize: none;
+    padding: 1rem;
 }

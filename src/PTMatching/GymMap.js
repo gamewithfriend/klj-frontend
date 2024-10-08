@@ -10,7 +10,7 @@ const GymMap = forwardRef(({setTrainerList, trainerList, mapSwitch, setMapSwitch
   const KAKAO_MAP_KEY = process.env.REACT_APP_KAKAO_MAP_KEY;
   const [bounds, setBounds] = useState();
   const dispatch = useDispatch();
-  const [markers, setMarkers]=([]);
+  const [markers, setMarkers] = useState([]);
 
   // 지역 정보 가져와서 param에 저장하는 함수
   const selectRegionCode = async (reduxRegion) => {
@@ -74,7 +74,8 @@ const GymMap = forwardRef(({setTrainerList, trainerList, mapSwitch, setMapSwitch
   // trainerList 지도에 찍기
   const locateTrainerList = () => {
     const geocoder = new window.kakao.maps.services.Geocoder();
-    
+    const newMarkers = [];
+
       trainerList.forEach(gym => {
         geocoder.addressSearch(gym.address, function(result, status) {
           if (status === window.kakao.maps.services.Status.OK) {
@@ -83,10 +84,12 @@ const GymMap = forwardRef(({setTrainerList, trainerList, mapSwitch, setMapSwitch
               map: map,
               position: coords
             });
-            marker.setMap(map)
+            marker.setMap(map);
+            newMarkers.push(marker);
           }
         });
       });
+      setMarkers(newMarkers);
   };
 
   // 맵 이동시 이벤트
@@ -200,20 +203,16 @@ const GymMap = forwardRef(({setTrainerList, trainerList, mapSwitch, setMapSwitch
     if (map) {
       moveArea();
     }
-    
   }, [reduxAreaRegionInfo, map]);
   
-  useEffect(() => {
-    if (map && trainerList.data) {
-      locateTrainerList()
-    }
-  }, [map, trainerList]);
-
   useEffect(()=>{
     if(trainerList.length > 0 ){
       locateTrainerList();
+    }else {
+      markers.forEach(marker => marker.setMap(null));
+      setMarkers([]); // 상태 초기화
     }
-  },[trainerList])
+  },[trainerList]);
 
   return (
     <div>

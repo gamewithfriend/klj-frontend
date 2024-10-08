@@ -69,13 +69,28 @@ const MatchingScreen = () => {
         personCnt : 0,
         startTime : "01:00:00",
         endTime : "23:30:00",
+        paramFlag : false
     });
 
     const clickSearchDetailBtn = () => {
+        console.log(params)
+
         if(!searchDetailBtn){
             setSearchExp("상세 검색하기")
+            setParams(prevParams => {
+                return {
+                    ...prevParams,
+                    paramFlag: false
+                };
+            });
         }else{
             setSearchExp("지도로 검색하기")
+            setParams(prevParams => {
+                return {
+                    ...prevParams,
+                    paramFlag: true
+                };
+            });
         }
         
         setSearchDetailBtn(!searchDetailBtn);
@@ -144,6 +159,7 @@ const MatchingScreen = () => {
             personCnt : 0,
             startTime : "01:00:00",
             endTime : "23:30:00",
+            paramFlag : false
         })
     }
 
@@ -176,7 +192,6 @@ const MatchingScreen = () => {
         fetchCategoryCode();
         fetchCode();
     },[]);
-
 
     return (
         <div>
