@@ -43,7 +43,7 @@ root.render(
           <Route path="/login/callback/naver" element={<OAuth2RedirectHandler/>} />
           <Route path="/login/callback/kakao" element={<KakaoOAuth2RedirectHandler/>} />
           <Route path="/matching" element={<Matching/>}/>
-          <Route path="/matching/trainerProfile" element={<TrainerProfile/>}/>
+          <Route path="/trainer/trainerProfile" element={<TrainerProfile/>}/>
 
           <Route path="/chat/ChatPage" element={<ChatPage/>}/>
 
