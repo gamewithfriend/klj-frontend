@@ -28,11 +28,7 @@ const GymMap = forwardRef(({setTrainerList, trainerList, mapSwitch, setMapSwitch
   // param 보내서 트레이너 목록 가져오는 함수
   const getTraineList = (params) => {
     const result = matchingService.trainerSearch(params);
-    if (result && Array.isArray(result.data)) {
-      setTrainerList(result.data);
-    } else {
-      setTrainerList([]);
-    }
+    setTrainerList(result.data);
   }
 
   // 맵 가져오기 함수
@@ -158,7 +154,7 @@ const GymMap = forwardRef(({setTrainerList, trainerList, mapSwitch, setMapSwitch
       if(reduxRegion.area != ''){
         selectRegionCode(reduxRegion);
       }
-      
+
       if (status === window.kakao.maps.services.Status.OK) {
         var coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
         if(mapSwitch){
@@ -202,6 +198,7 @@ const GymMap = forwardRef(({setTrainerList, trainerList, mapSwitch, setMapSwitch
   useEffect(() => {
     if (map) {
       moveArea();
+      locateTrainerList();
     }
   }, [reduxAreaRegionInfo, map]);
   
@@ -213,6 +210,13 @@ const GymMap = forwardRef(({setTrainerList, trainerList, mapSwitch, setMapSwitch
       setMarkers([]); // 상태 초기화
     }
   },[trainerList]);
+
+  useEffect(() => {
+    if(map && params){
+      searchTrainer(params);
+      console.log(trainerList)
+    }
+  }, [params.trainingArea])
 
   return (
     <div>

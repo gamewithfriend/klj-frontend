@@ -100,6 +100,7 @@ function Header() {
         <div className={moduleStyle.menuVarInnerLeft}>
             <NavLink to="/" className={moduleStyle.menuVarLinkTitle} >pitWit</NavLink>
             <NavLink to="/matching" className={moduleStyle.menuVarLink} >트레이너 탐색</NavLink>   
+            <NavLink to="/feed" className={moduleStyle.menuVarLink} >피드</NavLink>   
         </div>
         <div className={moduleStyle.menuVarInnerRight}>
         {localStorage.getItem("token") === null ? 

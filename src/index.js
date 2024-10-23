@@ -15,9 +15,9 @@ import TrainerProfile from './PTMatching/TrainerProfile';
 import reportWebVitals from './reportWebVitals';
 import OAuth2RedirectHandler from './login/OAuth2RedirectHandler';
 import KakaoOAuth2RedirectHandler from './login/KakaoOAuth2RedirectHandler';
-import UserProfile from "./user/UserProfile";
+import UserProfile from "./user/userProfile";
 import UserTrainerProfile from "./user/UserTrainerProfile";
-
+import FeedScreen from './feed/FeedScreen';
 import ChatPage from "./chat/ChatPage";
 
 const HealthCheck = () => {
@@ -46,6 +46,8 @@ root.render(
           <Route path="/matching/trainerProfile" element={<TrainerProfile/>}/>
 
           <Route path="/chat/ChatPage" element={<ChatPage/>}/>
+
+          <Route path="/feed" element={<FeedScreen/>}/>
 
           <Route path="/user/userProfile" element={<UserProfile/>}/>
           <Route path="/user/userTrainerProfile" element={<UserTrainerProfile/>}/>
