@@ -346,7 +346,7 @@ const MatchingScreen = () => {
                             (<p className={matchingStyle.notMatching}>검색 결과가 없습니다.</p>)
                             : 
                             (trainerList.map((trainer, index) => (
-                                <NavLink to="/matching/trainerProfile" 
+                                <NavLink to="/trainer/trainerProfile" 
                                         className={matchingStyle.trainerInput}
                                         onClick={() => setTrainerId(trainer.trainerId)}
                                         key={index}
