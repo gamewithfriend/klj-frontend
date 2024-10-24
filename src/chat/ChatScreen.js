@@ -9,8 +9,8 @@ import styles from '../style/chat.module.css';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 
-
-const ChatScreen = (chatRoomId) => {
+const ChatScreen = ({chatRoomId}) => {
+  const APP_URI = process.env.REACT_APP_API_URI;
   // 메세지 list
   const [messages, setMessages] = useState([]);
 
@@ -23,12 +23,9 @@ const ChatScreen = (chatRoomId) => {
   // 로그인 되어있는 사용자의 id
   const userId = useSelector((state) => state.login.id);
 
-  // 채팅방 id - 나중에 화면 전환 시 chatRoomId를 받아올 수 있도록 삭제하면 됨
-  chatRoomId = 1;
-
   useEffect(() => {
     // SockJs를 활용하여 WebSocket Endpoint를 설정해줌
-    const socket = new SockJS('http://localhost:8080/ws');
+    const socket = new SockJS(`${APP_URI}/ws`);
 
     // STOMP 클라이언트 초기화
     const stompClient = Stomp.over(socket);
@@ -36,7 +33,7 @@ const ChatScreen = (chatRoomId) => {
     // 연결 설정
     stompClient.connect({}, () => {
         // 메세지 구독 및 수신 로직
-        stompClient.subscribe('/topic/public', (message) => {
+        stompClient.subscribe(`/topic/${chatRoomId}`, (message) => {
           const recivedMessage = JSON.parse(message.body || message._body);
 
           setMessages(prevMessages => [...prevMessages, recivedMessage]);
@@ -52,7 +49,7 @@ const ChatScreen = (chatRoomId) => {
   }, []);
 
   useEffect(() => {
-    getChatMessageList(1);
+    getChatMessageList(chatRoomId);
   }, []);
 
   const sendMessage = (event) => {
@@ -66,11 +63,11 @@ const ChatScreen = (chatRoomId) => {
         'type' : 'CHAT',
         'content' : newMessage,
         'senderId' : userId,
-        'chatRoomId' : chatRoomId,
+        'chatRoomId' : Number(chatRoomId),
         'timestamp' : new Date().getNowTime('YYYYMMDDHHmmss'),
       };
-
-      messageClient.send("/chat/sendMessage", {}, JSON.stringify(messageObject));
+      console.log(JSON.stringify(messageObject));
+      messageClient.send(`/chat/${chatRoomId}/sendMessage`, {}, JSON.stringify(messageObject));
       messageInput.current.value = '';
     }
   };

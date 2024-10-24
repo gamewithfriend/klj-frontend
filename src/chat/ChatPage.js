@@ -5,8 +5,12 @@ import ChatList from './ChatList';
 import ChatScreen from './ChatScreen';
 import styles from '../style/chat.module.css';
 import Header from "../template/Header";
+import { useLocation } from 'react-router-dom';
 
 const ChatPage = () => {
+  const location = useLocation();
+  const { chatRoomId } = location.state || {};  // 상태에서 chatRoomId 추출
+
   return (
     <div>
       <Header/>
@@ -16,7 +20,7 @@ const ChatPage = () => {
           <ChatList />
         </div>
         <div className={styles.chatScreenContainer}>
-          <ChatScreen />
+          <ChatScreen chatRoomId={chatRoomId}/>
         </div>
       </div>
     </div>

@@ -22,6 +22,7 @@ import * as matchingService from "../service/matchingService.js";
 import StartTimePicker from "./StartTimePicker.js"
 import EndTimePicker from "./EndTimePicker.js"
 import { combineReducers } from 'redux';
+import * as chatService from "../service/chat/chatService.js";
 
 const MatchingScreen = () => {
 
@@ -44,14 +45,21 @@ const MatchingScreen = () => {
     const [searchExp, setSearchExp] = useState("상세 검색하기")
     const [hoveredTrainer, setHoveredTrainer] = useState(null); 
 
+    const userId = useSelector((state) => state.login.id);
+
     const navigate = useNavigate(); 
     const clickFeed = (trainerId) => {
         navigate(`/feed/${trainerId}`); // 피드 
     };
 
-    const clickChat = () => {
-        // navigate(`/chat/${trainerId}`); // 채팅
-        navigate(`/chat/ChatPage`); // 채팅
+    const openChat = async (trainer) => {
+        const receivers = [trainer.userId];
+
+        const result = await chatService.openChatRoom(userId, receivers, "");
+        const chatRoomId = result.chatRoomId;
+        if (chatRoomId != null) {
+            navigate("/chat/ChatPage", {state: { chatRoomId }});
+        }
     };
 
 
@@ -379,7 +387,7 @@ const MatchingScreen = () => {
                                         <button
                                             onClick={(e) => {
                                                 e.preventDefault(); // NavLink 기본 이동 방지
-                                                clickChat(); // 피드 페이지로 이동
+                                                openChat(trainer); // 피드 페이지로 이동
                                             }}
                                         ><FontAwesomeIcon icon={faComments}/> 채팅</button>
                                     </div>
