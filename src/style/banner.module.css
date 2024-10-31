@@ -1,14 +1,16 @@
 
 
 .sliderContainer {
+  display: flex;
+  justify-content: center;
   position: relative;
   overflow: hidden;
-  width: 80%;
-  max-width: 100%; /* 최대 너비 설정 */
+  width: 100%;
   height: auto; /* 높이를 자동으로 조절하여 이미지 비율 유지 */
 }
 
 .sliderWrapper {
+  width: 100%;
   position: relative;
   display: flex;
   transition: transform 0.5s ease-in-out;
@@ -18,6 +20,7 @@
 .sliderImage {
   max-width: 100%; /* 최대 너비 설정 */
   height: auto; /* 이미지 비율 유지 */
+  object-fit: cover;
 }
 
 .prevBtn,
