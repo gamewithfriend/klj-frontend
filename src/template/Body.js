@@ -1,6 +1,7 @@
 import React from "react";
 import moduleStyle from "../style/common.module.css";
 import MatchingScreeForMain from "../PTMatching/MatchingScreenForMain"
+import MainBanner from "./MainBanner";
 
 function Body() {
     return (
@@ -8,9 +9,7 @@ function Body() {
             <div className={moduleStyle.bodySide} >
             </div>
             <div className={moduleStyle.bodyCenter} >
-                
-            <MatchingScreeForMain/>
-
+                <MainBanner />
             </div>
             <div className={moduleStyle.bodySide} >
             </div>      
