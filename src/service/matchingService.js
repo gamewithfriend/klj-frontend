@@ -89,9 +89,32 @@ export const fetchRegionCode = async (regionCode) => {
     }
   }
 
-  export const trainerSearch = async (data) => {
+  export const trainerSearch = async (data,userId) => { 
 
-    const fetcher = new Fetcher().setUrl("/search/trainer")
+
+    var url ="/search/trainer?category="+data.category;
+    url += "&endTime="+data.endTime+"&paramFlag="+data.paramFlag;
+    url += "&personCnt="+data.personCnt+"&startTime="+data.startTime+"&trainingArea="+data.trainingArea;
+    url += "&userId="+userId+"&logsType=search"
+    const fetcher = new Fetcher().setUrl(url)
+                                    .setMethod("POST")
+                                    .setData(JSON.stringify(data));
+
+    try{
+        const result = await fetcher.jsonFetch();
+        console.log(result)
+        return result;
+
+    }catch(error){
+        console.log(error)
+    }
+  }
+
+
+  export const trainerDetail = async (data) => {
+    var url ="/search/trainer/detail?trainerUserId="+data.trainerUserId;
+    url += "&trainerId="+data.trainerId+"&logsType=search";
+    const fetcher = new Fetcher().setUrl(url)
                                     .setMethod("POST")
                                     .setData(JSON.stringify(data));
 

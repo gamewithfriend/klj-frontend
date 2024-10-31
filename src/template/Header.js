@@ -54,14 +54,10 @@ function Header() {
                                          .setAccessToken(token.accessToken);
       try {
         const result = await fetcher.jsonFetch();
-        //console.log("result : ", result.data);
         dispatch({type:"PLUS_ONE",payload: result.data})
-        console.log(result.data.profilePath)
-        console.log(REACT_APP_LOCAL_FILE_PATH)
         let replaceFilepath = result.data.profilePath.replace(REACT_APP_LOCAL_FILE_PATH+"","");
         replaceFilepath =  replaceFilepath.replace(/\\/g, "/")+"";
         setproFilePath(replaceFilepath);
-        console.log(replaceFilepath)
       } catch (error) {
         console.error('login error:', error);
       }

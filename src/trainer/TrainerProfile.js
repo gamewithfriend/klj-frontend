@@ -4,10 +4,11 @@ import TrainerDetail from "../trainer/TrainerProfileDetail";
 import TrainerSchedule from "../trainer/TrainerSchedule";
 import moduleStyle from "../style/common.module.css";
 import trainerPageStyle from "../style/trainerPage.module.css";
+import { useLocation } from 'react-router-dom';
 
 const TrainerProfile = () => {
-
-
+    const location = useLocation();
+    const { trainer } = location.state || {}; // state에서 trainer를 가져옴
     const [getComponet, setComponet] = useState(<TrainerDetail/>);
 
     const clickNavi = (menuNum) => {

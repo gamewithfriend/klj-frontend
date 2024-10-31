@@ -46,7 +46,6 @@ const MatchingScreen = () => {
     const [hoveredTrainer, setHoveredTrainer] = useState(null); 
 
     const userId = useSelector((state) => state.login.id);
-
     const navigate = useNavigate(); 
     const clickFeed = (trainerId) => {
         navigate(`/feed/${trainerId}`); // 피드 
@@ -191,7 +190,7 @@ const MatchingScreen = () => {
         if(params.startTime > params.endTime){
             alert("시작 시간이 더 뒤에 있음")
         }else{
-            const result = await matchingService.trainerSearch(params);
+            const result = await matchingService.trainerSearch(params,userId);
             setTrainerList(result.data);
         }
     }
