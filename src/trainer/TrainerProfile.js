@@ -5,11 +5,14 @@ import TrainerSchedule from "../trainer/TrainerSchedule";
 import moduleStyle from "../style/common.module.css";
 import trainerPageStyle from "../style/trainerPage.module.css";
 import { useLocation } from 'react-router-dom';
+import { useSelector, useDispatch } from "react-redux";
+import * as matchingService from "../service/matchingService.js";
 
 const TrainerProfile = () => {
     const location = useLocation();
     const { trainer } = location.state || {}; // state에서 trainer를 가져옴
     const [getComponet, setComponet] = useState(<TrainerDetail/>);
+    const userId = useSelector((state) => state.login.id);
 
     const clickNavi = (menuNum) => {
         switch (menuNum){
@@ -22,9 +25,18 @@ const TrainerProfile = () => {
         }
     };
     
+    const searchTrainerDetail = async () => {
+
+        var params ={trainerUserId : trainer.userId,
+            trainerId : trainer.trainerId
+        };
+        const result = await matchingService.trainerDetail(params,userId);
+
+    }
+
 
     useEffect(() => {
-
+        searchTrainerDetail();
     },[])
 
     return (

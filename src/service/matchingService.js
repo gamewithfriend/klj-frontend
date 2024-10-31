@@ -111,9 +111,9 @@ export const fetchRegionCode = async (regionCode) => {
   }
 
 
-  export const trainerDetail = async (data) => {
+  export const trainerDetail = async (data,userId) => {
     var url ="/search/trainer/detail?trainerUserId="+data.trainerUserId;
-    url += "&trainerId="+data.trainerId+"&logsType=search";
+    url += "&trainerId="+data.trainerId+"&userId="+userId+"&logsType=detail";
     const fetcher = new Fetcher().setUrl(url)
                                     .setMethod("POST")
                                     .setData(JSON.stringify(data));
