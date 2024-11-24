@@ -2,7 +2,6 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import MessageList from './MessageList';
-import * as Dateformatter from '../utils/Dateformatter';
 import * as chatService from "../service/chat/chatService.js";
 import { useSelector } from "react-redux";
 import styles from '../style/chat.module.css';
@@ -66,7 +65,7 @@ const ChatScreen = ({chatRoomId}) => {
         'chatRoomId' : Number(chatRoomId),
         'timestamp' : new Date().getNowTime('YYYYMMDDHHmmss'),
       };
-      console.log(JSON.stringify(messageObject));
+      
       messageClient.send(`/chat/${chatRoomId}/sendMessage`, {}, JSON.stringify(messageObject));
       messageInput.current.value = '';
     }
